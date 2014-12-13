@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="example">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/../php-ext-couchbase/example" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

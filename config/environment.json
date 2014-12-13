@@ -1,0 +1,13 @@
+{
+    "base_dir": "/data/rate-seat",
+    "hostname": "reat-seat.me",
+    "bootstrap": {
+        "displayExceptionsEnabled": true,
+        "displayErrorsEnabled": true,
+        "errorExceptionsEnabled": true
+    },
+    "couchbase": {
+        "host": "couchbase-server",
+        "bucket": "rate-seat"
+    }
+}

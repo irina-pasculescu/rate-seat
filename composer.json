@@ -1,0 +1,42 @@
+{
+    "name":"rate-seat",
+    "type":"app",
+    "description":"rate-seat",
+    "keywords":["rate-seat", "api"],
+    "homepage":"http://github.com/irina-pasculescu/rate-seat",
+    "license":"MIT",
+    "support":{
+        "issues":"http://github.com/irina-pasculescu/rate-seat/issues"
+    },
+    "authors":[
+
+    ],
+    "autoload":{
+        "psr-4":{
+            "Application\\":"application/php/Application/src",
+            "Application\\test\\":"application/php/Application/test"
+        }
+    },
+
+    "repositories":[
+
+
+    ],
+    "require": {
+        "php":">=5.3.3",
+        "symfony/console": "@stable",
+        "guzzlehttp/guzzle": "~3.8",
+        "phpunit/phpunit": "4.0.*",
+        "symfony/finder": "2.3.*"
+    },
+    "require-dev": {
+    },
+    "replace": {
+    },
+
+    "bin": [
+
+    ]
+
+    ,"minimum-stability":"dev"
+}
