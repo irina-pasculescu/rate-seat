@@ -28,7 +28,7 @@ class BufferedOutput extends Output
      */
     public function fetch()
     {
-        $content = $this->buffer;
+        $content      = $this->buffer;
         $this->buffer = '';
 
         return $content;
@@ -37,11 +37,11 @@ class BufferedOutput extends Output
     /**
      * {@inheritdoc}
      */
-    protected function doWrite($message, $newline)
+    protected function doWrite( $message, $newline )
     {
         $this->buffer .= $message;
 
-        if ($newline) {
+        if ( $newline ) {
             $this->buffer .= "\n";
         }
     }

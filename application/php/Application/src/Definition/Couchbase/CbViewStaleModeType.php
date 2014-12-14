@@ -18,8 +18,8 @@ class CbViewStaleModeType extends BaseType
 {
 
 
-    const VALUE_FALSE = false;
-    const VALUE_TRUE = true;
+    const VALUE_FALSE        = false;
+    const VALUE_TRUE         = true;
     const VALUE_UPDATE_AFTER = 'update_after';
 
     /**
@@ -36,16 +36,16 @@ class CbViewStaleModeType extends BaseType
 
 
     /**
-     * @param mixed $rawValue
+     * @param mixed  $rawValue
      * @param string $errorMessage
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($rawValue, $errorMessage = '')
+    public function __construct( $rawValue, $errorMessage = '' )
     {
-        $value = $this::cast($rawValue, null);
-        $isValid = $this::isValid($value);
-        if (!$isValid) {
+        $value   = $this::cast( $rawValue, null );
+        $isValid = $this::isValid( $value );
+        if ( !$isValid ) {
 
             throw new \InvalidArgumentException(
                 $this->createUnableToCastExceptionMessage(
@@ -58,9 +58,10 @@ class CbViewStaleModeType extends BaseType
         }
 
         $this->value = $value;
-        if ($rawValue instanceof BaseType) {
+        if ( $rawValue instanceof BaseType ) {
             $this->rawValue = $rawValue->getValue();
-        } else {
+        }
+        else {
             $this->rawValue = $rawValue;
         }
     }
@@ -79,9 +80,9 @@ class CbViewStaleModeType extends BaseType
      *
      * @return bool
      */
-    public static function isValid($rawValue)
+    public static function isValid( $rawValue )
     {
-        $value = static::cast($rawValue, null);
+        $value   = static::cast( $rawValue, null );
         $isValid = $value !== null;
 
         return $isValid;
@@ -93,23 +94,23 @@ class CbViewStaleModeType extends BaseType
      *
      * @return mixed|string
      */
-    public static function cast($value, $defaultValue)
+    public static function cast( $value, $defaultValue )
     {
-        if ($value instanceof BaseType) {
+        if ( $value instanceof BaseType ) {
             $value = $value->getValue();
         }
 
         $valuesAllowed = static::getValuesAllowed();
 
-        if ($value === 'ok') {
+        if ( $value === 'ok' ) {
             $value = true;
         }
-        if ($value === 'false') {
+        if ( $value === 'false' ) {
             $value = false;
         }
 
 
-        if (!in_array($value, $valuesAllowed, true)) {
+        if ( !in_array( $value, $valuesAllowed, true ) ) {
 
             return $defaultValue;
         }
@@ -130,8 +131,8 @@ class CbViewStaleModeType extends BaseType
     }
 
     /**
-     * @param mixed $value
-     * @param mixed $rawValue
+     * @param mixed  $value
+     * @param mixed  $rawValue
      * @param string $errorDetailsText
      *
      * @return string
@@ -140,7 +141,8 @@ class CbViewStaleModeType extends BaseType
         $value,
         $rawValue,
         $errorDetailsText
-    ) {
+    )
+    {
 
         $messageList = array(
             $errorDetailsText,
@@ -149,25 +151,28 @@ class CbViewStaleModeType extends BaseType
         );
 
         try {
-            if (is_scalar($rawValue)) {
-                $messageList[] = '(type ' . gettype($rawValue) . ') !';
-            } else {
-                if (is_resource($messageList)) {
-                    $messageList[] = '(type resource) !';
-                } else {
-                    $messageList[] = '(type '
-                        . ClassUtil::getClassNameAsJavaStyle($rawValue) . ') !';
+            if ( is_scalar( $rawValue ) ) {
+                $messageList[ ] = '(type ' . gettype( $rawValue ) . ') !';
+            }
+            else {
+                if ( is_resource( $messageList ) ) {
+                    $messageList[ ] = '(type resource) !';
+                }
+                else {
+                    $messageList[ ] = '(type '
+                                      . ClassUtil::getClassNameAsJavaStyle( $rawValue ) . ') !';
                 }
             }
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             // nop
         }
 
-        $messageList[] = 'Unable to cast as '
-            . ClassUtil::getClassNameAsJavaStyle($this)
-            . $this::createAllowedValuesErrorMessage()
-            . ' !';
+        $messageList[ ] = 'Unable to cast as '
+                          . ClassUtil::getClassNameAsJavaStyle( $this )
+                          . $this::createAllowedValuesErrorMessage()
+                          . ' !';
 
 
         $errorText = StringUtil::joinStrictIfNotEmpty(

@@ -19,7 +19,7 @@ abstract class ApiManagerSettingsVo extends BaseVo
 
     const FEATURE_NAME = 'Casino.Api.Base.ApiManager';
 
-    const DATA_KEY_ENABLED = 'enabled';
+    const DATA_KEY_ENABLED          = 'enabled';
     const DATA_KEY_IS_DEBUG_ENABLED = 'isDebugEnabled';
 
 
@@ -28,7 +28,7 @@ abstract class ApiManagerSettingsVo extends BaseVo
      */
     public function getEnabled()
     {
-        return $this->getDataKey($this::DATA_KEY_ENABLED) === true;
+        return $this->getDataKey( $this::DATA_KEY_ENABLED ) === true;
     }
 
     /**
@@ -36,7 +36,7 @@ abstract class ApiManagerSettingsVo extends BaseVo
      */
     public function getIsDebugEnabled()
     {
-        return $this->getDataKey($this::DATA_KEY_IS_DEBUG_ENABLED) === true;
+        return $this->getDataKey( $this::DATA_KEY_IS_DEBUG_ENABLED ) === true;
     }
 
     /**

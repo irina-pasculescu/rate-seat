@@ -19,15 +19,15 @@ namespace Symfony\Component\Console\Helper;
  */
 class TableStyle
 {
-    private $paddingChar = ' ';
+    private $paddingChar          = ' ';
     private $horizontalBorderChar = '-';
-    private $verticalBorderChar = '|';
-    private $crossingChar = '+';
-    private $cellHeaderFormat = '<info>%s</info>';
-    private $cellRowFormat = '%s';
+    private $verticalBorderChar   = '|';
+    private $crossingChar         = '+';
+    private $cellHeaderFormat     = '<info>%s</info>';
+    private $cellRowFormat        = '%s';
     private $cellRowContentFormat = ' %s ';
-    private $borderFormat = '%s';
-    private $padType = STR_PAD_RIGHT;
+    private $borderFormat         = '%s';
+    private $padType              = STR_PAD_RIGHT;
 
     /**
      * Sets padding character, used for cell padding.
@@ -36,10 +36,10 @@ class TableStyle
      *
      * @return TableStyle
      */
-    public function setPaddingChar($paddingChar)
+    public function setPaddingChar( $paddingChar )
     {
-        if (!$paddingChar) {
-            throw new \LogicException('The padding char must not be empty');
+        if ( !$paddingChar ) {
+            throw new \LogicException( 'The padding char must not be empty' );
         }
 
         $this->paddingChar = $paddingChar;
@@ -64,7 +64,7 @@ class TableStyle
      *
      * @return TableStyle
      */
-    public function setHorizontalBorderChar($horizontalBorderChar)
+    public function setHorizontalBorderChar( $horizontalBorderChar )
     {
         $this->horizontalBorderChar = $horizontalBorderChar;
 
@@ -88,7 +88,7 @@ class TableStyle
      *
      * @return TableStyle
      */
-    public function setVerticalBorderChar($verticalBorderChar)
+    public function setVerticalBorderChar( $verticalBorderChar )
     {
         $this->verticalBorderChar = $verticalBorderChar;
 
@@ -112,7 +112,7 @@ class TableStyle
      *
      * @return TableStyle
      */
-    public function setCrossingChar($crossingChar)
+    public function setCrossingChar( $crossingChar )
     {
         $this->crossingChar = $crossingChar;
 
@@ -136,7 +136,7 @@ class TableStyle
      *
      * @return TableStyle
      */
-    public function setCellHeaderFormat($cellHeaderFormat)
+    public function setCellHeaderFormat( $cellHeaderFormat )
     {
         $this->cellHeaderFormat = $cellHeaderFormat;
 
@@ -160,7 +160,7 @@ class TableStyle
      *
      * @return TableStyle
      */
-    public function setCellRowFormat($cellRowFormat)
+    public function setCellRowFormat( $cellRowFormat )
     {
         $this->cellRowFormat = $cellRowFormat;
 
@@ -184,7 +184,7 @@ class TableStyle
      *
      * @return TableStyle
      */
-    public function setCellRowContentFormat($cellRowContentFormat)
+    public function setCellRowContentFormat( $cellRowContentFormat )
     {
         $this->cellRowContentFormat = $cellRowContentFormat;
 
@@ -208,7 +208,7 @@ class TableStyle
      *
      * @return TableStyle
      */
-    public function setBorderFormat($borderFormat)
+    public function setBorderFormat( $borderFormat )
     {
         $this->borderFormat = $borderFormat;
 
@@ -228,11 +228,11 @@ class TableStyle
     /**
      * Sets cell padding type.
      *
-     * @param int     $padType STR_PAD_*
+     * @param int $padType STR_PAD_*
      *
      * @return TableStyle
      */
-    public function setPadType($padType)
+    public function setPadType( $padType )
     {
         $this->padType = $padType;
 

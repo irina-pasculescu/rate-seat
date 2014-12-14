@@ -11,10 +11,10 @@ class HistoryBatch extends AbstractBatchDecorator
     /** @var array Items in the history */
     protected $history = array();
 
-    public function add($item)
+    public function add( $item )
     {
-        $this->history[] = $item;
-        $this->decoratedBatch->add($item);
+        $this->history[ ] = $item;
+        $this->decoratedBatch->add( $item );
 
         return $this;
     }

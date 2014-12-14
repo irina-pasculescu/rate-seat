@@ -45,8 +45,8 @@ abstract class RpcFactory
      */
     public function getRouter()
     {
-        if (!$this->router) {
-            $this->router = new RpcRouter($this);
+        if ( !$this->router ) {
+            $this->router = new RpcRouter( $this );
         }
 
         return $this->router;
@@ -58,7 +58,7 @@ abstract class RpcFactory
      */
     public function createRpc()
     {
-        return new Rpc($this);
+        return new Rpc( $this );
     }
 
     /**
@@ -83,17 +83,17 @@ abstract class RpcFactory
      */
     public function createRouterEventHandlers()
     {
-        return new RpcRouterEventHandlers($this);
+        return new RpcRouterEventHandlers( $this );
     }
 
     /**
      * @param callable $closure
-     * @param array $params
+     * @param array    $params
      *
      * @return RpcCallback
      */
-    public function createRouterCallback(\Closure $closure, $params)
+    public function createRouterCallback( \Closure $closure, $params )
     {
-        return new RpcCallback($this, $closure, $params);
+        return new RpcCallback( $this, $closure, $params );
     }
 }

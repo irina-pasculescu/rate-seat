@@ -17,15 +17,15 @@ class ExampleCommandTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecute()
     {
-        $application = new Application("demo:greet");
-        $command = $application->add(new ExampleCommand());
+        $application = new Application( "demo:greet" );
+        $command     = $application->add( new ExampleCommand() );
 
-        $commandTester = new CommandTester($command);
+        $commandTester = new CommandTester( $command );
         $commandTester->execute(
-            array('command' => $command->getName(), 'name' => 'Irina')
+            array( 'command' => $command->getName(), 'name' => 'Irina' )
         );
 
-        $this->assertRegExp('/Irina/', $commandTester->getDisplay());
+        $this->assertRegExp( '/Irina/', $commandTester->getDisplay() );
 
     }
 } 

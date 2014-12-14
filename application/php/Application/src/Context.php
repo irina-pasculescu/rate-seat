@@ -12,7 +12,6 @@ namespace Application;
 
 use Application\Lib\Couchbase\CouchbaseClient;
 use Application\Utils\ClassUtil;
-use Application\Utils\ExceptionUtil;
 
 /**
  * Class Context
@@ -40,7 +39,7 @@ class Context
     public function getStartTime()
     {
 
-        return (int)floor($this->getStartMicroTime());
+        return (int)floor( $this->getStartMicroTime() );
     }
 
     /**
@@ -63,7 +62,7 @@ class Context
      */
     public static function getInstance()
     {
-        if (!self::$instance) {
+        if ( !self::$instance ) {
             self::$instance = new self();
         }
 
@@ -81,7 +80,7 @@ class Context
      */
     public function getModel()
     {
-        if (!$this->model) {
+        if ( !$this->model ) {
             $this->model = new Model();
         }
 
@@ -108,15 +107,16 @@ class Context
      */
     private function applyConfig()
     {
-        $method = ClassUtil::getQualifiedMethodName($this, __METHOD__, true);
-        $model = $this->getModel();
+        $method = ClassUtil::getQualifiedMethodName( $this, __METHOD__, true );
+        $model  = $this->getModel();
 
-        $model->setIsConfigAppliedToApplication(true);
+        $model->setIsConfigAppliedToApplication( true );
 
         $configVo = $model->getConfigVo();
         try {
             $configVo->validate();
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
 
             throw $e;
         }
@@ -124,7 +124,6 @@ class Context
 
         return $this;
     }
-
 
 
     /**
@@ -148,14 +147,14 @@ class Context
      */
     public function getCouchbaseClient()
     {
-        if (!$this->couchbaseClient) {
+        if ( !$this->couchbaseClient ) {
 
             $this->couchbaseClient = new CouchbaseClient(
                 CouchbaseClient::createClientConfigVo(
                     $this->getModel()
-                        ->getConfigVo()
-                        ->getCouchbaseVo()
-                        ->getData()
+                         ->getConfigVo()
+                         ->getCouchbaseVo()
+                         ->getData()
                 )
             );
         }

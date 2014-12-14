@@ -19,26 +19,27 @@ class CachingConfigLoader implements ConfigLoaderInterface
      * @param ConfigLoaderInterface $loader Loader used to load the config when there is a cache miss
      * @param CacheAdapterInterface $cache  Object used to cache the loaded result
      */
-    public function __construct(ConfigLoaderInterface $loader, CacheAdapterInterface $cache)
+    public function __construct( ConfigLoaderInterface $loader, CacheAdapterInterface $cache )
     {
         $this->loader = $loader;
-        $this->cache = $cache;
+        $this->cache  = $cache;
     }
 
-    public function load($config, array $options = array())
+    public function load( $config, array $options = array() )
     {
-        if (!is_string($config)) {
+        if ( !is_string( $config ) ) {
             $key = false;
-        } else {
-            $key = 'loader_' . crc32($config);
-            if ($result = $this->cache->fetch($key)) {
+        }
+        else {
+            $key = 'loader_' . crc32( $config );
+            if ( $result = $this->cache->fetch( $key ) ) {
                 return $result;
             }
         }
 
-        $result = $this->loader->load($config, $options);
-        if ($key) {
-            $this->cache->save($key, $result);
+        $result = $this->loader->load( $config, $options );
+        if ( $key ) {
+            $this->cache->save( $key, $result );
         }
 
         return $result;

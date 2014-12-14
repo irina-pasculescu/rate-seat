@@ -19,7 +19,9 @@
         "guzzle/http": "To convert Guzzle request objects to PHP streams"
     },
     "autoload": {
-        "psr-0": { "Guzzle\\Stream": "" }
+        "psr-0": {
+            "Guzzle\\Stream": ""
+        }
     },
     "target-dir": "Guzzle/Stream",
     "extra": {

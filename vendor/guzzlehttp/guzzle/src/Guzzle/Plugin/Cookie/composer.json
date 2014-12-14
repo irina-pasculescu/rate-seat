@@ -16,7 +16,9 @@
         "guzzle/http": "self.version"
     },
     "autoload": {
-        "psr-0": { "Guzzle\\Plugin\\Cookie": "" }
+        "psr-0": {
+            "Guzzle\\Plugin\\Cookie": ""
+        }
     },
     "target-dir": "Guzzle/Plugin/Cookie",
     "extra": {

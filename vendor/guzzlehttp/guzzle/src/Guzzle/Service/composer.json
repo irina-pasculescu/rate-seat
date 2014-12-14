@@ -18,7 +18,9 @@
         "guzzle/inflection": "self.version"
     },
     "autoload": {
-        "psr-0": { "Guzzle\\Service": "" }
+        "psr-0": {
+            "Guzzle\\Service": ""
+        }
     },
     "target-dir": "Guzzle/Service",
     "extra": {

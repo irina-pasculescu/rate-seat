@@ -2,8 +2,8 @@
 
 namespace Guzzle\Http\Message;
 
-use Guzzle\Common\Version;
 use Guzzle\Common\Exception\InvalidArgumentException;
+use Guzzle\Common\Version;
 use Guzzle\Http\Mimetypes;
 
 /**
@@ -22,15 +22,15 @@ class PostFile implements PostFileInterface
      * @param string $postname    Remote post file name
      * @param string $contentType Content-Type of the upload
      */
-    public function __construct($fieldName, $filename, $contentType = null, $postname = null)
+    public function __construct( $fieldName, $filename, $contentType = null, $postname = null )
     {
         $this->fieldName = $fieldName;
-        $this->setFilename($filename);
-        $this->postname = $postname ? $postname : basename($filename);
-        $this->contentType = $contentType ?: $this->guessContentType();
+        $this->setFilename( $filename );
+        $this->postname    = $postname ? $postname : basename( $filename );
+        $this->contentType = $contentType ? : $this->guessContentType();
     }
 
-    public function setFieldName($name)
+    public function setFieldName( $name )
     {
         $this->fieldName = $name;
 
@@ -42,15 +42,15 @@ class PostFile implements PostFileInterface
         return $this->fieldName;
     }
 
-    public function setFilename($filename)
+    public function setFilename( $filename )
     {
         // Remove leading @ symbol
-        if (strpos($filename, '@') === 0) {
-            $filename = substr($filename, 1);
+        if ( strpos( $filename, '@' ) === 0 ) {
+            $filename = substr( $filename, 1 );
         }
 
-        if (!is_readable($filename)) {
-            throw new InvalidArgumentException("Unable to open {$filename} for reading");
+        if ( !is_readable( $filename ) ) {
+            throw new InvalidArgumentException( "Unable to open {$filename} for reading" );
         }
 
         $this->filename = $filename;
@@ -58,7 +58,7 @@ class PostFile implements PostFileInterface
         return $this;
     }
 
-    public function setPostname($postname)
+    public function setPostname( $postname )
     {
         $this->postname = $postname;
 
@@ -75,7 +75,7 @@ class PostFile implements PostFileInterface
         return $this->postname;
     }
 
-    public function setContentType($type)
+    public function setContentType( $type )
     {
         $this->contentType = $type;
 
@@ -91,13 +91,13 @@ class PostFile implements PostFileInterface
     {
         // PHP 5.5 introduced a CurlFile object that deprecates the old @filename syntax
         // See: https://wiki.php.net/rfc/curl-file-upload
-        if (function_exists('curl_file_create')) {
-            return curl_file_create($this->filename, $this->contentType, $this->postname);
+        if ( function_exists( 'curl_file_create' ) ) {
+            return curl_file_create( $this->filename, $this->contentType, $this->postname );
         }
 
         // Use the old style if using an older version of PHP
         $value = "@{$this->filename};filename=" . $this->postname;
-        if ($this->contentType) {
+        if ( $this->contentType ) {
             $value .= ';type=' . $this->contentType;
         }
 
@@ -110,7 +110,8 @@ class PostFile implements PostFileInterface
      */
     public function getCurlString()
     {
-        Version::warn(__METHOD__ . ' is deprecated. Use getCurlValue()');
+        Version::warn( __METHOD__ . ' is deprecated. Use getCurlValue()' );
+
         return $this->getCurlValue();
     }
 
@@ -119,6 +120,6 @@ class PostFile implements PostFileInterface
      */
     protected function guessContentType()
     {
-        return Mimetypes::getInstance()->fromFilename($this->filename) ?: 'application/octet-stream';
+        return Mimetypes::getInstance()->fromFilename( $this->filename ) ? : 'application/octet-stream';
     }
 }

@@ -10,11 +10,9 @@
 namespace Application\Console\RateSeat\Ios\Lufthansa\GetFlightStatus;
 
 
+use Application\Api\RateSeat\V1\Ios\RequestHandler\Lufthansa\FlightStatus\Load\FlightStatusLoadRequestHandler;
 use Application\Api\RateSeat\V1\Ios\Server\RpcContext;
-use
-    Application\Api\RateSeat\V1\Ios\RequestHandler\Lufthansa\FlightStatus\Load\FlightStatusLoadRequestHandler;
 use Application\Console\Base\BaseConsoleCommand;
-
 use Application\Utils\ClassUtil;
 use Application\Utils\ExceptionUtil;
 use Symfony\Component\Console\Input\InputOption;

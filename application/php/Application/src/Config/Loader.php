@@ -29,12 +29,12 @@ class Loader
 
 
     /**
-     * @param ConfigVo $configVo
+     * @param ConfigVo     $configVo
      * @param \SplFileInfo $configFile
      */
-    public function __construct(ConfigVo $configVo, \SplFileInfo $configFile)
+    public function __construct( ConfigVo $configVo, \SplFileInfo $configFile )
     {
-        $this->configVo = $configVo;
+        $this->configVo   = $configVo;
         $this->configFile = $configFile;
     }
 
@@ -63,27 +63,28 @@ class Loader
         $vo = $this->getConfigVo();
         try {
             $configFile = $this->getConfigFile();
-            $location = $configFile->getPathname();
-            $isValid = is_string($location) && (!empty($location));
-            if (!$isValid) {
+            $location   = $configFile->getPathname();
+            $isValid    = is_string( $location ) && ( !empty( $location ) );
+            if ( !$isValid ) {
 
-                throw new \Exception('Config file does not exist!');
+                throw new \Exception( 'Config file does not exist!' );
             }
 
-            $text = file_get_contents($configFile->getPathname());
-            $isValid = ((is_string($text)) && (!empty($text)));
-            if (!$isValid) {
-                throw new \Exception('Config file content is empty!');
+            $text    = file_get_contents( $configFile->getPathname() );
+            $isValid = ( ( is_string( $text ) ) && ( !empty( $text ) ) );
+            if ( !$isValid ) {
+                throw new \Exception( 'Config file content is empty!' );
             }
-            $configData = json_decode($text, true);
-            if (!is_array($configData)) {
+            $configData = json_decode( $text, true );
+            if ( !is_array( $configData ) ) {
 
-                throw new \Exception('Config data (decoded) must be an array!');
+                throw new \Exception( 'Config data (decoded) must be an array!' );
             }
 
-            $vo->setData($configData);
+            $vo->setData( $configData );
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             // nop
             throw new ConfigException(
                 'Failed to load config! details=' . $e->getMessage()

@@ -17,5 +17,5 @@ interface UriTemplateInterface
      *
      * @return string Returns the expanded template
      */
-    public function expand($template, array $variables);
+    public function expand( $template, array $variables );
 }

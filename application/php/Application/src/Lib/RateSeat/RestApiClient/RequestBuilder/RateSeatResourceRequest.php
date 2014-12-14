@@ -9,7 +9,8 @@
 namespace Application\Lib\RateSeat\RestApiClient\RequestBuilder;
 
 
-class RateSeatResourceRequest {
+class RateSeatResourceRequest
+{
 
 
     /**
@@ -17,11 +18,11 @@ class RateSeatResourceRequest {
      * @param $resourceUriPath
      * @param $curlData
      */
-    public function __construct($httpMethod, $resourceUriPath, $curlData)
+    public function __construct( $httpMethod, $resourceUriPath, $curlData )
     {
-        $this->httpMethod = $httpMethod;
+        $this->httpMethod      = $httpMethod;
         $this->resourceUriPath = $resourceUriPath;
-        $this->curlData = $curlData;
+        $this->curlData        = $curlData;
 
 
     }
@@ -40,7 +41,7 @@ class RateSeatResourceRequest {
     public function getCurlData()
     {
         $value = $this->curlData;
-        if(!is_array($value)) {
+        if ( !is_array( $value ) ) {
 
             return null;
         }
@@ -57,7 +58,4 @@ class RateSeatResourceRequest {
     }
 
 
-
-
-
-} 
+}

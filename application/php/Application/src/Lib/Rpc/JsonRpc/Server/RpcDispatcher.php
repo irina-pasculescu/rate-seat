@@ -33,7 +33,7 @@ abstract class RpcDispatcher
      *
      * @return $this
      */
-    protected function setFactory(RpcFactory $factory)
+    protected function setFactory( RpcFactory $factory )
     {
         $this->factory = $factory;
 
@@ -51,9 +51,9 @@ abstract class RpcDispatcher
     /**
      * @param RpcFactory $rpcFactory
      */
-    public function __construct(RpcFactory $rpcFactory)
+    public function __construct( RpcFactory $rpcFactory )
     {
-        $this->setFactory($rpcFactory);
+        $this->setFactory( $rpcFactory );
     }
 
 

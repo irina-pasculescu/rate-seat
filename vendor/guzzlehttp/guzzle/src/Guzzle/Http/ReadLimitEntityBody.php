@@ -18,10 +18,10 @@ class ReadLimitEntityBody extends AbstractEntityBodyDecorator
      * @param int                 $limit  Total number of bytes to allow to be read from the stream
      * @param int                 $offset Position to seek to before reading (only works on seekable streams)
      */
-    public function __construct(EntityBodyInterface $body, $limit, $offset = 0)
+    public function __construct( EntityBodyInterface $body, $limit, $offset = 0 )
     {
-        parent::__construct($body);
-        $this->setLimit($limit)->setOffset($offset);
+        parent::__construct( $body );
+        $this->setLimit( $limit )->setOffset( $offset );
     }
 
     /**
@@ -30,12 +30,12 @@ class ReadLimitEntityBody extends AbstractEntityBodyDecorator
      */
     public function __toString()
     {
-        return substr((string) $this->body, $this->offset, $this->limit) ?: '';
+        return substr( (string)$this->body, $this->offset, $this->limit ) ? : '';
     }
 
     public function isConsumed()
     {
-        return (($this->offset + $this->limit) - $this->body->ftell()) <= 0;
+        return ( ( $this->offset + $this->limit ) - $this->body->ftell() ) <= 0;
     }
 
     /**
@@ -48,17 +48,17 @@ class ReadLimitEntityBody extends AbstractEntityBodyDecorator
 
         return $length === false
             ? $this->limit
-            : min($this->limit, min($length, $this->offset + $this->limit) - $this->offset);
+            : min( $this->limit, min( $length, $this->offset + $this->limit ) - $this->offset );
     }
 
     /**
      * Allow for a bounded seek on the read limited entity body
      * {@inheritdoc}
      */
-    public function seek($offset, $whence = SEEK_SET)
+    public function seek( $offset, $whence = SEEK_SET )
     {
         return $whence === SEEK_SET
-            ? $this->body->seek(max($this->offset, min($this->offset + $this->limit, $offset)))
+            ? $this->body->seek( max( $this->offset, min( $this->offset + $this->limit, $offset ) ) )
             : false;
     }
 
@@ -69,9 +69,9 @@ class ReadLimitEntityBody extends AbstractEntityBodyDecorator
      *
      * @return self
      */
-    public function setOffset($offset)
+    public function setOffset( $offset )
     {
-        $this->body->seek($offset);
+        $this->body->seek( $offset );
         $this->offset = $offset;
 
         return $this;
@@ -84,21 +84,22 @@ class ReadLimitEntityBody extends AbstractEntityBodyDecorator
      *
      * @return self
      */
-    public function setLimit($limit)
+    public function setLimit( $limit )
     {
         $this->limit = $limit;
 
         return $this;
     }
 
-    public function read($length)
+    public function read( $length )
     {
         // Check if the current position is less than the total allowed bytes + original offset
-        $remaining = ($this->offset + $this->limit) - $this->body->ftell();
-        if ($remaining > 0) {
+        $remaining = ( $this->offset + $this->limit ) - $this->body->ftell();
+        if ( $remaining > 0 ) {
             // Only return the amount of requested data, ensuring that the byte limit is not exceeded
-            return $this->body->read(min($remaining, $length));
-        } else {
+            return $this->body->read( min( $remaining, $length ) );
+        }
+        else {
             return false;
         }
     }

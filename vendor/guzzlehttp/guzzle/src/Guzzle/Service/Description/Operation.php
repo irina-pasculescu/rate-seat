@@ -13,12 +13,13 @@ class Operation implements OperationInterface
     const DEFAULT_COMMAND_CLASS = 'Guzzle\\Service\\Command\\OperationCommand';
 
     /** @var array Hashmap of properties that can be specified. Represented as a hash to speed up constructor. */
-    protected static $properties = array(
-        'name' => true, 'httpMethod' => true, 'uri' => true, 'class' => true, 'responseClass' => true,
-        'responseType' => true, 'responseNotes' => true, 'notes' => true, 'summary' => true, 'documentationUrl' => true,
-        'deprecated' => true, 'data' => true, 'parameters' => true, 'additionalParameters' => true,
-        'errorResponses' => true
-    );
+    protected static $properties
+        = array(
+            'name'           => true, 'httpMethod' => true, 'uri' => true, 'class' => true, 'responseClass' => true,
+            'responseType'   => true, 'responseNotes' => true, 'notes' => true, 'summary' => true, 'documentationUrl' => true,
+            'deprecated'     => true, 'data' => true, 'parameters' => true, 'additionalParameters' => true,
+            'errorResponses' => true
+        );
 
     /** @var array Parameters */
     protected $parameters = array();
@@ -96,48 +97,52 @@ class Operation implements OperationInterface
      * @param array                       $config      Array of configuration data
      * @param ServiceDescriptionInterface $description Service description used to resolve models if $ref tags are found
      */
-    public function __construct(array $config = array(), ServiceDescriptionInterface $description = null)
+    public function __construct( array $config = array(), ServiceDescriptionInterface $description = null )
     {
         $this->description = $description;
 
         // Get the intersection of the available properties and properties set on the operation
-        foreach (array_intersect_key($config, self::$properties) as $key => $value) {
+        foreach ( array_intersect_key( $config, self::$properties ) as $key => $value ) {
             $this->{$key} = $value;
         }
 
-        $this->class = $this->class ?: self::DEFAULT_COMMAND_CLASS;
-        $this->deprecated = (bool) $this->deprecated;
-        $this->errorResponses = $this->errorResponses ?: array();
-        $this->data = $this->data ?: array();
+        $this->class          = $this->class ? : self::DEFAULT_COMMAND_CLASS;
+        $this->deprecated     = (bool)$this->deprecated;
+        $this->errorResponses = $this->errorResponses ? : array();
+        $this->data           = $this->data ? : array();
 
-        if (!$this->responseClass) {
+        if ( !$this->responseClass ) {
             $this->responseClass = 'array';
-            $this->responseType = 'primitive';
-        } elseif ($this->responseType) {
+            $this->responseType  = 'primitive';
+        }
+        elseif ( $this->responseType ) {
             // Set the response type to perform validation
-            $this->setResponseType($this->responseType);
-        } else {
+            $this->setResponseType( $this->responseType );
+        }
+        else {
             // A response class was set and no response type was set, so guess what the type is
             $this->inferResponseType();
         }
 
         // Parameters need special handling when adding
-        if ($this->parameters) {
-            foreach ($this->parameters as $name => $param) {
-                if ($param instanceof Parameter) {
-                    $param->setName($name)->setParent($this);
-                } elseif (is_array($param)) {
-                    $param['name'] = $name;
-                    $this->addParam(new Parameter($param, $this->description));
+        if ( $this->parameters ) {
+            foreach ( $this->parameters as $name => $param ) {
+                if ( $param instanceof Parameter ) {
+                    $param->setName( $name )->setParent( $this );
+                }
+                elseif ( is_array( $param ) ) {
+                    $param[ 'name' ] = $name;
+                    $this->addParam( new Parameter( $param, $this->description ) );
                 }
             }
         }
 
-        if ($this->additionalParameters) {
-            if ($this->additionalParameters instanceof Parameter) {
-                $this->additionalParameters->setParent($this);
-            } elseif (is_array($this->additionalParameters)) {
-                $this->setadditionalParameters(new Parameter($this->additionalParameters, $this->description));
+        if ( $this->additionalParameters ) {
+            if ( $this->additionalParameters instanceof Parameter ) {
+                $this->additionalParameters->setParent( $this );
+            }
+            elseif ( is_array( $this->additionalParameters ) ) {
+                $this->setadditionalParameters( new Parameter( $this->additionalParameters, $this->description ) );
             }
         }
     }
@@ -146,21 +151,21 @@ class Operation implements OperationInterface
     {
         $result = array();
         // Grab valid properties and filter out values that weren't set
-        foreach (array_keys(self::$properties) as $check) {
-            if ($value = $this->{$check}) {
-                $result[$check] = $value;
+        foreach ( array_keys( self::$properties ) as $check ) {
+            if ( $value = $this->{$check} ) {
+                $result[ $check ] = $value;
             }
         }
         // Remove the name property
-        unset($result['name']);
+        unset( $result[ 'name' ] );
         // Parameters need to be converted to arrays
-        $result['parameters'] = array();
-        foreach ($this->parameters as $key => $param) {
-            $result['parameters'][$key] = $param->toArray();
+        $result[ 'parameters' ] = array();
+        foreach ( $this->parameters as $key => $param ) {
+            $result[ 'parameters' ][ $key ] = $param->toArray();
         }
         // Additional parameters need to be cast to an array
-        if ($this->additionalParameters instanceof Parameter) {
-            $result['additionalParameters'] = $this->additionalParameters->toArray();
+        if ( $this->additionalParameters instanceof Parameter ) {
+            $result[ 'additionalParameters' ] = $this->additionalParameters->toArray();
         }
 
         return $result;
@@ -171,7 +176,7 @@ class Operation implements OperationInterface
         return $this->description;
     }
 
-    public function setServiceDescription(ServiceDescriptionInterface $description)
+    public function setServiceDescription( ServiceDescriptionInterface $description )
     {
         $this->description = $description;
 
@@ -185,17 +190,17 @@ class Operation implements OperationInterface
 
     public function getParamNames()
     {
-        return array_keys($this->parameters);
+        return array_keys( $this->parameters );
     }
 
-    public function hasParam($name)
+    public function hasParam( $name )
     {
-        return isset($this->parameters[$name]);
+        return isset( $this->parameters[ $name ] );
     }
 
-    public function getParam($param)
+    public function getParam( $param )
     {
-        return isset($this->parameters[$param]) ? $this->parameters[$param] : null;
+        return isset( $this->parameters[ $param ] ) ? $this->parameters[ $param ] : null;
     }
 
     /**
@@ -205,10 +210,10 @@ class Operation implements OperationInterface
      *
      * @return self
      */
-    public function addParam(Parameter $param)
+    public function addParam( Parameter $param )
     {
-        $this->parameters[$param->getName()] = $param;
-        $param->setParent($this);
+        $this->parameters[ $param->getName() ] = $param;
+        $param->setParent( $this );
 
         return $this;
     }
@@ -220,9 +225,9 @@ class Operation implements OperationInterface
      *
      * @return self
      */
-    public function removeParam($name)
+    public function removeParam( $name )
     {
-        unset($this->parameters[$name]);
+        unset( $this->parameters[ $name ] );
 
         return $this;
     }
@@ -239,7 +244,7 @@ class Operation implements OperationInterface
      *
      * @return self
      */
-    public function setHttpMethod($httpMethod)
+    public function setHttpMethod( $httpMethod )
     {
         $this->httpMethod = $httpMethod;
 
@@ -258,7 +263,7 @@ class Operation implements OperationInterface
      *
      * @return self
      */
-    public function setClass($className)
+    public function setClass( $className )
     {
         $this->class = $className;
 
@@ -277,7 +282,7 @@ class Operation implements OperationInterface
      *
      * @return self
      */
-    public function setName($name)
+    public function setName( $name )
     {
         $this->name = $name;
 
@@ -296,7 +301,7 @@ class Operation implements OperationInterface
      *
      * @return self
      */
-    public function setSummary($summary)
+    public function setSummary( $summary )
     {
         $this->summary = $summary;
 
@@ -315,7 +320,7 @@ class Operation implements OperationInterface
      *
      * @return self
      */
-    public function setNotes($notes)
+    public function setNotes( $notes )
     {
         $this->notes = $notes;
 
@@ -334,7 +339,7 @@ class Operation implements OperationInterface
      *
      * @return self
      */
-    public function setDocumentationUrl($docUrl)
+    public function setDocumentationUrl( $docUrl )
     {
         $this->documentationUrl = $docUrl;
 
@@ -354,7 +359,7 @@ class Operation implements OperationInterface
      *
      * @return self
      */
-    public function setResponseClass($responseClass)
+    public function setResponseClass( $responseClass )
     {
         $this->responseClass = $responseClass;
         $this->inferResponseType();
@@ -375,16 +380,17 @@ class Operation implements OperationInterface
      * @return self
      * @throws InvalidArgumentException
      */
-    public function setResponseType($responseType)
+    public function setResponseType( $responseType )
     {
-        static $types = array(
-            self::TYPE_PRIMITIVE => true,
-            self::TYPE_CLASS => true,
-            self::TYPE_MODEL => true,
+        static $types
+        = array(
+            self::TYPE_PRIMITIVE     => true,
+            self::TYPE_CLASS         => true,
+            self::TYPE_MODEL         => true,
             self::TYPE_DOCUMENTATION => true
         );
-        if (!isset($types[$responseType])) {
-            throw new InvalidArgumentException('responseType must be one of ' . implode(', ', array_keys($types)));
+        if ( !isset( $types[ $responseType ] ) ) {
+            throw new InvalidArgumentException( 'responseType must be one of ' . implode( ', ', array_keys( $types ) ) );
         }
 
         $this->responseType = $responseType;
@@ -404,7 +410,7 @@ class Operation implements OperationInterface
      *
      * @return self
      */
-    public function setResponseNotes($notes)
+    public function setResponseNotes( $notes )
     {
         $this->responseNotes = $notes;
 
@@ -423,7 +429,7 @@ class Operation implements OperationInterface
      *
      * @return self
      */
-    public function setDeprecated($isDeprecated)
+    public function setDeprecated( $isDeprecated )
     {
         $this->deprecated = $isDeprecated;
 
@@ -442,7 +448,7 @@ class Operation implements OperationInterface
      *
      * @return self
      */
-    public function setUri($uri)
+    public function setUri( $uri )
     {
         $this->uri = $uri;
 
@@ -463,9 +469,9 @@ class Operation implements OperationInterface
      *
      * @return self
      */
-    public function addErrorResponse($code, $reason, $class)
+    public function addErrorResponse( $code, $reason, $class )
     {
-        $this->errorResponses[] = array('code' => $code, 'reason' => $reason, 'class' => $class);
+        $this->errorResponses[ ] = array( 'code' => $code, 'reason' => $reason, 'class' => $class );
 
         return $this;
     }
@@ -477,16 +483,16 @@ class Operation implements OperationInterface
      *
      * @return self
      */
-    public function setErrorResponses(array $errorResponses)
+    public function setErrorResponses( array $errorResponses )
     {
         $this->errorResponses = $errorResponses;
 
         return $this;
     }
 
-    public function getData($name)
+    public function getData( $name )
     {
-        return isset($this->data[$name]) ? $this->data[$name] : null;
+        return isset( $this->data[ $name ] ) ? $this->data[ $name ] : null;
     }
 
     /**
@@ -497,9 +503,9 @@ class Operation implements OperationInterface
      *
      * @return self
      */
-    public function setData($name, $value)
+    public function setData( $name, $value )
     {
-        $this->data[$name] = $value;
+        $this->data[ $name ] = $value;
 
         return $this;
     }
@@ -521,10 +527,10 @@ class Operation implements OperationInterface
      *
      * @return self
      */
-    public function setAdditionalParameters($parameter)
+    public function setAdditionalParameters( $parameter )
     {
-        if ($this->additionalParameters = $parameter) {
-            $this->additionalParameters->setParent($this);
+        if ( $this->additionalParameters = $parameter ) {
+            $this->additionalParameters->setParent( $this );
         }
 
         return $this;
@@ -535,12 +541,14 @@ class Operation implements OperationInterface
      */
     protected function inferResponseType()
     {
-        static $primitives = array('array' => 1, 'boolean' => 1, 'string' => 1, 'integer' => 1, '' => 1);
-        if (isset($primitives[$this->responseClass])) {
+        static $primitives = array( 'array' => 1, 'boolean' => 1, 'string' => 1, 'integer' => 1, '' => 1 );
+        if ( isset( $primitives[ $this->responseClass ] ) ) {
             $this->responseType = self::TYPE_PRIMITIVE;
-        } elseif ($this->description && $this->description->hasModel($this->responseClass)) {
+        }
+        elseif ( $this->description && $this->description->hasModel( $this->responseClass ) ) {
             $this->responseType = self::TYPE_MODEL;
-        } else {
+        }
+        else {
             $this->responseType = self::TYPE_CLASS;
         }
     }

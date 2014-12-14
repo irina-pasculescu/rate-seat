@@ -17,14 +17,15 @@ class ExceptionBufferingBatch extends AbstractBatchDecorator
     {
         $items = array();
 
-        while (!$this->decoratedBatch->isEmpty()) {
+        while ( !$this->decoratedBatch->isEmpty() ) {
             try {
                 $transferredItems = $this->decoratedBatch->flush();
-            } catch (BatchTransferException $e) {
-                $this->exceptions[] = $e;
-                $transferredItems = $e->getTransferredItems();
             }
-            $items = array_merge($items, $transferredItems);
+            catch (BatchTransferException $e) {
+                $this->exceptions[ ] = $e;
+                $transferredItems    = $e->getTransferredItems();
+            }
+            $items = array_merge( $items, $transferredItems );
         }
 
         return $items;

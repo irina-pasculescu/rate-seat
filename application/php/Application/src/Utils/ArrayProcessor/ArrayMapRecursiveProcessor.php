@@ -25,16 +25,17 @@ class ArrayMapRecursiveProcessor
 
     /**
      * @param string $value
+     *
      * @return $this
      * @throws \InvalidArgumentException
      */
-    public function setRootPropertyQName($value)
+    public function setRootPropertyQName( $value )
     {
-        if (!is_string($value)) {
+        if ( !is_string( $value ) ) {
 
             throw new \InvalidArgumentException(
                 'Parameter "value" must be a string! ('
-                . ClassUtil::getQualifiedMethodName($this, __METHOD__, true)
+                . ClassUtil::getQualifiedMethodName( $this, __METHOD__, true )
                 . ')'
             );
         }
@@ -53,16 +54,17 @@ class ArrayMapRecursiveProcessor
 
     /**
      * @param string $value
+     *
      * @return $this
      * @throws \InvalidArgumentException
      */
-    public function setPropertyQNameDelimiter($value)
+    public function setPropertyQNameDelimiter( $value )
     {
-        if (!is_string($value)) {
+        if ( !is_string( $value ) ) {
 
             throw new \InvalidArgumentException(
                 'Parameter "value" must be a string! ('
-                . ClassUtil::getQualifiedMethodName($this, __METHOD__, true)
+                . ClassUtil::getQualifiedMethodName( $this, __METHOD__, true )
                 . ')'
             );
         }
@@ -164,17 +166,18 @@ class ArrayMapRecursiveProcessor
     protected $callback = null;
 
     /**
-     * @param $array
+     * @param          $array
      * @param callable $callback
+     *
      * @return array|mixed
      */
-    public function run($array, \Closure $callback)
+    public function run( $array, \Closure $callback )
     {
-        $this->recursionLevel = 0;
-        $this->parentPropertyQName = $this->rootPropertyQName;
+        $this->recursionLevel       = 0;
+        $this->parentPropertyQName  = $this->rootPropertyQName;
         $this->currentPropertyQName = $this->rootPropertyQName;
-        $this->currentKey = '';
-        $this->currentValue = $array;
+        $this->currentKey           = '';
+        $this->currentValue         = $array;
 
         $this->callback = $callback;
 
@@ -193,22 +196,24 @@ class ArrayMapRecursiveProcessor
      * @param $parentQName
      * @param $currentKey
      * @param $isRoot
+     *
      * @return array|mixed
      * @throws \Exception
      */
-    private function processArray($array, $parentQName, $currentKey, $isRoot)
+    private function processArray( $array, $parentQName, $currentKey, $isRoot )
     {
         $dataFinal = array();
 
         $this->parentPropertyQName = $parentQName;
 
-        if ($isRoot) {
-            $this->currentKey = $currentKey;
+        if ( $isRoot ) {
+            $this->currentKey           = $currentKey;
             $this->currentPropertyQName = $currentKey;
-        } else {
+        }
+        else {
             $this->currentPropertyQName = implode(
                 $this->propertyQNameDelimiter,
-                array($parentQName, $currentKey)
+                array( $parentQName, $currentKey )
             );
         }
 
@@ -216,26 +221,26 @@ class ArrayMapRecursiveProcessor
 
 
         $this->currentValue = $array;
-        $this->currentKey = $currentKey;
+        $this->currentKey   = $currentKey;
 
-        if (!is_callable($this->callback)) {
+        if ( !is_callable( $this->callback ) ) {
 
-            throw new \Exception('Callback is not callable!');
+            throw new \Exception( 'Callback is not callable!' );
         }
-        $array = call_user_func_array($this->callback, array($this));
-        if (!is_array($array)) {
+        $array = call_user_func_array( $this->callback, array( $this ) );
+        if ( !is_array( $array ) ) {
 
             return $array;
         }
 
 
-        foreach ($array as $key => $value) {
+        foreach ( $array as $key => $value ) {
 
-            $this->currentKey = $key;
+            $this->currentKey   = $key;
             $this->currentValue = $value;
 
 
-            $dataFinal[$key] = $this->processArray(
+            $dataFinal[ $key ] = $this->processArray(
                 $value,
                 $currentPropertyQName,
                 $key,

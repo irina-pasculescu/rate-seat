@@ -25,7 +25,7 @@ interface ServiceBuilderInterface
      * @return \Guzzle\Service\ClientInterface|mixed
      * @throws ServiceNotFoundException when a client or data cannot be found by the given name
      */
-    public function get($name, $throwAway = false);
+    public function get( $name, $throwAway = false );
 
     /**
      * Register a service or arbitrary data by name with the service builder
@@ -36,5 +36,5 @@ interface ServiceBuilderInterface
      *
      * @return ServiceBuilderInterface
      */
-    public function set($key, $service);
+    public function set( $key, $service );
 }

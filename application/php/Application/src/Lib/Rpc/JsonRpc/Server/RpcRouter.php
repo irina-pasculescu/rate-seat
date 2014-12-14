@@ -34,7 +34,7 @@ class RpcRouter
      *
      * @return $this
      */
-    protected function setFactory(RpcFactory $factory)
+    protected function setFactory( RpcFactory $factory )
     {
         $this->factory = $factory;
 
@@ -52,9 +52,9 @@ class RpcRouter
     /**
      * @param RpcFactory $rpcFactory
      */
-    public function __construct(RpcFactory $rpcFactory)
+    public function __construct( RpcFactory $rpcFactory )
     {
-        $this->setFactory($rpcFactory);
+        $this->setFactory( $rpcFactory );
     }
 
     /**
@@ -71,7 +71,7 @@ class RpcRouter
     /**
      * @param \Exception|null $exception
      */
-    public function setException(\Exception $exception)
+    public function setException( \Exception $exception )
     {
         $this->exception = $exception;
     }
@@ -97,7 +97,7 @@ class RpcRouter
      */
     public function hasException()
     {
-        return ($this->exception instanceof \Exception);
+        return ( $this->exception instanceof \Exception );
     }
 
     /**
@@ -107,9 +107,9 @@ class RpcRouter
      *
      * @return mixed|null
      */
-    public function decodeJson($value, $assoc, $delegateExceptions)
+    public function decodeJson( $value, $assoc, $delegateExceptions )
     {
-        return JsonEncoderUtil::decode($value, $assoc, $delegateExceptions);
+        return JsonEncoderUtil::decode( $value, $assoc, $delegateExceptions );
     }
 
 
@@ -121,7 +121,7 @@ class RpcRouter
     /**
      * @param string $text
      */
-    public function setResponseText($text)
+    public function setResponseText( $text )
     {
         $this->responseText = $text;
     }
@@ -153,7 +153,7 @@ class RpcRouter
      *
      * @return $this
      */
-    public function setRequestData($requestData)
+    public function setRequestData( $requestData )
     {
         $this->requestData = $requestData;
 
@@ -188,7 +188,7 @@ class RpcRouter
      *
      * @return $this
      */
-    public function setResponseData(array $data)
+    public function setResponseData( array $data )
     {
         $this->responseData = $data;
 
@@ -223,7 +223,7 @@ class RpcRouter
      *
      * @return $this
      */
-    public function setResponseHttpStatusHeader($value)
+    public function setResponseHttpStatusHeader( $value )
     {
         $this->responseHttpStatusHeader = $value;
 
@@ -257,7 +257,7 @@ class RpcRouter
     /**
      * @param Rpc $rpc
      */
-    public function setRpc(Rpc $rpc)
+    public function setRpc( Rpc $rpc )
     {
         $this->rpc = $rpc;
     }
@@ -288,11 +288,11 @@ class RpcRouter
      *
      * @return self
      */
-    public function addRoute($rpcMethod, $serviceClass, $serviceMethod)
+    public function addRoute( $rpcMethod, $serviceClass, $serviceMethod )
     {
-        $this->routes[$rpcMethod] = array(
-            'rpcMethod' => $rpcMethod,
-            'serviceClass' => $serviceClass,
+        $this->routes[ $rpcMethod ] = array(
+            'rpcMethod'     => $rpcMethod,
+            'serviceClass'  => $serviceClass,
             'serviceMethod' => $serviceMethod,
         );
 
@@ -304,7 +304,7 @@ class RpcRouter
      *
      * @return $this
      */
-    public function setRoutes(array $routes)
+    public function setRoutes( array $routes )
     {
         $this->routes = $routes;
 
@@ -321,61 +321,64 @@ class RpcRouter
         $this->unsetResponseData();
         $this->unsetResponseHttpStatusHeader();
 
-        $rpcResponseData = null;
+        $rpcResponseData  = null;
         $isRequestBatched = false;
         try {
             $requestData = $this->getRequestData();
-            $isBatched = ArrayListUtil::isArrayList($requestData)
-                && (!ArrayAssocUtil::isAssocArray($requestData));
-            if ($isBatched) {
+            $isBatched   = ArrayListUtil::isArrayList( $requestData )
+                           && ( !ArrayAssocUtil::isAssocArray( $requestData ) );
+            if ( $isBatched ) {
                 $isRequestBatched = true;
             }
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             //  $isRequestBatched = false;
             $responseData = array(
                 'result' => null,
-                'error' => array(
+                'error'  => array(
                     'message' => 'Invalid request!'
                 )
             );
 
-            $this->setResponseData($responseData);
-            $this->setResponseHttpStatusHeader(self::HTTP_STATUS_HEADER_500);
-            $this->encodeResponse($responseData);
+            $this->setResponseData( $responseData );
+            $this->setResponseHttpStatusHeader( self::HTTP_STATUS_HEADER_500 );
+            $this->encodeResponse( $responseData );
 
             return $this;
         }
 
         $rpcQueue = array();
-        if ($isRequestBatched) {
+        if ( $isRequestBatched ) {
             $rpcQueue = $this->getRequestData();
-        } else {
-            $rpcQueue[] = $this->getRequestData();
+        }
+        else {
+            $rpcQueue[ ] = $this->getRequestData();
         }
 
         $responseData = array();
 
-        foreach ($rpcQueue as $rpcItemData) {
+        foreach ( $rpcQueue as $rpcItemData ) {
 
             $rpc = $this->createRpc();
-            $this->setRpc($rpc);
-            if (is_array($rpcItemData)) {
+            $this->setRpc( $rpc );
+            if ( is_array( $rpcItemData ) ) {
                 $rpc->getRpcRequestVo()
-                    ->setData($rpcItemData);
+                    ->setData( $rpcItemData );
             }
 
             $this->handleRpc();
             $rpcResponseData = $rpc->getResponseData();
 
-            if ($isRequestBatched) {
-                $responseData[] = $rpcResponseData;
-            } else {
+            if ( $isRequestBatched ) {
+                $responseData[ ] = $rpcResponseData;
+            }
+            else {
                 $responseData = $rpcResponseData;
             }
         }
 
-        $this->setResponseData($responseData);
-        $this->encodeResponse($responseData);
+        $this->setResponseData( $responseData );
+        $this->encodeResponse( $responseData );
 
         return $this;
     }
@@ -400,15 +403,16 @@ class RpcRouter
 
             // create rpc response
             $this->createRpcResponseDataAndHandleEvents();
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
 
-            $rpc->setException($e);
+            $rpc->setException( $e );
 
             $response = array(
                 'result' => null,
-                'error' => array(
+                'error'  => array(
                     'message' => 'Fatal API Exception ! ' . $methodQualifiedName
-                        . ' reason: ' . $e->getMessage(),
+                                 . ' reason: ' . $e->getMessage(),
                 )
             );
 
@@ -431,13 +435,13 @@ class RpcRouter
     protected function createRpc()
     {
         $factory = $this->getFactory();
-        $rpc = $factory->createRpc();
+        $rpc     = $factory->createRpc();
 
-        $rpcRequestVo = $factory->createRpcRequestVo();
+        $rpcRequestVo  = $factory->createRpcRequestVo();
         $rpcResponseVo = $factory->createRpcResponseVo();
 
-        $rpc->setRpcRequestVo($rpcRequestVo);
-        $rpc->setRpcResponseVo($rpcResponseVo);
+        $rpc->setRpcRequestVo( $rpcRequestVo );
+        $rpc->setRpcResponseVo( $rpcResponseVo );
 
         return $rpc;
     }
@@ -454,8 +458,9 @@ class RpcRouter
             $this->initRpcAndHandleEvents();
             $this->routeRpcAndHandleEvents();
             $this->invokeRpcAndHandleEvents();
-        } catch (\Exception $e) {
-            $rpc->setException($e);
+        }
+        catch (\Exception $e) {
+            $rpc->setException( $e );
         }
 
         return $this;
@@ -467,7 +472,7 @@ class RpcRouter
     protected function initRpcAndHandleEvents()
     {
         $eventHandlers = $this->getEventHandlers();
-        if ($eventHandlers->hasOnBeforeInitRpc()) {
+        if ( $eventHandlers->hasOnBeforeInitRpc() ) {
             $this->invokeEventHandler(
                 $eventHandlers->getOnBeforeInitRpc(),
                 array()
@@ -476,7 +481,7 @@ class RpcRouter
 
         $this->initRpc();
 
-        if ($eventHandlers->hasOnAfterInitRpc()) {
+        if ( $eventHandlers->hasOnAfterInitRpc() ) {
             $this->invokeEventHandler(
                 $eventHandlers->getOnAfterInitRpc(),
                 array()
@@ -492,15 +497,15 @@ class RpcRouter
     protected function initRpc()
     {
 
-        $rpc = $this->getRpc();
-        $rpcRequestVo = $rpc->getRpcRequestVo();
+        $rpc           = $this->getRpc();
+        $rpcRequestVo  = $rpc->getRpcRequestVo();
         $rpcResponseVo = $rpc->getRpcResponseVo();
 
         // set rpc.response.id (from rpc.request.id if provided)
-        $rpcId = $rpcRequestVo->getId();
-        $isValid = is_scalar($rpcId) && ($rpcId !== null);
-        if ($isValid) {
-            $rpcResponseVo->setId($rpcId);
+        $rpcId   = $rpcRequestVo->getId();
+        $isValid = is_scalar( $rpcId ) && ( $rpcId !== null );
+        if ( $isValid ) {
+            $rpcResponseVo->setId( $rpcId );
         }
 
         return $this;
@@ -512,20 +517,20 @@ class RpcRouter
      */
     protected function findRouteName()
     {
-        $rpc = $this->getRpc();
+        $rpc          = $this->getRpc();
         $rpcRequestVo = $rpc->getRpcRequestVo();
 
         // rpc.method
-        $method = $rpcRequestVo->getMethod();
-        $isValid = is_string($method) && (!empty($method));
-        if (!$isValid) {
+        $method  = $rpcRequestVo->getMethod();
+        $isValid = is_string( $method ) && ( !empty( $method ) );
+        if ( !$isValid ) {
 
-            throw new \Exception('Invalid rpc.method');
+            throw new \Exception( 'Invalid rpc.method' );
         }
 
         $routeName = (string)$method;
 
-        $rpc->setRouteName($routeName);
+        $rpc->setRouteName( $routeName );
 
         return $this;
     }
@@ -536,19 +541,20 @@ class RpcRouter
      */
     protected function findServiceMethodArgs()
     {
-        $rpc = $this->getRpc();
+        $rpc          = $this->getRpc();
         $rpcRequestVo = $rpc->getRpcRequestVo();
-        $params = $rpcRequestVo->getParams();
+        $params       = $rpcRequestVo->getParams();
 
-        $isValid = is_array($params);
-        if (!$isValid) {
+        $isValid = is_array( $params );
+        if ( !$isValid ) {
 
-            throw new \Exception('Invalid rpc.params');
+            throw new \Exception( 'Invalid rpc.params' );
         }
 
-        if (ArrayListUtil::isArrayList($params)) {
+        if ( ArrayListUtil::isArrayList( $params ) ) {
             $result = $params;
-        } else {
+        }
+        else {
 
             // make it a list
 
@@ -567,7 +573,7 @@ class RpcRouter
     protected function routeRpcAndHandleEvents()
     {
         $eventHandlers = $this->getEventHandlers();
-        if ($eventHandlers->hasOnBeforeRouteRpc()) {
+        if ( $eventHandlers->hasOnBeforeRouteRpc() ) {
             $this->invokeEventHandler(
                 $eventHandlers->getOnBeforeRouteRpc(),
                 array()
@@ -577,7 +583,7 @@ class RpcRouter
         $this->routeRpc();
 
         $eventHandlers = $this->getEventHandlers();
-        if ($eventHandlers->hasOnAfterRouteRpc()) {
+        if ( $eventHandlers->hasOnAfterRouteRpc() ) {
             $this->invokeEventHandler(
                 $eventHandlers->getOnAfterRouteRpc(),
                 array()
@@ -598,64 +604,64 @@ class RpcRouter
         // find routeName
         $this->findRouteName();
         $routeName = $rpc->getRouteName();
-        $isValid = is_string($routeName) && (!empty($routeName));
-        if (!$isValid) {
+        $isValid   = is_string( $routeName ) && ( !empty( $routeName ) );
+        if ( !$isValid ) {
 
-            throw new \Exception('Invalid routeName for rpc!');
+            throw new \Exception( 'Invalid routeName for rpc!' );
         }
         // find routeConfig by routeName
         $routes = $this->routes;
-        if (!array_key_exists($routeName, $routes)) {
+        if ( !array_key_exists( $routeName, $routes ) ) {
 
             throw new \Exception(
-                'Route not found! routeName=' . json_encode($routeName)
+                'Route not found! routeName=' . json_encode( $routeName )
             );
         }
-        $route = $routes[$routeName];
+        $route = $routes[ $routeName ];
         $route = ArrayAssocUtil::ensureArray(
             $route,
             array(
-                'serviceClass' => null,
+                'serviceClass'  => null,
                 'serviceMethod' => null,
             )
         );
 
         // find serviceMethodArgs by rpc
         $serviceMethodArgs = $this->findServiceMethodArgs();
-        $isValid = is_array($serviceMethodArgs);
-        if (!$isValid) {
+        $isValid           = is_array( $serviceMethodArgs );
+        if ( !$isValid ) {
 
-            throw new \Exception('Invalid rpc: serviceMethodArgs !');
+            throw new \Exception( 'Invalid rpc: serviceMethodArgs !' );
         }
-        $rpc->setServiceMethodArgs($serviceMethodArgs);
+        $rpc->setServiceMethodArgs( $serviceMethodArgs );
 
         // route.serviceClass
-        $serviceClassName = $route['serviceClass'];
-        $isValid = (is_string($serviceClassName)
-            && (!empty($serviceClassName)));
-        if (!$isValid) {
+        $serviceClassName = $route[ 'serviceClass' ];
+        $isValid          = ( is_string( $serviceClassName )
+                              && ( !empty( $serviceClassName ) ) );
+        if ( !$isValid ) {
 
-            throw new \Exception('Invalid rpc route config: serviceClass');
+            throw new \Exception( 'Invalid rpc route config: serviceClass' );
         }
         // route.serviceMethod
-        $serviceMethodName = $route['serviceMethod'];
-        $isValid = (is_string($serviceClassName)
-            && (!empty($serviceClassName)));
-        if (!$isValid) {
+        $serviceMethodName = $route[ 'serviceMethod' ];
+        $isValid           = ( is_string( $serviceClassName )
+                               && ( !empty( $serviceClassName ) ) );
+        if ( !$isValid ) {
 
-            throw new \Exception('Invalid rpc route config: serviceMethod');
+            throw new \Exception( 'Invalid rpc route config: serviceMethod' );
         }
 
         $factory = $this->getFactory();
 
         $serviceMethodReflector = null;
         try {
-            $serviceClassReflector = new \ReflectionClass($serviceClassName);
+            $serviceClassReflector = new \ReflectionClass( $serviceClassName );
 
             $serviceMethodReflector = $serviceClassReflector->getMethod(
                 $serviceMethodName
             );
-            $rpc->setServiceMethodName($serviceMethodReflector->getName());
+            $rpc->setServiceMethodName( $serviceMethodReflector->getName() );
 
             $serviceInstance = $serviceClassReflector->newInstanceArgs(
                 array(
@@ -664,9 +670,10 @@ class RpcRouter
                 )
             );
             /** @var RpcService $serviceInstance */
-            $rpc->setServiceClassInstance($serviceInstance);
+            $rpc->setServiceClassInstance( $serviceInstance );
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
 
             throw new \Exception(
                 'Invalid rpc route config. Service/Method not invokable. '
@@ -684,7 +691,7 @@ class RpcRouter
     protected function invokeRpcAndHandleEvents()
     {
         $eventHandlers = $this->getEventHandlers();
-        if ($eventHandlers->hasOnBeforeInvokeRpc()) {
+        if ( $eventHandlers->hasOnBeforeInvokeRpc() ) {
             $this->invokeEventHandler(
                 $eventHandlers->getOnBeforeInvokeRpc(),
                 array()
@@ -694,7 +701,7 @@ class RpcRouter
         $this->invokeRpc();
 
         $eventHandlers = $this->getEventHandlers();
-        if ($eventHandlers->hasOnAfterInvokeRpc()) {
+        if ( $eventHandlers->hasOnAfterInvokeRpc() ) {
             $this->invokeEventHandler(
                 $eventHandlers->getOnAfterInvokeRpc(),
                 array()
@@ -711,13 +718,13 @@ class RpcRouter
      */
     protected function invokeRpc()
     {
-        $rpc = $this->getRpc();
+        $rpc                  = $this->getRpc();
         $serviceClassInstance = $rpc->getServiceClassInstance();
-        $serviceMethodName = $rpc->getServiceMethodName();
-        $serviceMethodArgs = $rpc->getServiceMethodArgs();
+        $serviceMethodName    = $rpc->getServiceMethodName();
+        $serviceMethodArgs    = $rpc->getServiceMethodArgs();
 
-        $callable = array($serviceClassInstance, $serviceMethodName);
-        if (!is_callable($callable)) {
+        $callable = array( $serviceClassInstance, $serviceMethodName );
+        if ( !is_callable( $callable ) ) {
 
             throw new \Exception(
                 'Service Method not callable! '
@@ -726,7 +733,8 @@ class RpcRouter
                     $serviceMethodName,
                     true
                     . ' at: ' . __METHOD__
-                ));
+                )
+            );
         }
 
         try {
@@ -734,9 +742,10 @@ class RpcRouter
                 $callable,
                 $serviceMethodArgs
             );
-            $rpc->setServiceMethodResult($serviceMethodResult);
-        } catch (\Exception $e) {
-            $rpc->setException($e);
+            $rpc->setServiceMethodResult( $serviceMethodResult );
+        }
+        catch (\Exception $e) {
+            $rpc->setException( $e );
         }
 
         return $this;
@@ -749,7 +758,7 @@ class RpcRouter
     protected function createRpcResponseDataAndHandleEvents()
     {
         $eventHandlers = $this->getEventHandlers();
-        if ($eventHandlers->hasOnBeforeCreateRpcResponseData()) {
+        if ( $eventHandlers->hasOnBeforeCreateRpcResponseData() ) {
             $this->invokeEventHandler(
                 $eventHandlers->getOnBeforeCreateRpcResponseData(),
                 array()
@@ -759,7 +768,7 @@ class RpcRouter
         $this->createRpcResponseData();
 
         $eventHandlers = $this->getEventHandlers();
-        if ($eventHandlers->hasOnAfterCreateRpcResponseData()) {
+        if ( $eventHandlers->hasOnAfterCreateRpcResponseData() ) {
             $this->invokeEventHandler(
                 $eventHandlers->getOnAfterCreateRpcResponseData(),
                 array()
@@ -774,10 +783,10 @@ class RpcRouter
      */
     protected function createRpcResponseData()
     {
-        $rpc = $this->getRpc();
+        $rpc           = $this->getRpc();
         $rpcResponseVo = $rpc->getRpcResponseVo();
 
-        if ($rpc->hasException()) {
+        if ( $rpc->hasException() ) {
             $error = ExceptionUtil::exceptionAsArray(
                 $rpc->getException(),
                 true
@@ -787,28 +796,29 @@ class RpcRouter
                 $error
             );
 
-            $rpcResponseVo->setResult(null);
+            $rpcResponseVo->setResult( null );
 
-        } else {
+        }
+        else {
             $rpcResponseVo->setResult(
                 $rpc->getServiceMethodResult()
             );
         }
 
-        if ($rpc->hasResponseHttpStatusHeader()) {
+        if ( $rpc->hasResponseHttpStatusHeader() ) {
             $httpStatusHeader = $rpc->getResponseHttpStatusHeader();
-            $this->setResponseHttpStatusHeader($httpStatusHeader);
+            $this->setResponseHttpStatusHeader( $httpStatusHeader );
         }
 
-        $responseData = $rpcResponseVo->getData();
-        $responseData['result'] = $rpcResponseVo->getResult();
-        $responseData['error'] = $rpcResponseVo->getError();
+        $responseData             = $rpcResponseVo->getData();
+        $responseData[ 'result' ] = $rpcResponseVo->getResult();
+        $responseData[ 'error' ]  = $rpcResponseVo->getError();
 
         $isDebugEnabled = $rpc->getIsDebugEnabled();
-        if (is_array($responseData['error']) && !$isDebugEnabled) {
+        if ( is_array( $responseData[ 'error' ] ) && !$isDebugEnabled ) {
 
-            $responseData['error'] = ArrayAssocUtil::keepKeys(
-                $responseData['error'],
+            $responseData[ 'error' ] = ArrayAssocUtil::keepKeys(
+                $responseData[ 'error' ],
                 array(
                     'class',
                     'message',
@@ -818,7 +828,7 @@ class RpcRouter
             );
         }
 
-        $rpc->setResponseData($responseData);
+        $rpc->setResponseData( $responseData );
 
         return $this;
     }
@@ -830,7 +840,7 @@ class RpcRouter
      */
     public function fetchRequestText()
     {
-        $requestText = (string)file_get_contents("php://input");
+        $requestText = (string)file_get_contents( "php://input" );
 
         return $requestText;
     }
@@ -841,29 +851,30 @@ class RpcRouter
     /**
      * @param array $responseData
      */
-    protected function encodeResponse($responseData)
+    protected function encodeResponse( $responseData )
     {
         //$responseText = '';
         try {
-            if (!is_array($responseData)) {
+            if ( !is_array( $responseData ) ) {
 
-                throw new \Exception('Invalid response!');
+                throw new \Exception( 'Invalid response!' );
             }
-            $responseText = JsonEncoderUtil::encode($responseData, true);
-        } catch (\Exception $e) {
-            $this->setException($e);
-            $result = null;
-            $error = array(
+            $responseText = JsonEncoderUtil::encode( $responseData, true );
+        }
+        catch (\Exception $e) {
+            $this->setException( $e );
+            $result       = null;
+            $error        = array(
                 'message' => 'json encode rpc.response failed',
             );
             $responseData = array(
                 'result' => $result,
-                'error' => $error,
+                'error'  => $error,
             );
-            $responseText = JsonEncoderUtil::encode($responseData, true);
+            $responseText = JsonEncoderUtil::encode( $responseData, true );
         }
 
-        $this->setResponseText($responseText);
+        $this->setResponseText( $responseText );
     }
 
     /**
@@ -874,17 +885,19 @@ class RpcRouter
         $responseStatusHeader = $this->getResponseHttpStatusHeader();
 
         try {
-            header('Content-type: application/json');
-        } catch (\Exception $e) {
+            header( 'Content-type: application/json' );
+        }
+        catch (\Exception $e) {
             // nop
         }
 
-        $hasStatusHeader = is_string($responseStatusHeader)
-            && (!empty($responseStatusHeader));
-        if ($hasStatusHeader) {
+        $hasStatusHeader = is_string( $responseStatusHeader )
+                           && ( !empty( $responseStatusHeader ) );
+        if ( $hasStatusHeader ) {
             try {
-                header($responseStatusHeader);
-            } catch (\Exception $e) {
+                header( $responseStatusHeader );
+            }
+            catch (\Exception $e) {
                 // nop
             }
         }
@@ -907,9 +920,9 @@ class RpcRouter
      */
     public function getEventHandlers()
     {
-        if (!$this->eventHandlers) {
+        if ( !$this->eventHandlers ) {
             $this->eventHandlers = $this->getFactory()
-                ->createRouterEventHandlers();
+                                        ->createRouterEventHandlers();
         }
 
         return $this->eventHandlers;
@@ -917,7 +930,7 @@ class RpcRouter
 
     /**
      * @param RpcCallback $rpcCallback
-     * @param array $customArgs
+     * @param array       $customArgs
      *
      * @return mixed
      * @throws \Exception
@@ -925,15 +938,16 @@ class RpcRouter
     protected function invokeEventHandler(
         RpcCallback $rpcCallback,
         $customArgs
-    ) {
-        if (!is_array($customArgs)) {
+    )
+    {
+        if ( !is_array( $customArgs ) ) {
             $customArgs = array();
         }
 
 
         $closure = $rpcCallback->getClosure();
 
-        if (!is_callable($closure)) {
+        if ( !is_callable( $closure ) ) {
 
             throw new \Exception(
                 'Property "closure" is not callable! ' . __METHOD__
@@ -946,15 +960,15 @@ class RpcRouter
             $this
         );
 
-        foreach ($customArgs as $arg) {
-            $callbackArgs[] = $arg;
+        foreach ( $customArgs as $arg ) {
+            $callbackArgs[ ] = $arg;
         }
 
-        foreach ($closureParams as $arg) {
-            $callbackArgs[] = $arg;
+        foreach ( $closureParams as $arg ) {
+            $callbackArgs[ ] = $arg;
         }
 
-        return call_user_func_array($closure, $callbackArgs);
+        return call_user_func_array( $closure, $callbackArgs );
     }
 
 }

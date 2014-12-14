@@ -11,7 +11,7 @@ use Guzzle\Service\Command\CommandInterface;
 class CommandTransferException extends MultiTransferException
 {
     protected $successfulCommands = array();
-    protected $failedCommands = array();
+    protected $failedCommands     = array();
 
     /**
      * Creates a new CommandTransferException from a MultiTransferException
@@ -20,26 +20,27 @@ class CommandTransferException extends MultiTransferException
      *
      * @return self
      */
-    public static function fromMultiTransferException(MultiTransferException $e)
+    public static function fromMultiTransferException( MultiTransferException $e )
     {
-        $ce = new self($e->getMessage(), $e->getCode(), $e->getPrevious());
-        $ce->setSuccessfulRequests($e->getSuccessfulRequests());
+        $ce = new self( $e->getMessage(), $e->getCode(), $e->getPrevious() );
+        $ce->setSuccessfulRequests( $e->getSuccessfulRequests() );
 
         $alreadyAddedExceptions = array();
-        foreach ($e->getFailedRequests() as $request) {
-            if ($re = $e->getExceptionForFailedRequest($request)) {
-                $alreadyAddedExceptions[] = $re;
-                $ce->addFailedRequestWithException($request, $re);
-            } else {
-                $ce->addFailedRequest($request);
+        foreach ( $e->getFailedRequests() as $request ) {
+            if ( $re = $e->getExceptionForFailedRequest( $request ) ) {
+                $alreadyAddedExceptions[ ] = $re;
+                $ce->addFailedRequestWithException( $request, $re );
+            }
+            else {
+                $ce->addFailedRequest( $request );
             }
         }
 
         // Add any exceptions that did not map to a request
-        if (count($alreadyAddedExceptions) < count($e)) {
-            foreach ($e as $ex) {
-                if (!in_array($ex, $alreadyAddedExceptions)) {
-                    $ce->add($ex);
+        if ( count( $alreadyAddedExceptions ) < count( $e ) ) {
+            foreach ( $e as $ex ) {
+                if ( !in_array( $ex, $alreadyAddedExceptions ) ) {
+                    $ce->add( $ex );
                 }
             }
         }
@@ -54,7 +55,7 @@ class CommandTransferException extends MultiTransferException
      */
     public function getAllCommands()
     {
-        return array_merge($this->successfulCommands, $this->failedCommands);
+        return array_merge( $this->successfulCommands, $this->failedCommands );
     }
 
     /**
@@ -64,9 +65,9 @@ class CommandTransferException extends MultiTransferException
      *
      * @return self
      */
-    public function addSuccessfulCommand(CommandInterface $command)
+    public function addSuccessfulCommand( CommandInterface $command )
     {
-        $this->successfulCommands[] = $command;
+        $this->successfulCommands[ ] = $command;
 
         return $this;
     }
@@ -78,9 +79,9 @@ class CommandTransferException extends MultiTransferException
      *
      * @return self
      */
-    public function addFailedCommand(CommandInterface $command)
+    public function addFailedCommand( CommandInterface $command )
     {
-        $this->failedCommands[] = $command;
+        $this->failedCommands[ ] = $command;
 
         return $this;
     }
@@ -112,8 +113,8 @@ class CommandTransferException extends MultiTransferException
      *
      * @return \Exception|null
      */
-    public function getExceptionForFailedCommand(CommandInterface $command)
+    public function getExceptionForFailedCommand( CommandInterface $command )
     {
-        return $this->getExceptionForFailedRequest($command->getRequest());
+        return $this->getExceptionForFailedRequest( $command->getRequest() );
     }
 }

@@ -2,18 +2,18 @@
 
 namespace Guzzle\Tests\Http;
 
-use Guzzle\Http\QueryString;
 use Guzzle\Http\QueryAggregator\PhpAggregator as Ag;
+use Guzzle\Http\QueryString;
 
 class PhpAggregatorTest extends \Guzzle\Tests\GuzzleTestCase
 {
     public function testEncodes()
     {
         $query = new QueryString();
-        $query->useUrlEncoding(false);
-        $a = new Ag();
-        $key = 't';
-        $value = array(
+        $query->useUrlEncoding( false );
+        $a      = new Ag();
+        $key    = 't';
+        $value  = array(
             'v1' => 'a',
             'v2' => 'b',
             'v3' => array(
@@ -21,12 +21,14 @@ class PhpAggregatorTest extends \Guzzle\Tests\GuzzleTestCase
                 'v5' => 'd',
             )
         );
-        $result = $a->aggregate($key, $value, $query);
-        $this->assertEquals(array(
-            't[v1]' => 'a',
-            't[v2]' => 'b',
-            't[v3][v4]' => 'c',
-            't[v3][v5]' => 'd',
-        ), $result);
+        $result = $a->aggregate( $key, $value, $query );
+        $this->assertEquals(
+            array(
+                't[v1]'     => 'a',
+                't[v2]'     => 'b',
+                't[v3][v4]' => 'c',
+                't[v3][v5]' => 'd',
+            ), $result
+        );
     }
 }

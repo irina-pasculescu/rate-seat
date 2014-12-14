@@ -21,7 +21,7 @@ interface BaseVoInterface
      *
      * @return $this
      */
-    public function setData($data);
+    public function setData( $data );
 
     /**
      * @return array
@@ -38,22 +38,22 @@ interface BaseVoInterface
      *
      * @return mixed
      */
-    public function getDataKey($key);
+    public function getDataKey( $key );
 
     /**
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return $this
      */
-    public function setDataKey($key, $value);
+    public function setDataKey( $key, $value );
 
     /**
      * @param string $key
      *
      * @return bool
      */
-    public function hasDataKey($key);
+    public function hasDataKey( $key );
 
     /**
      * @return bool

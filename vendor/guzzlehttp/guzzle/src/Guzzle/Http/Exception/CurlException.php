@@ -22,9 +22,9 @@ class CurlException extends RequestException
      *
      * @return self
      */
-    public function setError($error, $number)
+    public function setError( $error, $number )
     {
-        $this->curlError = $error;
+        $this->curlError   = $error;
         $this->curlErrorNo = $number;
 
         return $this;
@@ -37,7 +37,7 @@ class CurlException extends RequestException
      *
      * @return self
      */
-    public function setCurlHandle(CurlHandle $handle)
+    public function setCurlHandle( CurlHandle $handle )
     {
         $this->handle = $handle;
 
@@ -92,7 +92,7 @@ class CurlException extends RequestException
      * @return self
      * @link http://php.net/manual/en/function.curl-getinfo.php
      */
-    public function setCurlInfo(array $info)
+    public function setCurlInfo( array $info )
     {
         $this->curlInfo = $info;
 

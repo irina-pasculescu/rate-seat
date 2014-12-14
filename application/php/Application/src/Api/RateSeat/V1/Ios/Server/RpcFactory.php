@@ -32,7 +32,7 @@ class RpcFactory extends AbstractFactory
      */
     public static function getInstance()
     {
-        if (!self::$instance) {
+        if ( !self::$instance ) {
             self::$instance = new self();
         }
 
@@ -46,8 +46,8 @@ class RpcFactory extends AbstractFactory
      */
     public function getApiManager()
     {
-        if (!$this->apiManager) {
-            $this->apiManager = new ApiManager($this);
+        if ( !$this->apiManager ) {
+            $this->apiManager = new ApiManager( $this );
         }
 
         return $this->apiManager;
@@ -73,7 +73,7 @@ class RpcFactory extends AbstractFactory
         return parent::createRouterEventHandlers();
     }
 
-    public function createRouterCallback(\Closure $closure, $params)
+    public function createRouterCallback( \Closure $closure, $params )
     {
         return parent::createRouterCallback(
             $closure,
@@ -86,8 +86,8 @@ class RpcFactory extends AbstractFactory
      */
     public function getRouter()
     {
-        if (!$this->router) {
-            $this->router = new RpcRouter($this);
+        if ( !$this->router ) {
+            $this->router = new RpcRouter( $this );
         }
 
         return $this->router;
@@ -98,8 +98,8 @@ class RpcFactory extends AbstractFactory
      */
     public function getDispatcherHttp()
     {
-        if (!$this->dispatcherHttp) {
-            $this->dispatcherHttp = new RpcDispatcherHttp($this);
+        if ( !$this->dispatcherHttp ) {
+            $this->dispatcherHttp = new RpcDispatcherHttp( $this );
         }
 
         return $this->dispatcherHttp;
@@ -110,7 +110,7 @@ class RpcFactory extends AbstractFactory
      */
     public function createRpc()
     {
-        return new Rpc($this);
+        return new Rpc( $this );
     }
 
     /**

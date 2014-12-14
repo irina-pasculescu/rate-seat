@@ -9,16 +9,17 @@ use Guzzle\Http\QueryString;
  */
 class PhpAggregator implements QueryAggregatorInterface
 {
-    public function aggregate($key, $value, QueryString $query)
+    public function aggregate( $key, $value, QueryString $query )
     {
         $ret = array();
 
-        foreach ($value as $k => $v) {
+        foreach ( $value as $k => $v ) {
             $k = "{$key}[{$k}]";
-            if (is_array($v)) {
-                $ret = array_merge($ret, self::aggregate($k, $v, $query));
-            } else {
-                $ret[$query->encodeValue($k)] = $query->encodeValue($v);
+            if ( is_array( $v ) ) {
+                $ret = array_merge( $ret, self::aggregate( $k, $v, $query ) );
+            }
+            else {
+                $ret[ $query->encodeValue( $k ) ] = $query->encodeValue( $v );
             }
         }
 

@@ -8,8 +8,6 @@
 
 namespace Application\Lib\RateSeat\RestApiClient\Api\Base\Request;
 
-use Application\Lib\RateSeat\RestApiClient\Api\Base\Request\BaseRateSeatApiClientRequestVo;
-
 /**
  * Class BaseRateSeatApiClientRequest
  * @package Application\Lib\RateSeat\RestApiClient\Api\Base\Request
@@ -87,7 +85,7 @@ abstract class BaseRateSeatApiClientRequest
     }
 
 
-    private  $curlData;
+    private $curlData;
 
     public function getCurlData()
     {

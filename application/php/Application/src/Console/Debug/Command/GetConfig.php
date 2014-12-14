@@ -36,11 +36,11 @@ class GetConfig extends BaseConsoleCommand
      */
     protected function configure()
     {
-        $this->setName($this::COMMAND_NAME)
-            ->setDescription(
-                ''
-                . ClassUtil::getClassNameAsJavaStyle($this)
-            );
+        $this->setName( $this::COMMAND_NAME )
+             ->setDescription(
+                 ''
+                 . ClassUtil::getClassNameAsJavaStyle( $this )
+             );
     }
 
     /**
@@ -54,27 +54,28 @@ class GetConfig extends BaseConsoleCommand
 
         try {
             $configVo = $this->getApplicationContext()
-                ->getModel()
-                ->getConfigVo();
-            $config = $configVo
+                             ->getModel()
+                             ->getConfigVo();
+            $config   = $configVo
                 ->getData();
 
-            $this->echoLn('config ... ', 2);
-            var_dump($config);
+            $this->echoLn( 'config ... ', 2 );
+            var_dump( $config );
 
-            $this->echoLn('config (json) ... ', 2);
-            $this->echoLn(json_encode($config), 2);
+            $this->echoLn( 'config (json) ... ', 2 );
+            $this->echoLn( json_encode( $config ), 2 );
 
             $configVo->validate();
 
-            $this->echoLn('Config successfully loaded and validated.', 2);
+            $this->echoLn( 'Config successfully loaded and validated.', 2 );
 
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
 
-            var_dump($e);
-            var_dump(get_class($e));
-            var_dump($e->getMessage());
+            var_dump( $e );
+            var_dump( get_class( $e ) );
+            var_dump( $e->getMessage() );
 
             throw $e;
         }

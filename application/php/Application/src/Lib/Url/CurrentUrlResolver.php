@@ -38,7 +38,7 @@ class CurrentUrlResolver
      */
     public static function getInstance()
     {
-        if (!self::$instance) {
+        if ( !self::$instance ) {
             self::$instance = new self();
         }
 
@@ -50,10 +50,10 @@ class CurrentUrlResolver
      */
     public function getUriParsed()
     {
-        if (!($this->uriParsed instanceof PhutilURI)) {
+        if ( !( $this->uriParsed instanceof PhutilURI ) ) {
 
-            $url = $this->detectCurrentUrl();
-            $this->uriParsed = new PhutilURI($url);
+            $url             = $this->detectCurrentUrl();
+            $this->uriParsed = new PhutilURI( $url );
 
         }
 
@@ -79,7 +79,7 @@ class CurrentUrlResolver
      *
      * @return self
      */
-    public function setUriParsed(PhutilURI $uriParsed)
+    public function setUriParsed( PhutilURI $uriParsed )
     {
         $this->uriParsed = $uriParsed;
 
@@ -93,11 +93,11 @@ class CurrentUrlResolver
      */
     private function getHttpHost()
     {
-        if ($this->trustForwarded && isset($_SERVER['HTTP_X_FORWARDED_HOST'])) {
-            return $_SERVER['HTTP_X_FORWARDED_HOST'];
+        if ( $this->trustForwarded && isset( $_SERVER[ 'HTTP_X_FORWARDED_HOST' ] ) ) {
+            return $_SERVER[ 'HTTP_X_FORWARDED_HOST' ];
         }
 
-        return $_SERVER['HTTP_HOST'];
+        return $_SERVER[ 'HTTP_HOST' ];
     }
 
     /**
@@ -105,15 +105,15 @@ class CurrentUrlResolver
      */
     private function getHttpProtocol()
     {
-        if ($this->trustForwarded && isset($_SERVER['HTTP_X_FORWARDED_PROTO'])) {
-            if ($_SERVER['HTTP_X_FORWARDED_PROTO'] === 'https') {
+        if ( $this->trustForwarded && isset( $_SERVER[ 'HTTP_X_FORWARDED_PROTO' ] ) ) {
+            if ( $_SERVER[ 'HTTP_X_FORWARDED_PROTO' ] === 'https' ) {
                 return 'https';
             }
 
             return 'http';
         }
-        if (isset($_SERVER['HTTPS'])
-            && ($_SERVER['HTTPS'] === 'on' || $_SERVER['HTTPS'] == 1)
+        if ( isset( $_SERVER[ 'HTTPS' ] )
+             && ( $_SERVER[ 'HTTPS' ] === 'on' || $_SERVER[ 'HTTPS' ] == 1 )
         ) {
             return 'https';
         }
@@ -129,34 +129,34 @@ class CurrentUrlResolver
      */
     private function detectCurrentUrl()
     {
-        $protocol = $this->getHttpProtocol() . '://';
-        $host = $this->getHttpHost();
-        $currentUrl = $protocol . $host . $_SERVER['REQUEST_URI'];
-        $parts = parse_url($currentUrl);
+        $protocol   = $this->getHttpProtocol() . '://';
+        $host       = $this->getHttpHost();
+        $currentUrl = $protocol . $host . $_SERVER[ 'REQUEST_URI' ];
+        $parts      = parse_url( $currentUrl );
 
         $query = '';
-        if (!empty($parts['query'])) {
+        if ( !empty( $parts[ 'query' ] ) ) {
             // drop known fb params
-            $params = explode('&', $parts['query']);
+            $params         = explode( '&', $parts[ 'query' ] );
             $retainedParams = $params;
 
-            if (!empty($retainedParams)) {
-                $query = '?' . implode($retainedParams, '&');
+            if ( !empty( $retainedParams ) ) {
+                $query = '?' . implode( $retainedParams, '&' );
             }
         }
 
         // use port if non default
         $port = '';
-        if (isset($parts['port'])) {
-            if (($protocol === 'http://' && $parts['port'] !== 80) ||
-                ($protocol === 'https://' && $parts['port'] !== 443)
+        if ( isset( $parts[ 'port' ] ) ) {
+            if ( ( $protocol === 'http://' && $parts[ 'port' ] !== 80 ) ||
+                 ( $protocol === 'https://' && $parts[ 'port' ] !== 443 )
             ) {
-                $port = ':' . $parts['port'];
+                $port = ':' . $parts[ 'port' ];
             }
         }
 
         // rebuild
-        return $protocol . $parts['host'] . $port . $parts['path'] . $query;
+        return $protocol . $parts[ 'host' ] . $port . $parts[ 'path' ] . $query;
     }
 
 

@@ -19,7 +19,7 @@ class AbstractHasDispatcher implements HasDispatcherInterface
         return array();
     }
 
-    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
+    public function setEventDispatcher( EventDispatcherInterface $eventDispatcher )
     {
         $this->eventDispatcher = $eventDispatcher;
 
@@ -28,21 +28,21 @@ class AbstractHasDispatcher implements HasDispatcherInterface
 
     public function getEventDispatcher()
     {
-        if (!$this->eventDispatcher) {
+        if ( !$this->eventDispatcher ) {
             $this->eventDispatcher = new EventDispatcher();
         }
 
         return $this->eventDispatcher;
     }
 
-    public function dispatch($eventName, array $context = array())
+    public function dispatch( $eventName, array $context = array() )
     {
-        return $this->getEventDispatcher()->dispatch($eventName, new Event($context));
+        return $this->getEventDispatcher()->dispatch( $eventName, new Event( $context ) );
     }
 
-    public function addSubscriber(EventSubscriberInterface $subscriber)
+    public function addSubscriber( EventSubscriberInterface $subscriber )
     {
-        $this->getEventDispatcher()->addSubscriber($subscriber);
+        $this->getEventDispatcher()->addSubscriber( $subscriber );
 
         return $this;
     }

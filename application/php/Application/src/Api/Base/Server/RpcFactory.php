@@ -27,7 +27,7 @@ abstract class RpcFactory extends AbstractFactory
      */
     public static function getInstance()
     {
-        throw new \Exception('Implement! ' . __METHOD__);
+        throw new \Exception( 'Implement! ' . __METHOD__ );
 
 
     }
@@ -44,8 +44,8 @@ abstract class RpcFactory extends AbstractFactory
      */
     public function getRouter()
     {
-        if (!$this->router) {
-            $this->router = new RpcRouter($this);
+        if ( !$this->router ) {
+            $this->router = new RpcRouter( $this );
         }
 
         return $this->router;
@@ -56,8 +56,8 @@ abstract class RpcFactory extends AbstractFactory
      */
     public function getDispatcherHttp()
     {
-        if (!$this->dispatcherHttp) {
-            $this->dispatcherHttp = new RpcDispatcherHttp($this);
+        if ( !$this->dispatcherHttp ) {
+            $this->dispatcherHttp = new RpcDispatcherHttp( $this );
         }
 
         return $this->dispatcherHttp;
@@ -85,7 +85,7 @@ abstract class RpcFactory extends AbstractFactory
      */
     public function createRpc()
     {
-        return new Rpc($this);
+        return new Rpc( $this );
     }
 
     /**

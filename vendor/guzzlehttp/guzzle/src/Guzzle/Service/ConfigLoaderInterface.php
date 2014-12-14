@@ -18,5 +18,5 @@ interface ConfigLoaderInterface
      *
      * @return mixed
      */
-    public function load($config, array $options = array());
+    public function load( $config, array $options = array() );
 }

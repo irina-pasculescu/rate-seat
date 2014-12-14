@@ -14,5 +14,5 @@ interface ResponseClassInterface
      *
      * @return self
      */
-    public static function fromCommand(OperationCommand $command);
+    public static function fromCommand( OperationCommand $command );
 }

@@ -15,14 +15,14 @@ class AbstractEntityBodyDecorator implements EntityBodyInterface
     /**
      * @param EntityBodyInterface $body Entity body to decorate
      */
-    public function __construct(EntityBodyInterface $body)
+    public function __construct( EntityBodyInterface $body )
     {
         $this->body = $body;
     }
 
     public function __toString()
     {
-        return (string) $this->body;
+        return (string)$this->body;
     }
 
     /**
@@ -33,9 +33,9 @@ class AbstractEntityBodyDecorator implements EntityBodyInterface
      *
      * @return mixed
      */
-    public function __call($method, array $args)
+    public function __call( $method, array $args )
     {
-        return call_user_func_array(array($this->body, $method), $args);
+        return call_user_func_array( array( $this->body, $method ), $args );
     }
 
     public function close()
@@ -43,9 +43,9 @@ class AbstractEntityBodyDecorator implements EntityBodyInterface
         return $this->body->close();
     }
 
-    public function setRewindFunction($callable)
+    public function setRewindFunction( $callable )
     {
-        $this->body->setRewindFunction($callable);
+        $this->body->setRewindFunction( $callable );
 
         return $this;
     }
@@ -55,14 +55,14 @@ class AbstractEntityBodyDecorator implements EntityBodyInterface
         return $this->body->rewind();
     }
 
-    public function compress($filter = 'zlib.deflate')
+    public function compress( $filter = 'zlib.deflate' )
     {
-        return $this->body->compress($filter);
+        return $this->body->compress( $filter );
     }
 
-    public function uncompress($filter = 'zlib.inflate')
+    public function uncompress( $filter = 'zlib.inflate' )
     {
-        return $this->body->uncompress($filter);
+        return $this->body->uncompress( $filter );
     }
 
     public function getContentLength()
@@ -75,11 +75,11 @@ class AbstractEntityBodyDecorator implements EntityBodyInterface
         return $this->body->getContentType();
     }
 
-    public function getContentMd5($rawOutput = false, $base64Encode = false)
+    public function getContentMd5( $rawOutput = false, $base64Encode = false )
     {
-        $hash = Stream::getHash($this, 'md5', $rawOutput);
+        $hash = Stream::getHash( $this, 'md5', $rawOutput );
 
-        return $hash && $base64Encode ? base64_encode($hash) : $hash;
+        return $hash && $base64Encode ? base64_encode( $hash ) : $hash;
     }
 
     public function getContentEncoding()
@@ -87,9 +87,9 @@ class AbstractEntityBodyDecorator implements EntityBodyInterface
         return $this->body->getContentEncoding();
     }
 
-    public function getMetaData($key = null)
+    public function getMetaData( $key = null )
     {
-        return $this->body->getMetaData($key);
+        return $this->body->getMetaData( $key );
     }
 
     public function getStream()
@@ -97,9 +97,9 @@ class AbstractEntityBodyDecorator implements EntityBodyInterface
         return $this->body->getStream();
     }
 
-    public function setStream($stream, $size = 0)
+    public function setStream( $stream, $size = 0 )
     {
-        $this->body->setStream($stream, $size);
+        $this->body->setStream( $stream, $size );
 
         return $this;
     }
@@ -175,31 +175,31 @@ class AbstractEntityBodyDecorator implements EntityBodyInterface
         return $this->body->isSeekable();
     }
 
-    public function setSize($size)
+    public function setSize( $size )
     {
-        $this->body->setSize($size);
+        $this->body->setSize( $size );
 
         return $this;
     }
 
-    public function seek($offset, $whence = SEEK_SET)
+    public function seek( $offset, $whence = SEEK_SET )
     {
-        return $this->body->seek($offset, $whence);
+        return $this->body->seek( $offset, $whence );
     }
 
-    public function read($length)
+    public function read( $length )
     {
-        return $this->body->read($length);
+        return $this->body->read( $length );
     }
 
-    public function write($string)
+    public function write( $string )
     {
-        return $this->body->write($string);
+        return $this->body->write( $string );
     }
 
-    public function readLine($maxLength = null)
+    public function readLine( $maxLength = null )
     {
-        return $this->body->readLine($maxLength);
+        return $this->body->readLine( $maxLength );
     }
 
     public function ftell()
@@ -207,14 +207,14 @@ class AbstractEntityBodyDecorator implements EntityBodyInterface
         return $this->body->ftell();
     }
 
-    public function getCustomData($key)
+    public function getCustomData( $key )
     {
-        return $this->body->getCustomData($key);
+        return $this->body->getCustomData( $key );
     }
 
-    public function setCustomData($key, $value)
+    public function setCustomData( $key, $value )
     {
-        $this->body->setCustomData($key, $value);
+        $this->body->setCustomData( $key, $value );
 
         return $this;
     }

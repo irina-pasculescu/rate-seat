@@ -14,5 +14,5 @@ interface ResponseParserInterface
      *
      * @return mixed Returns the result to set on the command
      */
-    public function parse(CommandInterface $command);
+    public function parse( CommandInterface $command );
 }

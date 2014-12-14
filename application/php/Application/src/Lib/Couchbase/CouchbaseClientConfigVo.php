@@ -19,10 +19,10 @@ class CouchbaseClientConfigVo extends BaseVo
 {
 
 
-    const KEY_HOST = 'host';
-    const KEY_USER = 'user';
-    const KEY_PASSWORD = 'password';
-    const KEY_BUCKET = 'bucket';
+    const KEY_HOST       = 'host';
+    const KEY_USER       = 'user';
+    const KEY_PASSWORD   = 'password';
+    const KEY_BUCKET     = 'bucket';
     const KEY_PERSISTENT = 'persistent';
 
     /**
@@ -30,7 +30,7 @@ class CouchbaseClientConfigVo extends BaseVo
      */
     public function getHost()
     {
-        return (string)$this->getDataKey($this::KEY_HOST);
+        return (string)$this->getDataKey( $this::KEY_HOST );
     }
 
 
@@ -39,7 +39,7 @@ class CouchbaseClientConfigVo extends BaseVo
      */
     public function getUser()
     {
-        return (string)$this->getDataKey($this::KEY_USER);
+        return (string)$this->getDataKey( $this::KEY_USER );
     }
 
     /**
@@ -47,7 +47,7 @@ class CouchbaseClientConfigVo extends BaseVo
      */
     public function getPassword()
     {
-        return (string)$this->getDataKey($this::KEY_PASSWORD);
+        return (string)$this->getDataKey( $this::KEY_PASSWORD );
     }
 
     /**
@@ -55,7 +55,7 @@ class CouchbaseClientConfigVo extends BaseVo
      */
     public function getBucket()
     {
-        return (string)$this->getDataKey($this::KEY_BUCKET);
+        return (string)$this->getDataKey( $this::KEY_BUCKET );
     }
 
     /**
@@ -74,46 +74,46 @@ class CouchbaseClientConfigVo extends BaseVo
     public function validate()
     {
 
-        $key = $this::KEY_HOST;
-        $value = $this->getHost();
-        $isValid = !empty($value);
-        if (!$isValid) {
+        $key     = $this::KEY_HOST;
+        $value   = $this->getHost();
+        $isValid = !empty( $value );
+        if ( !$isValid ) {
 
             throw new CouchbaseClientConfigException(
                 'Invalid ' .
-                ClassUtil::getQualifiedMethodName($this, $key, true)
+                ClassUtil::getQualifiedMethodName( $this, $key, true )
                 . ' !'
             );
         }
 
-        $key = $this::KEY_USER;
+        $key   = $this::KEY_USER;
         $value = $this->getUser();
 
 
-        $key = $this::KEY_PASSWORD;
+        $key   = $this::KEY_PASSWORD;
         $value = $this->getPassword();
 
 
-        $key = $this::KEY_BUCKET;
-        $value = $this->getBucket();
-        $isValid = !empty($value);
-        if (!$isValid) {
+        $key     = $this::KEY_BUCKET;
+        $value   = $this->getBucket();
+        $isValid = !empty( $value );
+        if ( !$isValid ) {
 
             throw new CouchbaseClientConfigException(
                 'Invalid ' .
-                ClassUtil::getQualifiedMethodName($this, $key, true)
+                ClassUtil::getQualifiedMethodName( $this, $key, true )
                 . ' !'
             );
         }
 
-        $key = $this::KEY_PERSISTENT;
-        $value = $this->getPersistent();
-        $isValid = is_bool($value);
-        if (!$isValid) {
+        $key     = $this::KEY_PERSISTENT;
+        $value   = $this->getPersistent();
+        $isValid = is_bool( $value );
+        if ( !$isValid ) {
 
             throw new CouchbaseClientConfigException(
                 'Invalid ' .
-                ClassUtil::getQualifiedMethodName($this, $key, true)
+                ClassUtil::getQualifiedMethodName( $this, $key, true )
                 . ' !'
             );
         }

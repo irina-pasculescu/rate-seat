@@ -2,12 +2,12 @@
 
 namespace Guzzle\Service;
 
-use Guzzle\Common\FromConfigInterface;
 use Guzzle\Common\Exception\InvalidArgumentException;
+use Guzzle\Common\FromConfigInterface;
 use Guzzle\Http\ClientInterface as HttpClientInterface;
-use Guzzle\Service\Exception\CommandTransferException;
 use Guzzle\Service\Command\CommandInterface;
 use Guzzle\Service\Description\ServiceDescriptionInterface;
+use Guzzle\Service\Exception\CommandTransferException;
 use Guzzle\Service\Resource\ResourceIteratorInterface;
 
 /**
@@ -26,7 +26,7 @@ interface ClientInterface extends HttpClientInterface, FromConfigInterface
      * @return CommandInterface
      * @throws InvalidArgumentException if no command can be found by name
      */
-    public function getCommand($name, array $args = array());
+    public function getCommand( $name, array $args = array() );
 
     /**
      * Execute one or more commands
@@ -37,7 +37,7 @@ interface ClientInterface extends HttpClientInterface, FromConfigInterface
      * @throws InvalidArgumentException if an invalid command is passed
      * @throws CommandTransferException if an exception is encountered when transferring multiple commands
      */
-    public function execute($command);
+    public function execute( $command );
 
     /**
      * Set the service description of the client
@@ -46,7 +46,7 @@ interface ClientInterface extends HttpClientInterface, FromConfigInterface
      *
      * @return ClientInterface
      */
-    public function setDescription(ServiceDescriptionInterface $service);
+    public function setDescription( ServiceDescriptionInterface $service );
 
     /**
      * Get the service description of the client
@@ -64,5 +64,5 @@ interface ClientInterface extends HttpClientInterface, FromConfigInterface
      *
      * @return ResourceIteratorInterface
      */
-    public function getIterator($command, array $commandOptions = null, array $iteratorOptions = array());
+    public function getIterator( $command, array $commandOptions = null, array $iteratorOptions = array() );
 }

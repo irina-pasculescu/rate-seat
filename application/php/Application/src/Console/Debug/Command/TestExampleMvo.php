@@ -36,7 +36,7 @@ class TestExampleMvo extends BaseConsoleCommand
 
     const COMMAND_NAME = 'debug:testExampleMvo';
 
-    const OPTION_NAME_EVENT_NAME = 'event-name';
+    const OPTION_NAME_EVENT_NAME       = 'event-name';
     const OPTION_NAME_EVENT_CREATED_AT = 'event-created-at';
 
 
@@ -45,21 +45,21 @@ class TestExampleMvo extends BaseConsoleCommand
      */
     protected function configure()
     {
-        $this->setName($this::COMMAND_NAME)
-            ->setDescription(
-                ''
-                . ClassUtil::getClassNameAsJavaStyle($this)
-            )
-            ->addOption(
-                $this::OPTION_NAME_EVENT_NAME,
-                null,
-                InputOption::VALUE_REQUIRED
-            )
-            ->addOption(
-                $this::OPTION_NAME_EVENT_CREATED_AT,
-                null,
-                InputOption::VALUE_REQUIRED
-            );
+        $this->setName( $this::COMMAND_NAME )
+             ->setDescription(
+                 ''
+                 . ClassUtil::getClassNameAsJavaStyle( $this )
+             )
+             ->addOption(
+                 $this::OPTION_NAME_EVENT_NAME,
+                 null,
+                 InputOption::VALUE_REQUIRED
+             )
+             ->addOption(
+                 $this::OPTION_NAME_EVENT_CREATED_AT,
+                 null,
+                 InputOption::VALUE_REQUIRED
+             );
     }
 
     /**
@@ -74,7 +74,7 @@ class TestExampleMvo extends BaseConsoleCommand
         try {
 
             $optionName = $this::OPTION_NAME_EVENT_NAME;
-            $eventName = $this->getInput()->getOption(
+            $eventName  = $this->getInput()->getOption(
                 $optionName
             );
             new StringStrictNotEmptyType(
@@ -82,7 +82,7 @@ class TestExampleMvo extends BaseConsoleCommand
                 'Option ' . $optionName . ' must be a string not empty!'
             );
 
-            $optionName = $this::OPTION_NAME_EVENT_CREATED_AT;
+            $optionName     = $this::OPTION_NAME_EVENT_CREATED_AT;
             $eventCreatedAt = $this->getInput()->getOption(
                 $optionName
             );
@@ -93,83 +93,86 @@ class TestExampleMvo extends BaseConsoleCommand
 
             $mvo = new ExampleEventMvo();
 
-            var_dump('======= load...');
+            var_dump( '======= load...' );
 
             $mvo->load(
-                new StringStrictNotEmptyType($eventName),
-                new UintTypeNotEmpty($eventCreatedAt)
+                new StringStrictNotEmptyType( $eventName ),
+                new UintTypeNotEmpty( $eventCreatedAt )
             );
 
             var_dump(
                 array(
-                    'memId' => $mvo->getMvoMemId(),
-                    'hasData' => $mvo->hasData(),
+                    'memId'            => $mvo->getMvoMemId(),
+                    'hasData'          => $mvo->hasData(),
                     'hasMvoDataLoaded' => $mvo->hasMvoDataLoaded(),
-                    'isLoaded' => $mvo->isMvoLoaded(),
-                    'isDirty' => $mvo->isMvoDirty(),
-                    'data' => $mvo->getData(),
+                    'isLoaded'         => $mvo->isMvoLoaded(),
+                    'isDirty'          => $mvo->isMvoDirty(),
+                    'data'             => $mvo->getData(),
                 )
             );
 
-            var_dump('======= modify...');
+            var_dump( '======= modify...' );
 
             $mvo->setDescription(
-                new StringStrictNotEmptyType('my_description_' . microtime(
+                new StringStrictNotEmptyType(
+                    'my_description_' . microtime(
                         true
-                    ))
+                    )
+                )
             );
 
             var_dump(
                 array(
-                    'memId' => $mvo->getMvoMemId(),
-                    'hasData' => $mvo->hasData(),
+                    'memId'            => $mvo->getMvoMemId(),
+                    'hasData'          => $mvo->hasData(),
                     'hasMvoDataLoaded' => $mvo->hasMvoDataLoaded(),
-                    'isLoaded' => $mvo->isMvoLoaded(),
-                    'isDirty' => $mvo->isMvoDirty(),
-                    'data' => $mvo->getData(),
+                    'isLoaded'         => $mvo->isMvoLoaded(),
+                    'isDirty'          => $mvo->isMvoDirty(),
+                    'data'             => $mvo->getData(),
                 )
             );
 
-            var_dump('======= save...');
+            var_dump( '======= save...' );
             $mvo->save(
-                new StringStrictNotEmptyType($eventName),
-                new UintTypeNotEmpty($eventCreatedAt)
+                new StringStrictNotEmptyType( $eventName ),
+                new UintTypeNotEmpty( $eventCreatedAt )
             );
             var_dump(
                 array(
-                    'memId' => $mvo->getMvoMemId(),
-                    'ttl' => $mvo->getMvoTtl(),
-                    'hasData' => $mvo->hasData(),
+                    'memId'            => $mvo->getMvoMemId(),
+                    'ttl'              => $mvo->getMvoTtl(),
+                    'hasData'          => $mvo->hasData(),
                     'hasMvoDataLoaded' => $mvo->hasMvoDataLoaded(),
-                    'isLoaded' => $mvo->isMvoLoaded(),
-                    'isDirty' => $mvo->isMvoDirty(),
-                    'data' => $mvo->getData(),
+                    'isLoaded'         => $mvo->isMvoLoaded(),
+                    'isDirty'          => $mvo->isMvoDirty(),
+                    'data'             => $mvo->getData(),
                 )
             );
 
-            var_dump('======= reload...');
+            var_dump( '======= reload...' );
             $mvo = new ExampleEventMvo();
             $mvo->load(
-                new StringStrictNotEmptyType($eventName),
-                new UintTypeNotEmpty($eventCreatedAt)
+                new StringStrictNotEmptyType( $eventName ),
+                new UintTypeNotEmpty( $eventCreatedAt )
             );
             var_dump(
                 array(
-                    'memId' => $mvo->getMvoMemId(),
-                    'ttl' => $mvo->getMvoTtl(),
-                    'hasData' => $mvo->hasData(),
+                    'memId'            => $mvo->getMvoMemId(),
+                    'ttl'              => $mvo->getMvoTtl(),
+                    'hasData'          => $mvo->hasData(),
                     'hasMvoDataLoaded' => $mvo->hasMvoDataLoaded(),
-                    'isLoaded' => $mvo->isMvoLoaded(),
-                    'isDirty' => $mvo->isMvoDirty(),
-                    'data' => $mvo->getData(),
+                    'isLoaded'         => $mvo->isMvoLoaded(),
+                    'isDirty'          => $mvo->isMvoDirty(),
+                    'data'             => $mvo->getData(),
                 )
             );
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
 
-            var_dump($e);
-            var_dump(get_class($e));
-            var_dump($e->getMessage());
+            var_dump( $e );
+            var_dump( get_class( $e ) );
+            var_dump( $e->getMessage() );
 
             throw $e;
         }

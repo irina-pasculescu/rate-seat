@@ -29,23 +29,23 @@ class BaseType
     protected $rawValue = null;
 
     /**
-     * @param mixed $rawValue
+     * @param mixed  $rawValue
      * @param string $errorMessage
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($rawValue, $errorMessage = '')
+    public function __construct( $rawValue, $errorMessage = '' )
     {
         $errorText = StringUtil::joinStrictIfNotEmpty(
             ' ',
             array(
                 $errorMessage,
                 'Invalid value! Unable to cast as '
-                . ClassUtil::getClassNameAsJavaStyle($this) . ' !'
+                . ClassUtil::getClassNameAsJavaStyle( $this ) . ' !'
             )
         );
 
-        throw new \InvalidArgumentException($errorText);
+        throw new \InvalidArgumentException( $errorText );
     }
 
     /**
@@ -77,7 +77,7 @@ class BaseType
      *
      * @return bool
      */
-    public static function isValid($rawValue)
+    public static function isValid( $rawValue )
     {
         return false;
     }
@@ -88,15 +88,15 @@ class BaseType
      *
      * @return mixed
      */
-    public static function cast($value, $defaultValue)
+    public static function cast( $value, $defaultValue )
     {
         return $defaultValue;
     }
 
 
     /**
-     * @param mixed $value
-     * @param mixed $rawValue
+     * @param mixed  $value
+     * @param mixed  $rawValue
      * @param string $errorDetailsText
      *
      * @return string
@@ -105,7 +105,8 @@ class BaseType
         $value,
         $rawValue,
         $errorDetailsText
-    ) {
+    )
+    {
 
         $messageList = array(
             $errorDetailsText,
@@ -114,23 +115,26 @@ class BaseType
         );
 
         try {
-            if (is_scalar($rawValue)) {
-                $messageList[] = '(type ' . gettype($rawValue) . ') !';
-            } else {
-                if (is_resource($messageList)) {
-                    $messageList[] = '(type resource) !';
-                } else {
-                    $messageList[] = '(type '
-                        . ClassUtil::getClassNameAsJavaStyle($rawValue) . ') !';
+            if ( is_scalar( $rawValue ) ) {
+                $messageList[ ] = '(type ' . gettype( $rawValue ) . ') !';
+            }
+            else {
+                if ( is_resource( $messageList ) ) {
+                    $messageList[ ] = '(type resource) !';
+                }
+                else {
+                    $messageList[ ] = '(type '
+                                      . ClassUtil::getClassNameAsJavaStyle( $rawValue ) . ') !';
                 }
             }
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             // nop
         }
 
-        $messageList[] = 'Unable to cast as '
-            . ClassUtil::getClassNameAsJavaStyle($this) . ' !';
+        $messageList[ ] = 'Unable to cast as '
+                          . ClassUtil::getClassNameAsJavaStyle( $this ) . ' !';
 
 
         $errorText = StringUtil::joinStrictIfNotEmpty(

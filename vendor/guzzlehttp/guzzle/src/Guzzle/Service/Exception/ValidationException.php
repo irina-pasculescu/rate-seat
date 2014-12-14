@@ -13,7 +13,7 @@ class ValidationException extends RuntimeException
      *
      * @param array $errors Array of validation errors
      */
-    public function setErrors(array $errors)
+    public function setErrors( array $errors )
     {
         $this->errors = $errors;
     }

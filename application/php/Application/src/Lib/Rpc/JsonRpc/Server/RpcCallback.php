@@ -27,7 +27,7 @@ class RpcCallback
      *
      * @return $this
      */
-    protected function setFactory(RpcFactory $factory)
+    protected function setFactory( RpcFactory $factory )
     {
         $this->factory = $factory;
 
@@ -45,17 +45,18 @@ class RpcCallback
 
     /**
      * @param RpcFactory $rpcFactory
-     * @param callable $closure
-     * @param array $params
+     * @param callable   $closure
+     * @param array      $params
      */
     public function __construct(
         RpcFactory $rpcFactory,
         \Closure $closure,
         $params
-    ) {
-        $this->setFactory($rpcFactory);
-        $this->setClosure($closure);
-        $this->setParams($params);
+    )
+    {
+        $this->setFactory( $rpcFactory );
+        $this->setClosure( $closure );
+        $this->setParams( $params );
     }
 
     /**
@@ -72,7 +73,7 @@ class RpcCallback
      *
      * @return $this
      */
-    public function setClosure(\Closure $closure)
+    public function setClosure( \Closure $closure )
     {
         $this->closure = $closure;
 
@@ -101,11 +102,11 @@ class RpcCallback
      * @return $this
      * @throws \Exception
      */
-    public function setParams($value)
+    public function setParams( $value )
     {
-        if (!is_array($value)) {
+        if ( !is_array( $value ) ) {
 
-            throw new \Exception('Invalid parameter "value" ! ' . __METHOD__);
+            throw new \Exception( 'Invalid parameter "value" ! ' . __METHOD__ );
         }
         $this->params = $value;
 
@@ -121,7 +122,7 @@ class RpcCallback
 
         $value = $this->params;
 
-        if (is_array($value)) {
+        if ( is_array( $value ) ) {
 
             return $value;
         }

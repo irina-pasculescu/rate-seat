@@ -31,7 +31,7 @@ class Dispatcher extends BaseConsoleDispatcher
      */
     public static function getInstance()
     {
-        if (!self::$instance) {
+        if ( !self::$instance ) {
             self::$instance = new self();
         }
 
@@ -45,9 +45,9 @@ class Dispatcher extends BaseConsoleDispatcher
     protected function execute()
     {
         $consoleApplication = $this->getConsoleApplication();
-        $consoleApplication->add(new GetConfig());
-        $consoleApplication->add(new TestExampleMvo());
-        $consoleApplication->add(new GetApplicationSettingsMvo());
+        $consoleApplication->add( new GetConfig() );
+        $consoleApplication->add( new TestExampleMvo() );
+        $consoleApplication->add( new GetApplicationSettingsMvo() );
 
         $consoleApplication->run();
 

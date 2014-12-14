@@ -38,7 +38,7 @@ class CouchbaseSdkJson
     /**
      * @param CouchbaseSdkNative $sdkNative
      */
-    public function __construct(CouchbaseSdkNative $sdkNative)
+    public function __construct( CouchbaseSdkNative $sdkNative )
     {
         $this->sdkNative = $sdkNative;
     }
@@ -46,8 +46,8 @@ class CouchbaseSdkJson
 
     /**
      * @param StringStrictNotEmptyType $id
-     * @param null $callback
-     * @param string $cas
+     * @param null                     $callback
+     * @param string                   $cas
      *
      * @return mixed|null
      * @throws CouchbaseSdkJsonException
@@ -56,17 +56,19 @@ class CouchbaseSdkJson
         StringStrictNotEmptyType $id,
         $callback = null,
         &$cas = ""
-    ) {
+    )
+    {
         $sdkNative = $this->getSdkNative();
 
         try {
 
-            $text = $sdkNative->get($id->getValue(), $callback, $cas);
-            $data = $this->decode($text);
+            $text = $sdkNative->get( $id->getValue(), $callback, $cas );
+            $data = $this->decode( $text );
 
             return $data;
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
 
             $cbException = new CouchbaseSdkJsonException(
                 'CB Read Operation Failed! details=' . $e->getMessage()
@@ -74,8 +76,8 @@ class CouchbaseSdkJson
 
             $cbException->setDebug(
                 array(
-                    'docId' => $id->getValue(),
-                    'method' => ClassUtil::getQualifiedMethodName(
+                    'docId'             => $id->getValue(),
+                    'method'            => ClassUtil::getQualifiedMethodName(
                             $this,
                             __METHOD__,
                             true
@@ -93,11 +95,11 @@ class CouchbaseSdkJson
 
     /**
      * @param StringStrictNotEmptyType $id
-     * @param ArrayAssocNotEmptyType $document
-     * @param UintType $expiry
-     * @param string $cas
-     * @param int $persistTo
-     * @param int $replicateTo
+     * @param ArrayAssocNotEmptyType   $document
+     * @param UintType                 $expiry
+     * @param string                   $cas
+     * @param int                      $persistTo
+     * @param int                      $replicateTo
      *
      * @return string
      * @throws CouchbaseSdkJsonException
@@ -109,10 +111,11 @@ class CouchbaseSdkJson
         $cas = "",
         $persistTo = 0,
         $replicateTo = 0
-    ) {
+    )
+    {
         $sdkNative = $this->getSdkNative();
 
-        $documentText = $this->encode($document->getValue());
+        $documentText = $this->encode( $document->getValue() );
 
         try {
             $casValue = $sdkNative->set(
@@ -124,8 +127,8 @@ class CouchbaseSdkJson
                 $replicateTo
             );
 
-            $isValid = is_string($casValue) && (!$casValue !== '');
-            if (!$isValid) {
+            $isValid = is_string( $casValue ) && ( !$casValue !== '' );
+            if ( !$isValid ) {
 
                 throw new \Exception(
                     'Method returned invalid cas value = ' . $casValue . ' ! '
@@ -135,7 +138,8 @@ class CouchbaseSdkJson
 
             return $casValue;
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
 
             $cbException = new CouchbaseSdkJsonException(
                 'CB Write Operation Failed! details=' . $e->getMessage()
@@ -143,9 +147,9 @@ class CouchbaseSdkJson
 
             $cbException->setDebug(
                 array(
-                    'docId' => $id->getValue(),
-                    'docValue' => $document->getValue(),
-                    'method' => ClassUtil::getQualifiedMethodName(
+                    'docId'             => $id->getValue(),
+                    'docValue'          => $document->getValue(),
+                    'method'            => ClassUtil::getQualifiedMethodName(
                             $this,
                             __METHOD__,
                             true
@@ -171,10 +175,10 @@ class CouchbaseSdkJson
      *
      * @return mixed|null
      */
-    private function decode($text)
+    private function decode( $text )
     {
         $hasData = $text !== false;
-        if ($hasData && !is_string($text)) {
+        if ( $hasData && !is_string( $text ) ) {
 
             // cb internal encoding was used
             return $text;
@@ -182,14 +186,15 @@ class CouchbaseSdkJson
 
         $data = null;
         try {
-            $data = json_decode($text, true);
-        } catch (\Exception $e) {
+            $data = json_decode( $text, true );
+        }
+        catch (\Exception $e) {
 
             // nop
         }
 
-        if ($data === false) {
-            if ($text !== 'false') {
+        if ( $data === false ) {
+            if ( $text !== 'false' ) {
                 $data = null;
             }
         }
@@ -204,16 +209,17 @@ class CouchbaseSdkJson
      * @return string
      * @throws CouchbaseSdkJsonException
      */
-    private function encode($data)
+    private function encode( $data )
     {
         $text = null;
         try {
-            $text = json_encode($data);
-        } catch (\Exception $e) {
+            $text = json_encode( $data );
+        }
+        catch (\Exception $e) {
             // nop
         }
-        $isValid = is_string($text) && ($text !== '');
-        if (!$isValid) {
+        $isValid = is_string( $text ) && ( $text !== '' );
+        if ( !$isValid ) {
 
             throw new CouchbaseSdkJsonException(
                 'Failed to encode document!'

@@ -21,8 +21,8 @@ class ExampleCommand extends Command
     protected function configure()
     {
         $this
-            ->setName('demo:greet')
-            ->setDescription('Greet someone')
+            ->setName( 'demo:greet' )
+            ->setDescription( 'Greet someone' )
             ->addArgument(
                 'name',
                 InputArgument::OPTIONAL,
@@ -36,19 +36,20 @@ class ExampleCommand extends Command
             );
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute( InputInterface $input, OutputInterface $output )
     {
-        $name = $input->getArgument('name');
-        if ($name) {
+        $name = $input->getArgument( 'name' );
+        if ( $name ) {
             $text = 'Hello ' . $name;
-        } else {
+        }
+        else {
             $text = 'Hello';
         }
 
-        if ($input->getOption('yell')) {
-            $text = strtoupper($text);
+        if ( $input->getOption( 'yell' ) ) {
+            $text = strtoupper( $text );
         }
 
-        $output->writeln($text);
+        $output->writeln( $text );
     }
 } 

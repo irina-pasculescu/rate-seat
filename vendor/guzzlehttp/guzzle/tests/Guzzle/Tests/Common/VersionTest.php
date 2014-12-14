@@ -15,13 +15,13 @@ class VersionTest extends \Guzzle\Tests\GuzzleTestCase
     public function testEmitsWarnings()
     {
         Version::$emitWarnings = true;
-        Version::warn('testing!');
+        Version::warn( 'testing!' );
     }
 
     public function testCanSilenceWarnings()
     {
         Version::$emitWarnings = false;
-        Version::warn('testing!');
+        Version::warn( 'testing!' );
         Version::$emitWarnings = true;
     }
 }

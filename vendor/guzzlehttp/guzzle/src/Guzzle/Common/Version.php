@@ -20,10 +20,10 @@ class Version
      *
      * @param string $message Warning message
      */
-    public static function warn($message)
+    public static function warn( $message )
     {
-        if (self::$emitWarnings) {
-            trigger_error('Deprecation warning: ' . $message, E_USER_DEPRECATED);
+        if ( self::$emitWarnings ) {
+            trigger_error( 'Deprecation warning: ' . $message, E_USER_DEPRECATED );
         }
     }
 }

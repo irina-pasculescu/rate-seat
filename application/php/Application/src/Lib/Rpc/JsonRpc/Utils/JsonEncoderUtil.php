@@ -19,33 +19,34 @@ class JsonEncoderUtil
 
     /**
      * @param mixed $value
-     * @param bool $delegateExceptions
+     * @param bool  $delegateExceptions
      *
      * @return string|null
      * @throws \Exception
      */
-    public static function encode($value, $delegateExceptions)
+    public static function encode( $value, $delegateExceptions )
     {
-        $result = null;
-        $delegateExceptions = ($delegateExceptions === true);
-        $text = null;
+        $result             = null;
+        $delegateExceptions = ( $delegateExceptions === true );
+        $text               = null;
         try {
-            $text = json_encode($value);
-        } catch (\Exception $e) {
-            if ($delegateExceptions) {
+            $text = json_encode( $value );
+        }
+        catch (\Exception $e) {
+            if ( $delegateExceptions ) {
 
                 throw $e;
             }
         }
 
-        if (!is_string($text)) {
+        if ( !is_string( $text ) ) {
 
-            if (!$delegateExceptions) {
+            if ( !$delegateExceptions ) {
 
                 return $result;
             }
 
-            throw new \Exception('json encode failed! invalid result.');
+            throw new \Exception( 'json encode failed! invalid result.' );
         }
 
         return $text;
@@ -53,21 +54,21 @@ class JsonEncoderUtil
 
     /**
      * @param string $text
-     * @param bool $assoc
-     * @param bool $delegateExceptions
+     * @param bool   $assoc
+     * @param bool   $delegateExceptions
      *
      * @return mixed|null
      * @throws \Exception
      */
-    public static function decode($text, $assoc, $delegateExceptions)
+    public static function decode( $text, $assoc, $delegateExceptions )
     {
-        $result = null;
-        $assoc = ($assoc === true);
-        $delegateExceptions = ($delegateExceptions === true);
+        $result             = null;
+        $assoc              = ( $assoc === true );
+        $delegateExceptions = ( $delegateExceptions === true );
 
-        if (!is_string($text)) {
+        if ( !is_string( $text ) ) {
 
-            if (!$delegateExceptions) {
+            if ( !$delegateExceptions ) {
 
                 return $result;
             }
@@ -79,9 +80,10 @@ class JsonEncoderUtil
 
         $value = null;
         try {
-            $value = json_decode($text, $assoc);
-        } catch (\Exception $e) {
-            if (!$delegateExceptions) {
+            $value = json_decode( $text, $assoc );
+        }
+        catch (\Exception $e) {
+            if ( !$delegateExceptions ) {
 
                 return $result;
             }
@@ -90,23 +92,23 @@ class JsonEncoderUtil
         }
 
 
-        if ($value !== null) {
+        if ( $value !== null ) {
 
             return $value;
         }
 
-        $isValid = strtolower(trim($text)) === 'null';
-        if ($isValid) {
+        $isValid = strtolower( trim( $text ) ) === 'null';
+        if ( $isValid ) {
 
             return $value;
         }
 
-        if (!$delegateExceptions) {
+        if ( !$delegateExceptions ) {
 
             return $result;
         }
 
-        throw new \Exception('json decode failed! invalid result.');
+        throw new \Exception( 'json decode failed! invalid result.' );
 
     }
 

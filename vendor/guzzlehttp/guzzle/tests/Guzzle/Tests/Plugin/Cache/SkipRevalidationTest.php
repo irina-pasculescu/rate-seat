@@ -14,6 +14,6 @@ class SkipRevalidationTest extends \Guzzle\Tests\GuzzleTestCase
     public function testSkipsRequestRevalidation()
     {
         $skip = new SkipRevalidation();
-        $this->assertTrue($skip->revalidate(new Request('GET', 'http://foo.com'), new Response(200)));
+        $this->assertTrue( $skip->revalidate( new Request( 'GET', 'http://foo.com' ), new Response( 200 ) ) );
     }
 }

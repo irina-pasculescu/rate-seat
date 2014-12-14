@@ -23,7 +23,7 @@ class RateSeatRestApiClientGuzzleStatus
     /**
      * @param RequestInterface $guzzleRequest
      */
-    public function __construct(RequestInterface $guzzleRequest)
+    public function __construct( RequestInterface $guzzleRequest )
     {
         $this->guzzleRequest = $guzzleRequest;
     }
@@ -36,9 +36,10 @@ class RateSeatRestApiClientGuzzleStatus
 
     /**
      * @param \Exception $exception
+     *
      * @return $this
      */
-    public function setException(\Exception $exception)
+    public function setException( \Exception $exception )
     {
         $this->exception = $exception;
 
@@ -59,8 +60,8 @@ class RateSeatRestApiClientGuzzleStatus
      */
     public function getException()
     {
-        $method = ClassUtil::getQualifiedMethodName($this, __METHOD__, true);
-        if (!$this->hasException()) {
+        $method = ClassUtil::getQualifiedMethodName( $this, __METHOD__, true );
+        if ( !$this->hasException() ) {
 
             throw new \OutOfBoundsException(
                 'Property not set: exception!'
@@ -109,8 +110,8 @@ class RateSeatRestApiClientGuzzleStatus
      */
     public function getGuzzleResponse()
     {
-        $method = ClassUtil::getQualifiedMethodName($this, __METHOD__, true);
-        if (!$this->hasGuzzleResponse()) {
+        $method = ClassUtil::getQualifiedMethodName( $this, __METHOD__, true );
+        if ( !$this->hasGuzzleResponse() ) {
 
             throw new \OutOfBoundsException(
                 'Property not set: guzzleResponse!'
@@ -127,7 +128,7 @@ class RateSeatRestApiClientGuzzleStatus
      */
     public function getResponseText()
     {
-        if (!$this->hasGuzzleResponse()) {
+        if ( !$this->hasGuzzleResponse() ) {
 
             return '';
         }
@@ -140,12 +141,12 @@ class RateSeatRestApiClientGuzzleStatus
      */
     public function getResponseBodyText()
     {
-        if (!$this->hasGuzzleResponse()) {
+        if ( !$this->hasGuzzleResponse() ) {
 
             return '';
         }
 
-        return (string)$this->getGuzzleResponse()->getBody(true);
+        return (string)$this->getGuzzleResponse()->getBody( true );
     }
 
 
@@ -160,9 +161,9 @@ class RateSeatRestApiClientGuzzleStatus
     public function decodeResponseBodyData()
     {
         $text = $this->getResponseBodyText();
-        if (trim($text) !== '') {
+        if ( trim( $text ) !== '' ) {
 
-            $this->responseBodyData = json_decode($text, true);
+            $this->responseBodyData = json_decode( $text, true );
         }
 
         return $this;
@@ -174,7 +175,7 @@ class RateSeatRestApiClientGuzzleStatus
     public function getResponseBodyData()
     {
         $value = $this->responseBodyData;
-        if (is_array($value)) {
+        if ( is_array( $value ) ) {
 
             return (array)$value;
         }
@@ -187,7 +188,7 @@ class RateSeatRestApiClientGuzzleStatus
      */
     public function getResponseHttpStatusCode()
     {
-        if ($this->hasGuzzleResponse()) {
+        if ( $this->hasGuzzleResponse() ) {
 
             return (int)$this->getGuzzleResponse()->getStatusCode();
         }
@@ -206,7 +207,7 @@ class RateSeatRestApiClientGuzzleStatus
      */
     public function startProfiling()
     {
-        $this->startMicroTime = microtime(true);
+        $this->startMicroTime = microtime( true );
 
         return $this;
     }
@@ -230,7 +231,7 @@ class RateSeatRestApiClientGuzzleStatus
      */
     public function stopProfiling()
     {
-        $this->stopMicroTime = microtime(true);
+        $this->stopMicroTime = microtime( true );
 
         return $this;
     }
@@ -249,7 +250,7 @@ class RateSeatRestApiClientGuzzleStatus
     public function getDuration()
     {
         $duration = $this->getStopMicroTime() - $this->getStartMicroTime();
-        if ($duration < 0) {
+        if ( $duration < 0 ) {
             $duration = 0;
         }
 

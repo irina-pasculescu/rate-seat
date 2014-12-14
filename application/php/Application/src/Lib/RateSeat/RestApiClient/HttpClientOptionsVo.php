@@ -28,21 +28,22 @@ class HttpClientOptionsVo extends BaseVo
      */
     public function getConnectTimeout()
     {
-        $key = $this::KEY_CONNECT_TIMEOUT;
-        $value = $this->getDataKey($key);
+        $key   = $this::KEY_CONNECT_TIMEOUT;
+        $value = $this->getDataKey( $key );
 
-        return (float)UfloatTypeNotEmpty::cast($value, 0);
+        return (float)UfloatTypeNotEmpty::cast( $value, 0 );
     }
 
     /**
      * @param UfloatTypeNotEmpty $value
+     *
      * @return $this
      */
-    public function setConnectTimeout(UfloatTypeNotEmpty $value)
+    public function setConnectTimeout( UfloatTypeNotEmpty $value )
     {
         $key = $this::KEY_CONNECT_TIMEOUT;
 
-        $this->setDataKey($key, $value->getValue());
+        $this->setDataKey( $key, $value->getValue() );
 
         return $this;
     }
@@ -53,21 +54,22 @@ class HttpClientOptionsVo extends BaseVo
      */
     public function getRequestTimeout()
     {
-        $key = $this::KEY_REQUEST_TIMEOUT;
-        $value = $this->getDataKey($key);
+        $key   = $this::KEY_REQUEST_TIMEOUT;
+        $value = $this->getDataKey( $key );
 
-        return (float)UfloatTypeNotEmpty::cast($value, 0);
+        return (float)UfloatTypeNotEmpty::cast( $value, 0 );
     }
 
     /**
      * @param UfloatTypeNotEmpty $value
+     *
      * @return $this
      */
-    public function setRequestTimeout(UfloatTypeNotEmpty $value)
+    public function setRequestTimeout( UfloatTypeNotEmpty $value )
     {
         $key = $this::KEY_REQUEST_TIMEOUT;
 
-        $this->setDataKey($key, $value->getValue());
+        $this->setDataKey( $key, $value->getValue() );
 
         return $this;
     }

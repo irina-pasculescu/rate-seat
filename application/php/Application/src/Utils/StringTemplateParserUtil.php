@@ -24,50 +24,50 @@ class StringTemplateParserUtil
      * @return array
      * @throws \Exception
      */
-    public static function replaceMustachesInAssocArrayItems($array, $replace)
+    public static function replaceMustachesInAssocArrayItems( $array, $replace )
     {
-        if (!is_array($array)) {
+        if ( !is_array( $array ) ) {
 
-            throw new \Exception('Invalid parameter "array". ' . __METHOD__);
+            throw new \Exception( 'Invalid parameter "array". ' . __METHOD__ );
         }
 
         $result = array();
 
-        foreach ($array as $key => $value) {
+        foreach ( $array as $key => $value ) {
 
-            if (is_string($value)) {
-                $value = self::replaceMustaches($value, $replace);
+            if ( is_string( $value ) ) {
+                $value = self::replaceMustaches( $value, $replace );
             }
-            $result[$key] = $value;
+            $result[ $key ] = $value;
         }
 
         return $result;
     }
 
     /**
-     * @param string $text
+     * @param string     $text
      * @param array|null $replace
      *
      * @return string
      * @throws \Exception
      */
-    public static function replaceMustaches($text, $replace)
+    public static function replaceMustaches( $text, $replace )
     {
         $prefixDelimiter = '{{';
         $suffixDelimiter = '}}';
 
-        if (!is_string($text)) {
+        if ( !is_string( $text ) ) {
 
-            throw new \Exception('Invalid parameter "text". ' . __METHOD__);
+            throw new \Exception( 'Invalid parameter "text". ' . __METHOD__ );
         }
 
         $result = (string)$text;
 
-        if ($replace === null) {
+        if ( $replace === null ) {
 
             return $result;
         }
-        if (!is_array($replace)) {
+        if ( !is_array( $replace ) ) {
 
             throw new \Exception(
                 'Invalid parameter "replace".'
@@ -77,13 +77,13 @@ class StringTemplateParserUtil
         }
 
         $replaceNew = array();
-        foreach ($replace as $key => $value) {
-            $newKey = $prefixDelimiter . (string)$key . $suffixDelimiter;
-            $replaceNew[$newKey] = $value;
+        foreach ( $replace as $key => $value ) {
+            $newKey                = $prefixDelimiter . (string)$key . $suffixDelimiter;
+            $replaceNew[ $newKey ] = $value;
         }
         $replace = $replaceNew;
 
-        $result = self::replace($text, $replace);
+        $result = self::replace( $text, $replace );
 
         return $result;
     }
@@ -108,26 +108,26 @@ class StringTemplateParserUtil
      * var_dump($result);
      *
      *
-     * @param string $text
+     * @param string     $text
      * @param array|null $replace
      *
      * @return string
      * @throws \Exception
      */
-    public static function replace($text, $replace)
+    public static function replace( $text, $replace )
     {
-        if (!is_string($text)) {
+        if ( !is_string( $text ) ) {
 
-            throw new \Exception('Invalid parameter "text". ' . __METHOD__);
+            throw new \Exception( 'Invalid parameter "text". ' . __METHOD__ );
         }
 
         $result = (string)$text;
 
-        if ($replace === null) {
+        if ( $replace === null ) {
 
             return $result;
         }
-        if (!is_array($replace)) {
+        if ( !is_array( $replace ) ) {
 
             throw new \Exception(
                 'Invalid parameter "replace".'
@@ -136,17 +136,17 @@ class StringTemplateParserUtil
             );
         }
 
-        $keys = array_keys($replace);
-        $length = array_combine($keys, array_map('strlen', $keys));
-        arsort($length);
+        $keys   = array_keys( $replace );
+        $length = array_combine( $keys, array_map( 'strlen', $keys ) );
+        arsort( $length );
 
-        $array[] = $text;
-        $count = 1;
-        reset($length);
-        while ($key = key($length)) {
-            if (strpos($text, $key) !== false) {
-                for ($i = 0; $i < $count; $i += 2) {
-                    if (($pos = strpos($array[$i], $key)) === false) {
+        $array[ ] = $text;
+        $count    = 1;
+        reset( $length );
+        while ( $key = key( $length ) ) {
+            if ( strpos( $text, $key ) !== false ) {
+                for ( $i = 0; $i < $count; $i += 2 ) {
+                    if ( ( $pos = strpos( $array[ $i ], $key ) ) === false ) {
 
                         continue;
                     }
@@ -155,17 +155,17 @@ class StringTemplateParserUtil
                         $i,
                         1,
                         array(
-                            substr($array[$i], 0, $pos),
-                            $replace[$key],
-                            substr($array[$i], $pos + strlen($key))
+                            substr( $array[ $i ], 0, $pos ),
+                            $replace[ $key ],
+                            substr( $array[ $i ], $pos + strlen( $key ) )
                         )
                     );
                     $count += 2;
                 }
             }
-            next($length);
+            next( $length );
         }
-        $result = (string)implode('', $array);
+        $result = (string)implode( '', $array );
 
         return $result;
     }

@@ -9,6 +9,7 @@
 namespace Application\Lib\RateSeat\RestApiClient\RequestBuilder;
 
 
-class SignRequestException extends \Exception{
+class SignRequestException extends \Exception
+{
 
 } 

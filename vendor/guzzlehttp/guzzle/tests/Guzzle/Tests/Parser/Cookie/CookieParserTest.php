@@ -14,9 +14,11 @@ class CookieParserTest extends CookieParserProvider
     public function testUrlDecodesCookies()
     {
         $parser = new CookieParser();
-        $result = $parser->parseCookie('foo=baz+bar', null, null, true);
-        $this->assertEquals(array(
-            'foo' => 'baz bar'
-        ), $result['cookies']);
+        $result = $parser->parseCookie( 'foo=baz+bar', null, null, true );
+        $this->assertEquals(
+            array(
+                'foo' => 'baz bar'
+            ), $result[ 'cookies' ]
+        );
     }
 }

@@ -30,34 +30,35 @@ class JsonVisitor extends AbstractRequestVisitor
      *
      * @return self
      */
-    public function setContentTypeHeader($header = 'application/json')
+    public function setContentTypeHeader( $header = 'application/json' )
     {
         $this->jsonContentType = $header;
 
         return $this;
     }
 
-    public function visit(CommandInterface $command, RequestInterface $request, Parameter $param, $value)
+    public function visit( CommandInterface $command, RequestInterface $request, Parameter $param, $value )
     {
-        if (isset($this->data[$command])) {
-            $json = $this->data[$command];
-        } else {
+        if ( isset( $this->data[ $command ] ) ) {
+            $json = $this->data[ $command ];
+        }
+        else {
             $json = array();
         }
-        $json[$param->getWireName()] = $this->prepareValue($value, $param);
-        $this->data[$command] = $json;
+        $json[ $param->getWireName() ] = $this->prepareValue( $value, $param );
+        $this->data[ $command ]        = $json;
     }
 
-    public function after(CommandInterface $command, RequestInterface $request)
+    public function after( CommandInterface $command, RequestInterface $request )
     {
-        if (isset($this->data[$command])) {
+        if ( isset( $this->data[ $command ] ) ) {
             // Don't overwrite the Content-Type if one is set
-            if ($this->jsonContentType && !$request->hasHeader('Content-Type')) {
-                $request->setHeader('Content-Type', $this->jsonContentType);
+            if ( $this->jsonContentType && !$request->hasHeader( 'Content-Type' ) ) {
+                $request->setHeader( 'Content-Type', $this->jsonContentType );
             }
 
-            $request->setBody(json_encode($this->data[$command]));
-            unset($this->data[$command]);
+            $request->setBody( json_encode( $this->data[ $command ] ) );
+            unset( $this->data[ $command ] );
         }
     }
 }

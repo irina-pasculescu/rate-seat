@@ -2,17 +2,17 @@
 
 namespace Guzzle\Tests;
 
-use Guzzle\Common\HasDispatcherInterface;
 use Guzzle\Common\Event;
-use Guzzle\Http\Message\Response;
+use Guzzle\Common\HasDispatcherInterface;
 use Guzzle\Http\Message\RequestInterface;
-use Guzzle\Tests\Http\Message\HeaderComparison;
+use Guzzle\Http\Message\Response;
 use Guzzle\Plugin\Mock\MockPlugin;
-use Guzzle\Service\Client;
-use Guzzle\Service\Builder\ServiceBuilderInterface;
 use Guzzle\Service\Builder\ServiceBuilder;
-use Guzzle\Tests\Mock\MockObserver;
+use Guzzle\Service\Builder\ServiceBuilderInterface;
+use Guzzle\Service\Client;
+use Guzzle\Tests\Http\Message\HeaderComparison;
 use Guzzle\Tests\Http\Server;
+use Guzzle\Tests\Mock\MockObserver;
 use RuntimeException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -22,11 +22,11 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 abstract class GuzzleTestCase extends \PHPUnit_Framework_TestCase
 {
     protected static $mockBasePath;
-    public static $serviceBuilder;
-    public static $server;
+    public static    $serviceBuilder;
+    public static    $server;
 
     private $requests = array();
-    public $mockObserver;
+    public  $mockObserver;
 
     /**
      * Get the global server object used throughout the unit tests of Guzzle
@@ -35,11 +35,12 @@ abstract class GuzzleTestCase extends \PHPUnit_Framework_TestCase
      */
     public static function getServer()
     {
-        if (!self::$server) {
+        if ( !self::$server ) {
             self::$server = new Server();
-            if (self::$server->isRunning()) {
+            if ( self::$server->isRunning() ) {
                 self::$server->flush();
-            } else {
+            }
+            else {
                 self::$server->start();
             }
         }
@@ -52,7 +53,7 @@ abstract class GuzzleTestCase extends \PHPUnit_Framework_TestCase
      *
      * @param ServiceBuilderInterface $builder Service builder
      */
-    public static function setServiceBuilder(ServiceBuilderInterface $builder)
+    public static function setServiceBuilder( ServiceBuilderInterface $builder )
     {
         self::$serviceBuilder = $builder;
     }
@@ -64,8 +65,8 @@ abstract class GuzzleTestCase extends \PHPUnit_Framework_TestCase
      */
     public static function getServiceBuilder()
     {
-        if (!self::$serviceBuilder) {
-            throw new RuntimeException('No service builder has been set via setServiceBuilder()');
+        if ( !self::$serviceBuilder ) {
+            throw new RuntimeException( 'No service builder has been set via setServiceBuilder()' );
         }
 
         return self::$serviceBuilder;
@@ -74,26 +75,26 @@ abstract class GuzzleTestCase extends \PHPUnit_Framework_TestCase
     /**
      * Check if an event dispatcher has a subscriber
      *
-     * @param HasDispatcherInterface $dispatcher
+     * @param HasDispatcherInterface   $dispatcher
      * @param EventSubscriberInterface $subscriber
      *
      * @return bool
      */
-    protected function hasSubscriber(HasDispatcherInterface $dispatcher, EventSubscriberInterface $subscriber)
+    protected function hasSubscriber( HasDispatcherInterface $dispatcher, EventSubscriberInterface $subscriber )
     {
-        $class = get_class($subscriber);
-        $all = array_keys(call_user_func(array($class, 'getSubscribedEvents')));
+        $class = get_class( $subscriber );
+        $all   = array_keys( call_user_func( array( $class, 'getSubscribedEvents' ) ) );
 
-        foreach ($all as $i => $event) {
-            foreach ($dispatcher->getEventDispatcher()->getListeners($event) as $e) {
-                if ($e[0] === $subscriber) {
-                    unset($all[$i]);
+        foreach ( $all as $i => $event ) {
+            foreach ( $dispatcher->getEventDispatcher()->getListeners( $event ) as $e ) {
+                if ( $e[ 0 ] === $subscriber ) {
+                    unset( $all[ $i ] );
                     break;
                 }
             }
         }
 
-        return count($all) == 0;
+        return count( $all ) == 0;
     }
 
     /**
@@ -103,13 +104,13 @@ abstract class GuzzleTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return MockObserver
      */
-    public function getWildcardObserver(HasDispatcherInterface $hasDispatcher)
+    public function getWildcardObserver( HasDispatcherInterface $hasDispatcher )
     {
-        $class = get_class($hasDispatcher);
-        $o = new MockObserver();
-        $events = call_user_func(array($class, 'getAllEvents'));
-        foreach ($events as $event) {
-            $hasDispatcher->getEventDispatcher()->addListener($event, array($o, 'update'));
+        $class  = get_class( $hasDispatcher );
+        $o      = new MockObserver();
+        $events = call_user_func( array( $class, 'getAllEvents' ) );
+        foreach ( $events as $event ) {
+            $hasDispatcher->getEventDispatcher()->addListener( $event, array( $o, 'update' ) );
         }
 
         return $o;
@@ -122,7 +123,7 @@ abstract class GuzzleTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return GuzzleTestCase
      */
-    public static function setMockBasePath($path)
+    public static function setMockBasePath( $path )
     {
         self::$mockBasePath = $path;
     }
@@ -134,9 +135,9 @@ abstract class GuzzleTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return self
      */
-    public function addMockedRequest(RequestInterface $request)
+    public function addMockedRequest( RequestInterface $request )
     {
-        $this->requests[] = $request;
+        $this->requests[ ] = $request;
 
         return $this;
     }
@@ -158,11 +159,11 @@ abstract class GuzzleTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return Response
      */
-    public function getMockResponse($path)
+    public function getMockResponse( $path )
     {
         return $path instanceof Response
             ? $path
-            : MockPlugin::getMockFile(self::$mockBasePath . DIRECTORY_SEPARATOR . $path);
+            : MockPlugin::getMockFile( self::$mockBasePath . DIRECTORY_SEPARATOR . $path );
     }
 
     /**
@@ -178,27 +179,29 @@ abstract class GuzzleTestCase extends \PHPUnit_Framework_TestCase
      *
      * @return MockPlugin returns the created mock plugin
      */
-    public function setMockResponse(Client $client, $paths)
+    public function setMockResponse( Client $client, $paths )
     {
         $this->requests = array();
-        $that = $this;
-        $mock = new MockPlugin(null, true);
-        $client->getEventDispatcher()->removeSubscriber($mock);
-        $mock->getEventDispatcher()->addListener('mock.request', function(Event $event) use ($that) {
-            $that->addMockedRequest($event['request']);
-        });
+        $that           = $this;
+        $mock           = new MockPlugin( null, true );
+        $client->getEventDispatcher()->removeSubscriber( $mock );
+        $mock->getEventDispatcher()->addListener(
+            'mock.request', function ( Event $event ) use ( $that ) {
+                $that->addMockedRequest( $event[ 'request' ] );
+            }
+        );
 
-        if ($paths instanceof Response) {
+        if ( $paths instanceof Response ) {
             // A single response instance has been specified, create an array with that instance
             // as the only element for the following loop to work as expected
-            $paths = array($paths);
+            $paths = array( $paths );
         }
 
-        foreach ((array) $paths as $path) {
-            $mock->addResponse($this->getMockResponse($path));
+        foreach ( (array)$paths as $path ) {
+            $mock->addResponse( $this->getMockResponse( $path ) );
         }
 
-        $client->getEventDispatcher()->addSubscriber($mock);
+        $client->getEventDispatcher()->addSubscriber( $mock );
 
         return $mock;
     }
@@ -210,26 +213,26 @@ abstract class GuzzleTestCase extends \PHPUnit_Framework_TestCase
      * A header value of '*' means anything after the * will be ignored
      *
      * @param array $filteredHeaders Array of special headers
-     * @param array $actualHeaders Array of headers to check against
+     * @param array $actualHeaders   Array of headers to check against
      *
      * @return array|bool Returns an array of the differences or FALSE if none
      */
-    public function compareHeaders($filteredHeaders, $actualHeaders)
+    public function compareHeaders( $filteredHeaders, $actualHeaders )
     {
         $comparison = new HeaderComparison();
 
-        return $comparison->compare($filteredHeaders, $actualHeaders);
+        return $comparison->compare( $filteredHeaders, $actualHeaders );
     }
 
     /**
      * Case insensitive assertContains
      *
-     * @param string $needle Search string
+     * @param string $needle   Search string
      * @param string $haystack Search this
-     * @param string $message Optional failure message
+     * @param string $message  Optional failure message
      */
-    public function assertContainsIns($needle, $haystack, $message = null)
+    public function assertContainsIns( $needle, $haystack, $message = null )
     {
-        $this->assertContains(strtolower($needle), strtolower($haystack), $message);
+        $this->assertContains( strtolower( $needle ), strtolower( $haystack ), $message );
     }
 }

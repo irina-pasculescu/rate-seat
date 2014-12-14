@@ -28,7 +28,7 @@ class RpcRouterEventHandlers
      *
      * @return $this
      */
-    private function setFactory(RpcFactory $factory)
+    private function setFactory( RpcFactory $factory )
     {
         $this->factory = $factory;
 
@@ -46,9 +46,9 @@ class RpcRouterEventHandlers
     /**
      * @param RpcFactory $factory
      */
-    public function __construct(RpcFactory $factory)
+    public function __construct( RpcFactory $factory )
     {
-        $this->setFactory($factory);
+        $this->setFactory( $factory );
     }
 
     // =========== initRpc ============================
@@ -63,7 +63,7 @@ class RpcRouterEventHandlers
      *
      * @return $this
      */
-    public function setOnBeforeInitRpc(RpcCallback $value)
+    public function setOnBeforeInitRpc( RpcCallback $value )
     {
         $this->onBeforeInitRpc = $value;
 
@@ -107,7 +107,7 @@ class RpcRouterEventHandlers
      *
      * @return $this
      */
-    public function setOnAfterInitRpc(RpcCallback $value)
+    public function setOnAfterInitRpc( RpcCallback $value )
     {
         $this->onAfterInitRpc = $value;
 
@@ -153,7 +153,7 @@ class RpcRouterEventHandlers
      *
      * @return $this
      */
-    public function setOnBeforeRouteRpc(RpcCallback $value)
+    public function setOnBeforeRouteRpc( RpcCallback $value )
     {
         $this->onBeforeRouteRpc = $value;
 
@@ -197,7 +197,7 @@ class RpcRouterEventHandlers
      *
      * @return $this
      */
-    public function setOnAfterRouteRpc(RpcCallback $value)
+    public function setOnAfterRouteRpc( RpcCallback $value )
     {
         $this->onAfterRouteRpc = $value;
 
@@ -243,7 +243,7 @@ class RpcRouterEventHandlers
      *
      * @return $this
      */
-    public function setOnBeforeInvokeRpc(RpcCallback $value)
+    public function setOnBeforeInvokeRpc( RpcCallback $value )
     {
         $this->onBeforeInvokeRpc = $value;
 
@@ -287,7 +287,7 @@ class RpcRouterEventHandlers
      *
      * @return $this
      */
-    public function setOnAfterInvokeRpc(RpcCallback $value)
+    public function setOnAfterInvokeRpc( RpcCallback $value )
     {
         $this->onAfterInvokeRpc = $value;
 
@@ -333,7 +333,7 @@ class RpcRouterEventHandlers
      *
      * @return $this
      */
-    public function setOnBeforeCreateRpcResponseData(RpcCallback $value)
+    public function setOnBeforeCreateRpcResponseData( RpcCallback $value )
     {
         $this->onBeforeCreateRpcResponseData = $value;
 
@@ -377,7 +377,7 @@ class RpcRouterEventHandlers
      *
      * @return $this
      */
-    public function setOnAfterCreateRpcResponseData(RpcCallback $value)
+    public function setOnAfterCreateRpcResponseData( RpcCallback $value )
     {
         $this->onAfterCreateRpcResponseData = $value;
 

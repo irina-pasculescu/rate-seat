@@ -22,7 +22,7 @@ class OperationCommand extends AbstractCommand
      *
      * @return self
      */
-    public function setResponseParser(ResponseParserInterface $parser)
+    public function setResponseParser( ResponseParserInterface $parser )
     {
         $this->responseParser = $parser;
 
@@ -36,7 +36,7 @@ class OperationCommand extends AbstractCommand
      *
      * @return self
      */
-    public function setRequestSerializer(RequestSerializerInterface $serializer)
+    public function setRequestSerializer( RequestSerializerInterface $serializer )
     {
         $this->requestSerializer = $serializer;
 
@@ -50,7 +50,7 @@ class OperationCommand extends AbstractCommand
      */
     public function getRequestSerializer()
     {
-        if (!$this->requestSerializer) {
+        if ( !$this->requestSerializer ) {
             // Use the default request serializer if none was found
             $this->requestSerializer = DefaultRequestSerializer::getInstance();
         }
@@ -65,7 +65,7 @@ class OperationCommand extends AbstractCommand
      */
     public function getResponseParser()
     {
-        if (!$this->responseParser) {
+        if ( !$this->responseParser ) {
             // Use the default response parser if none was found
             $this->responseParser = OperationResponseParser::getInstance();
         }
@@ -76,14 +76,14 @@ class OperationCommand extends AbstractCommand
     protected function build()
     {
         // Prepare and serialize the request
-        $this->request = $this->getRequestSerializer()->prepare($this);
+        $this->request = $this->getRequestSerializer()->prepare( $this );
     }
 
     protected function process()
     {
         // Do not process the response if 'command.response_processing' is set to 'raw'
-        $this->result = $this[self::RESPONSE_PROCESSING] == self::TYPE_RAW
+        $this->result = $this[ self::RESPONSE_PROCESSING ] == self::TYPE_RAW
             ? $this->request->getResponse()
-            : $this->getResponseParser()->parse($this);
+            : $this->getResponseParser()->parse( $this );
     }
 }

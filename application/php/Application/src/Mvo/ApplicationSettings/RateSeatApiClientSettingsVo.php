@@ -19,13 +19,14 @@ use Application\Utils\ClassUtil;
  * Class RateSeatApiClientSettingsVo
  * @package Application\Mvo\ApplicationSettings
  */
-class RateSeatApiClientSettingsVo extends BaseVo{
+class RateSeatApiClientSettingsVo extends BaseVo
+{
 
-    const KEY_ENABLED='enabled';
-    const KEY_API_BASE_URI='apiBaseUri';
-    const KEY_API_TOKEN='apiToken';
-    const KEY_API_CONNECT_TIMEOUT='apiConnectTimeOut';
-    const KEY_API_REQUEST_TIMEOUT='apiRequestTimeOut';
+    const KEY_ENABLED             = 'enabled';
+    const KEY_API_BASE_URI        = 'apiBaseUri';
+    const KEY_API_TOKEN           = 'apiToken';
+    const KEY_API_CONNECT_TIMEOUT = 'apiConnectTimeOut';
+    const KEY_API_REQUEST_TIMEOUT = 'apiRequestTimeOut';
 
     /*
 
@@ -45,10 +46,10 @@ class RateSeatApiClientSettingsVo extends BaseVo{
      */
     public function getEnabled()
     {
-        $key = $this::KEY_ENABLED;
-        $value = $this->getDataKey($key);
+        $key   = $this::KEY_ENABLED;
+        $value = $this->getDataKey( $key );
 
-        return BoolType::cast($value, null) === true;
+        return BoolType::cast( $value, null ) === true;
     }
 
     /**
@@ -56,10 +57,10 @@ class RateSeatApiClientSettingsVo extends BaseVo{
      */
     public function getApiBaseUri()
     {
-        $key = $this::KEY_API_BASE_URI;
-        $value = $this->getDataKey($key);
+        $key   = $this::KEY_API_BASE_URI;
+        $value = $this->getDataKey( $key );
 
-        return (string)StringStrictNotEmptyType::cast($value, '');
+        return (string)StringStrictNotEmptyType::cast( $value, '' );
     }
 
     /**
@@ -67,10 +68,10 @@ class RateSeatApiClientSettingsVo extends BaseVo{
      */
     public function getApiToken()
     {
-        $key = $this::KEY_API_TOKEN;
-        $value = $this->getDataKey($key);
+        $key   = $this::KEY_API_TOKEN;
+        $value = $this->getDataKey( $key );
 
-        return (string)StringStrictNotEmptyType::cast($value, '');
+        return (string)StringStrictNotEmptyType::cast( $value, '' );
     }
 
 
@@ -79,20 +80,21 @@ class RateSeatApiClientSettingsVo extends BaseVo{
      */
     public function getApiConnectTimeout()
     {
-        $key = $this::KEY_API_CONNECT_TIMEOUT;
-        $value = $this->getDataKey($key);
+        $key   = $this::KEY_API_CONNECT_TIMEOUT;
+        $value = $this->getDataKey( $key );
 
-        return (float)UfloatTypeNotEmpty::cast($value, 0);
+        return (float)UfloatTypeNotEmpty::cast( $value, 0 );
     }
+
     /**
      * @return float
      */
     public function getApiRequestTimeout()
     {
-        $key = $this::KEY_API_REQUEST_TIMEOUT;
-        $value = $this->getDataKey($key);
+        $key   = $this::KEY_API_REQUEST_TIMEOUT;
+        $value = $this->getDataKey( $key );
 
-        return (float)UfloatTypeNotEmpty::cast($value, 0);
+        return (float)UfloatTypeNotEmpty::cast( $value, 0 );
     }
 
     /**
@@ -101,61 +103,61 @@ class RateSeatApiClientSettingsVo extends BaseVo{
      */
     public function validate()
     {
-        $method = ClassUtil::getQualifiedMethodName($this, __METHOD__, true);
+        $method = ClassUtil::getQualifiedMethodName( $this, __METHOD__, true );
 
-        $key = $this::KEY_ENABLED;
-        $rawValue = $this->getDataKey($key);
-        if(!BoolType::isValid($rawValue)) {
+        $key      = $this::KEY_ENABLED;
+        $rawValue = $this->getDataKey( $key );
+        if ( !BoolType::isValid( $rawValue ) ) {
 
             throw new \Exception(
-                'Invalid settings.'.$key.' !'
-                .' Must be bool type!'
-                .' ('.$method.')'
+                'Invalid settings.' . $key . ' !'
+                . ' Must be bool type!'
+                . ' (' . $method . ')'
             );
         }
 
-        $key = $this::KEY_API_BASE_URI;
+        $key   = $this::KEY_API_BASE_URI;
         $value = $this->getApiBaseUri();
-        if(empty($value)) {
+        if ( empty( $value ) ) {
             // @TODO: add stronger validation
 
             throw new \Exception(
-                'Invalid settings.'.$key.' !'
-                .' Must be string type - not empty!'
-                .' ('.$method.')'
+                'Invalid settings.' . $key . ' !'
+                . ' Must be string type - not empty!'
+                . ' (' . $method . ')'
             );
         }
 
-        $key = $this::KEY_API_TOKEN;
+        $key   = $this::KEY_API_TOKEN;
         $value = $this->getApiToken();
-        if(empty($value)) {
+        if ( empty( $value ) ) {
 
             throw new \Exception(
-                'Invalid settings.'.$key.' !'
-                .' Must be string type - not empty!'
-                .' ('.$method.')'
+                'Invalid settings.' . $key . ' !'
+                . ' Must be string type - not empty!'
+                . ' (' . $method . ')'
             );
         }
 
-        $key = $this::KEY_API_CONNECT_TIMEOUT;
+        $key   = $this::KEY_API_CONNECT_TIMEOUT;
         $value = $this->getApiConnectTimeout();
-        if(empty($value)) {
+        if ( empty( $value ) ) {
 
             throw new \Exception(
-                'Invalid settings.'.$key.' !'
-                .' Must be float type - not empty!'
-                .' ('.$method.')'
+                'Invalid settings.' . $key . ' !'
+                . ' Must be float type - not empty!'
+                . ' (' . $method . ')'
             );
         }
 
-        $key = $this::KEY_API_REQUEST_TIMEOUT;
+        $key   = $this::KEY_API_REQUEST_TIMEOUT;
         $value = $this->getApiRequestTimeout();
-        if(empty($value)) {
+        if ( empty( $value ) ) {
 
             throw new \Exception(
-                'Invalid settings.'.$key.' !'
-                .' Must be float type - not empty!'
-                .' ('.$method.')'
+                'Invalid settings.' . $key . ' !'
+                . ' Must be float type - not empty!'
+                . ' (' . $method . ')'
             );
         }
 

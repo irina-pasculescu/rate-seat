@@ -16,7 +16,9 @@
         "guzzle/http": "self.version"
     },
     "autoload": {
-        "psr-0": { "Guzzle\\Plugin\\Mock": "" }
+        "psr-0": {
+            "Guzzle\\Plugin\\Mock": ""
+        }
     },
     "target-dir": "Guzzle/Plugin/Mock",
     "extra": {

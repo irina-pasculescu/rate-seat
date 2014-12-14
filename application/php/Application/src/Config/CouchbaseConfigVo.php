@@ -18,17 +18,17 @@ use Application\BaseVo;
 class CouchbaseConfigVo extends BaseVo
 {
 
-    const KEY_HOST = 'host';
-    const KEY_USER = 'user';
+    const KEY_HOST     = 'host';
+    const KEY_USER     = 'user';
     const KEY_PASSWORD = 'password';
-    const KEY_BUCKET = 'bucket';
+    const KEY_BUCKET   = 'bucket';
 
     /**
      * @return string
      */
     public function getHost()
     {
-        return (string)$this->getDataKey($this::KEY_HOST);
+        return (string)$this->getDataKey( $this::KEY_HOST );
     }
 
 
@@ -37,7 +37,7 @@ class CouchbaseConfigVo extends BaseVo
      */
     public function getUser()
     {
-        return (string)$this->getDataKey($this::KEY_USER);
+        return (string)$this->getDataKey( $this::KEY_USER );
     }
 
     /**
@@ -45,7 +45,7 @@ class CouchbaseConfigVo extends BaseVo
      */
     public function getPassword()
     {
-        return (string)$this->getDataKey($this::KEY_PASSWORD);
+        return (string)$this->getDataKey( $this::KEY_PASSWORD );
     }
 
     /**
@@ -53,7 +53,7 @@ class CouchbaseConfigVo extends BaseVo
      */
     public function getBucket()
     {
-        return (string)$this->getDataKey($this::KEY_BUCKET);
+        return (string)$this->getDataKey( $this::KEY_BUCKET );
     }
 
 
@@ -63,23 +63,23 @@ class CouchbaseConfigVo extends BaseVo
      * @return $this
      * @throws ConfigException
      */
-    public function validate($prefix = 'couchbase.')
+    public function validate( $prefix = 'couchbase.' )
     {
-        $key = $this::KEY_HOST;
-        $value = $this->getHost();
-        $isValid = !empty($value);
-        if (!$isValid) {
+        $key     = $this::KEY_HOST;
+        $value   = $this->getHost();
+        $isValid = !empty( $value );
+        if ( !$isValid ) {
 
-            throw new ConfigException('Invalid ' . $prefix . $key . ' !');
+            throw new ConfigException( 'Invalid ' . $prefix . $key . ' !' );
         }
 
 
-        $key = $this::KEY_BUCKET;
-        $value = $this->getBucket();
-        $isValid = !empty($value);
-        if (!$isValid) {
+        $key     = $this::KEY_BUCKET;
+        $value   = $this->getBucket();
+        $isValid = !empty( $value );
+        if ( !$isValid ) {
 
-            throw new ConfigException('Invalid ' . $prefix . $key . ' !');
+            throw new ConfigException( 'Invalid ' . $prefix . $key . ' !' );
         }
 
         return $this;

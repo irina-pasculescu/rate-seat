@@ -21,28 +21,32 @@ class BadResponseException extends RequestException
      *
      * @return BadResponseException
      */
-    public static function factory(RequestInterface $request, Response $response)
+    public static function factory( RequestInterface $request, Response $response )
     {
-        if ($response->isClientError()) {
+        if ( $response->isClientError() ) {
             $label = 'Client error response';
             $class = __NAMESPACE__ . '\\ClientErrorResponseException';
-        } elseif ($response->isServerError()) {
+        }
+        elseif ( $response->isServerError() ) {
             $label = 'Server error response';
             $class = __NAMESPACE__ . '\\ServerErrorResponseException';
-        } else {
+        }
+        else {
             $label = 'Unsuccessful response';
             $class = __CLASS__;
         }
 
-        $message = $label . PHP_EOL . implode(PHP_EOL, array(
-            '[status code] ' . $response->getStatusCode(),
-            '[reason phrase] ' . $response->getReasonPhrase(),
-            '[url] ' . $request->getUrl(),
-        ));
+        $message = $label . PHP_EOL . implode(
+                PHP_EOL, array(
+                           '[status code] ' . $response->getStatusCode(),
+                           '[reason phrase] ' . $response->getReasonPhrase(),
+                           '[url] ' . $request->getUrl(),
+                       )
+            );
 
-        $e = new $class($message);
-        $e->setResponse($response);
-        $e->setRequest($request);
+        $e = new $class( $message );
+        $e->setResponse( $response );
+        $e->setRequest( $request );
 
         return $e;
     }
@@ -52,7 +56,7 @@ class BadResponseException extends RequestException
      *
      * @param Response $response Response to set
      */
-    public function setResponse(Response $response)
+    public function setResponse( Response $response )
     {
         $this->response = $response;
     }

@@ -14,9 +14,9 @@ class CreateResponseClassEvent extends Event
      *
      * @param mixed $result Result value to set
      */
-    public function setResult($result)
+    public function setResult( $result )
     {
-        $this['result'] = $result;
+        $this[ 'result' ] = $result;
         $this->stopPropagation();
     }
 
@@ -27,6 +27,6 @@ class CreateResponseClassEvent extends Event
      */
     public function getResult()
     {
-        return $this['result'];
+        return $this[ 'result' ];
     }
 }

@@ -40,11 +40,11 @@ class GetApplicationSettingsMvo extends BaseConsoleCommand
      */
     protected function configure()
     {
-        $this->setName($this::COMMAND_NAME)
-            ->setDescription(
-                ''
-                . ClassUtil::getClassNameAsJavaStyle($this)
-            );
+        $this->setName( $this::COMMAND_NAME )
+             ->setDescription(
+                 ''
+                 . ClassUtil::getClassNameAsJavaStyle( $this )
+             );
     }
 
     /**
@@ -61,36 +61,37 @@ class GetApplicationSettingsMvo extends BaseConsoleCommand
 
             $mvo = new ApplicationSettingsMvo();
 
-            var_dump('======= load...');
+            var_dump( '======= load...' );
 
             $mvo->load();
             $mvo->requireIsLoaded(
                 'Failed to load mvo !'
-                . ' ' . ClassUtil::getQualifiedMethodName($mvo, 'memId', true)
+                . ' ' . ClassUtil::getQualifiedMethodName( $mvo, 'memId', true )
                 . ' =' . $mvo->getMvoMemId() . ' !'
             );
 
             var_dump(
                 array(
-                    'memId' => $mvo->getMvoMemId(),
-                    'hasData' => $mvo->hasData(),
+                    'memId'            => $mvo->getMvoMemId(),
+                    'hasData'          => $mvo->hasData(),
                     'hasMvoDataLoaded' => $mvo->hasMvoDataLoaded(),
-                    'isLoaded' => $mvo->isMvoLoaded(),
-                    'isDirty' => $mvo->isMvoDirty(),
-                    'data' => $mvo->getData(),
+                    'isLoaded'         => $mvo->isMvoLoaded(),
+                    'isDirty'          => $mvo->isMvoDirty(),
+                    'data'             => $mvo->getData(),
                 )
             );
 
 
-            $this->echoLn('application settings (json) ... ', 2);
-            $this->echoLn(json_encode($mvo->getData()), 2);
+            $this->echoLn( 'application settings (json) ... ', 2 );
+            $this->echoLn( json_encode( $mvo->getData() ), 2 );
 
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
 
-            var_dump($e);
-            var_dump(get_class($e));
-            var_dump($e->getMessage());
+            var_dump( $e );
+            var_dump( get_class( $e ) );
+            var_dump( $e->getMessage() );
 
             throw $e;
         }

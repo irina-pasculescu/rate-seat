@@ -15,5 +15,5 @@ interface HeaderFactoryInterface
      *
      * @return HeaderInterface
      */
-    public function createHeader($header, $value = null);
+    public function createHeader( $header, $value = null );
 }

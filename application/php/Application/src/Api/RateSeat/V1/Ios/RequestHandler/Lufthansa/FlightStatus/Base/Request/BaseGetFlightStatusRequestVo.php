@@ -10,7 +10,6 @@ namespace Application\Api\RateSeat\V1\Ios\RequestHandler\Lufthansa\FlightStatus\
 
 use Application\Api\Base\Server\BaseRequestException as RequestException;
 use Application\Api\Base\Server\BaseRequestVo;
-
 use Application\Definition\StringStrictNotEmptyType;
 use Application\Utils\ClassUtil;
 

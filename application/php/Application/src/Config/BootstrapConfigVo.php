@@ -24,10 +24,10 @@ class BootstrapConfigVo extends BaseVo
      */
     public function getDisplayExceptionsEnabled()
     {
-        $key = 'displayExceptionsEnabled';
-        $value = $this->getDataKey($key);
+        $key   = 'displayExceptionsEnabled';
+        $value = $this->getDataKey( $key );
 
-        if (is_bool($value)) {
+        if ( is_bool( $value ) ) {
 
             return $value === true;
         }
@@ -40,10 +40,10 @@ class BootstrapConfigVo extends BaseVo
      */
     public function getErrorExceptionsEnabled()
     {
-        $key = 'errorExceptionsEnabled';
-        $value = $this->getDataKey($key);
+        $key   = 'errorExceptionsEnabled';
+        $value = $this->getDataKey( $key );
 
-        if (is_bool($value)) {
+        if ( is_bool( $value ) ) {
 
             return $value === true;
         }
@@ -57,10 +57,10 @@ class BootstrapConfigVo extends BaseVo
      */
     public function getDisplayErrorsEnabled()
     {
-        $key = 'displayErrorsEnabled';
-        $value = $this->getDataKey($key);
+        $key   = 'displayErrorsEnabled';
+        $value = $this->getDataKey( $key );
 
-        if (is_bool($value)) {
+        if ( is_bool( $value ) ) {
 
             return $value === true;
         }
@@ -73,9 +73,9 @@ class BootstrapConfigVo extends BaseVo
      */
     public function getPhpIni()
     {
-        $key = 'phpIni';
-        $value = $this->getDataKey($key);
-        if (is_array($value)) {
+        $key   = 'phpIni';
+        $value = $this->getDataKey( $key );
+        if ( is_array( $value ) ) {
 
             return (array)$value;
         }

@@ -23,12 +23,12 @@ class RpcRequestVo extends RpcBaseVo
     public function getMethod()
     {
         $result = '';
-        $key = 'method';
+        $key    = 'method';
 
-        $value = $this->getDataKey($key);
-        $isValid = is_string($value) && (!empty($value));
+        $value   = $this->getDataKey( $key );
+        $isValid = is_string( $value ) && ( !empty( $value ) );
 
-        if ($isValid) {
+        if ( $isValid ) {
 
             return $value;
         }
@@ -42,15 +42,15 @@ class RpcRequestVo extends RpcBaseVo
     public function getParams()
     {
         $result = array();
-        $key = 'params';
+        $key    = 'params';
 
-        $value = $this->getDataKey($key);
-        if ($value === null) {
+        $value = $this->getDataKey( $key );
+        if ( $value === null ) {
             $value = array();
         }
-        $isValid = is_array($value);
+        $isValid = is_array( $value );
 
-        if ($isValid) {
+        if ( $isValid ) {
 
             return $value;
         }
@@ -64,12 +64,12 @@ class RpcRequestVo extends RpcBaseVo
     public function getId()
     {
         $result = null;
-        $key = 'id';
+        $key    = 'id';
 
-        $value = $this->getDataKey($key);
-        $isValid = is_scalar($value);
+        $value   = $this->getDataKey( $key );
+        $isValid = is_scalar( $value );
 
-        if ($isValid) {
+        if ( $isValid ) {
 
             return $value;
         }

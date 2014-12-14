@@ -2,10 +2,10 @@
 
 namespace Guzzle\Plugin\Oauth;
 
-use Guzzle\Common\Event;
 use Guzzle\Common\Collection;
-use Guzzle\Http\Message\RequestInterface;
+use Guzzle\Common\Event;
 use Guzzle\Http\Message\EntityEnclosingRequestInterface;
+use Guzzle\Http\Message\RequestInterface;
 use Guzzle\Http\QueryString;
 use Guzzle\Http\Url;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
@@ -29,39 +29,41 @@ class OauthPlugin implements EventSubscriberInterface
      * Create a new OAuth 1.0 plugin
      *
      * @param array $config Configuration array containing these parameters:
-     *     - string 'request_method'       Consumer request method. Use the class constants.
-     *     - string 'callback'             OAuth callback
-     *     - string 'consumer_key'         Consumer key
-     *     - string 'consumer_secret'      Consumer secret
-     *     - string 'token'                Token
-     *     - string 'token_secret'         Token secret
-     *     - string 'verifier'             OAuth verifier.
-     *     - string 'version'              OAuth version.  Defaults to 1.0
-     *     - string 'signature_method'     Custom signature method
-     *     - bool   'disable_post_params'  Set to true to prevent POST parameters from being signed
-     *     - array|Closure 'signature_callback' Custom signature callback that accepts a string to sign and a signing key
+     *                      - string 'request_method'       Consumer request method. Use the class constants.
+     *                      - string 'callback'             OAuth callback
+     *                      - string 'consumer_key'         Consumer key
+     *                      - string 'consumer_secret'      Consumer secret
+     *                      - string 'token'                Token
+     *                      - string 'token_secret'         Token secret
+     *                      - string 'verifier'             OAuth verifier.
+     *                      - string 'version'              OAuth version.  Defaults to 1.0
+     *                      - string 'signature_method'     Custom signature method
+     *                      - bool   'disable_post_params'  Set to true to prevent POST parameters from being signed
+     *                      - array|Closure 'signature_callback' Custom signature callback that accepts a string to sign and a signing key
      */
-    public function __construct($config)
+    public function __construct( $config )
     {
-        $this->config = Collection::fromConfig($config, array(
-            'version' => '1.0',
-            'request_method' => self::REQUEST_METHOD_HEADER,
-            'consumer_key' => 'anonymous',
-            'consumer_secret' => 'anonymous',
-            'signature_method' => 'HMAC-SHA1',
-            'signature_callback' => function($stringToSign, $key) {
-                return hash_hmac('sha1', $stringToSign, $key, true);
-            }
-        ), array(
-            'signature_method', 'signature_callback', 'version',
-            'consumer_key', 'consumer_secret'
-        ));
+        $this->config = Collection::fromConfig(
+            $config, array(
+                       'version'            => '1.0',
+                       'request_method'     => self::REQUEST_METHOD_HEADER,
+                       'consumer_key'       => 'anonymous',
+                       'consumer_secret'    => 'anonymous',
+                       'signature_method'   => 'HMAC-SHA1',
+                       'signature_callback' => function ( $stringToSign, $key ) {
+                               return hash_hmac( 'sha1', $stringToSign, $key, true );
+                           }
+                   ), array(
+                'signature_method', 'signature_callback', 'version',
+                'consumer_key', 'consumer_secret'
+            )
+        );
     }
 
     public static function getSubscribedEvents()
     {
         return array(
-            'request.before_send' => array('onRequestBeforeSend', -1000)
+            'request.before_send' => array( 'onRequestBeforeSend', -1000 )
         );
     }
 
@@ -69,34 +71,37 @@ class OauthPlugin implements EventSubscriberInterface
      * Request before-send event handler
      *
      * @param Event $event Event received
+     *
      * @return array
      * @throws \InvalidArgumentException
      */
-    public function onRequestBeforeSend(Event $event)
+    public function onRequestBeforeSend( Event $event )
     {
-        $timestamp = $this->getTimestamp($event);
-        $request = $event['request'];
-        $nonce = $this->generateNonce($request);
-        $authorizationParams = $this->getOauthParams($timestamp, $nonce);
-        $authorizationParams['oauth_signature']  = $this->getSignature($request, $timestamp, $nonce);
+        $timestamp                                = $this->getTimestamp( $event );
+        $request                                  = $event[ 'request' ];
+        $nonce                                    = $this->generateNonce( $request );
+        $authorizationParams                      = $this->getOauthParams( $timestamp, $nonce );
+        $authorizationParams[ 'oauth_signature' ] = $this->getSignature( $request, $timestamp, $nonce );
 
-        switch ($this->config['request_method']) {
+        switch ($this->config[ 'request_method' ]) {
             case self::REQUEST_METHOD_HEADER:
                 $request->setHeader(
                     'Authorization',
-                    $this->buildAuthorizationHeader($authorizationParams)
+                    $this->buildAuthorizationHeader( $authorizationParams )
                 );
                 break;
             case self::REQUEST_METHOD_QUERY:
-                foreach ($authorizationParams as $key => $value) {
-                    $request->getQuery()->set($key, $value);
+                foreach ( $authorizationParams as $key => $value ) {
+                    $request->getQuery()->set( $key, $value );
                 }
                 break;
             default:
-                throw new \InvalidArgumentException(sprintf(
-                    'Invalid consumer method "%s"',
-                    $this->config['request_method']
-                ));
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        'Invalid consumer method "%s"',
+                        $this->config[ 'request_method' ]
+                    )
+                );
         }
 
         return $authorizationParams;
@@ -109,16 +114,16 @@ class OauthPlugin implements EventSubscriberInterface
      *
      * @return string
      */
-    private function buildAuthorizationHeader($authorizationParams)
+    private function buildAuthorizationHeader( $authorizationParams )
     {
         $authorizationString = 'OAuth ';
-        foreach ($authorizationParams as $key => $val) {
-            if ($val) {
-                $authorizationString .= $key . '="' . urlencode($val) . '", ';
+        foreach ( $authorizationParams as $key => $val ) {
+            if ( $val ) {
+                $authorizationString .= $key . '="' . urlencode( $val ) . '", ';
             }
         }
 
-        return substr($authorizationString, 0, -2);
+        return substr( $authorizationString, 0, -2 );
     }
 
     /**
@@ -130,12 +135,12 @@ class OauthPlugin implements EventSubscriberInterface
      *
      * @return string
      */
-    public function getSignature(RequestInterface $request, $timestamp, $nonce)
+    public function getSignature( RequestInterface $request, $timestamp, $nonce )
     {
-        $string = $this->getStringToSign($request, $timestamp, $nonce);
-        $key = urlencode($this->config['consumer_secret']) . '&' . urlencode($this->config['token_secret']);
+        $string = $this->getStringToSign( $request, $timestamp, $nonce );
+        $key    = urlencode( $this->config[ 'consumer_secret' ] ) . '&' . urlencode( $this->config[ 'token_secret' ] );
 
-        return base64_encode(call_user_func($this->config['signature_callback'], $string, $key));
+        return base64_encode( call_user_func( $this->config[ 'signature_callback' ], $string, $key ) );
     }
 
     /**
@@ -147,21 +152,21 @@ class OauthPlugin implements EventSubscriberInterface
      *
      * @return string
      */
-    public function getStringToSign(RequestInterface $request, $timestamp, $nonce)
+    public function getStringToSign( RequestInterface $request, $timestamp, $nonce )
     {
-        $params = $this->getParamsToSign($request, $timestamp, $nonce);
+        $params = $this->getParamsToSign( $request, $timestamp, $nonce );
 
         // Convert booleans to strings.
-        $params = $this->prepareParameters($params);
+        $params = $this->prepareParameters( $params );
 
         // Build signing string from combined params
-        $parameterString = new QueryString($params);
+        $parameterString = new QueryString( $params );
 
-        $url = Url::factory($request->getUrl())->setQuery('')->setFragment(null);
+        $url = Url::factory( $request->getUrl() )->setQuery( '' )->setFragment( null );
 
-        return strtoupper($request->getMethod()) . '&'
-             . rawurlencode($url) . '&'
-             . rawurlencode((string) $parameterString);
+        return strtoupper( $request->getMethod() ) . '&'
+               . rawurlencode( $url ) . '&'
+               . rawurlencode( (string)$parameterString );
     }
 
     /**
@@ -169,29 +174,32 @@ class OauthPlugin implements EventSubscriberInterface
      *
      * @param $timestamp
      * @param $nonce
+     *
      * @return Collection
      */
-    protected function getOauthParams($timestamp, $nonce)
+    protected function getOauthParams( $timestamp, $nonce )
     {
-        $params = new Collection(array(
-            'oauth_consumer_key'     => $this->config['consumer_key'],
-            'oauth_nonce'            => $nonce,
-            'oauth_signature_method' => $this->config['signature_method'],
-            'oauth_timestamp'        => $timestamp,
-        ));
+        $params = new Collection(
+            array(
+                'oauth_consumer_key'     => $this->config[ 'consumer_key' ],
+                'oauth_nonce'            => $nonce,
+                'oauth_signature_method' => $this->config[ 'signature_method' ],
+                'oauth_timestamp'        => $timestamp,
+            )
+        );
 
         // Optional parameters should not be set if they have not been set in the config as
         // the parameter may be considered invalid by the Oauth service.
         $optionalParams = array(
-            'callback'  => 'oauth_callback',
-            'token'     => 'oauth_token',
-            'verifier'  => 'oauth_verifier',
-            'version'   => 'oauth_version'
+            'callback' => 'oauth_callback',
+            'token'    => 'oauth_token',
+            'verifier' => 'oauth_verifier',
+            'version'  => 'oauth_version'
         );
 
-        foreach ($optionalParams as $optionName => $oauthName) {
-            if (isset($this->config[$optionName]) == true) {
-                $params[$oauthName] = $this->config[$optionName];
+        foreach ( $optionalParams as $optionName => $oauthName ) {
+            if ( isset( $this->config[ $optionName ] ) == true ) {
+                $params[ $oauthName ] = $this->config[ $optionName ];
             }
         }
 
@@ -210,22 +218,21 @@ class OauthPlugin implements EventSubscriberInterface
      *
      * @return array
      */
-    public function getParamsToSign(RequestInterface $request, $timestamp, $nonce)
+    public function getParamsToSign( RequestInterface $request, $timestamp, $nonce )
     {
-        $params = $this->getOauthParams($timestamp, $nonce);
+        $params = $this->getOauthParams( $timestamp, $nonce );
 
         // Add query string parameters
-        $params->merge($request->getQuery());
+        $params->merge( $request->getQuery() );
 
         // Add POST fields to signing string if required
-        if ($this->shouldPostFieldsBeSigned($request))
-        {
-            $params->merge($request->getPostFields());
+        if ( $this->shouldPostFieldsBeSigned( $request ) ) {
+            $params->merge( $request->getPostFields() );
         }
 
         // Sort params
         $params = $params->toArray();
-        ksort($params);
+        ksort( $params );
 
         return $params;
     }
@@ -237,14 +244,15 @@ class OauthPlugin implements EventSubscriberInterface
      * is 'application/x-www-form-urlencoded'
      *
      * @param $request
+     *
      * @return bool Whether the post fields should be signed or not
      */
-    public function shouldPostFieldsBeSigned($request)
+    public function shouldPostFieldsBeSigned( $request )
     {
-        if (!$this->config->get('disable_post_params') &&
-            $request instanceof EntityEnclosingRequestInterface &&
-            false !== strpos($request->getHeader('Content-Type'), 'application/x-www-form-urlencoded'))
-        {
+        if ( !$this->config->get( 'disable_post_params' ) &&
+             $request instanceof EntityEnclosingRequestInterface &&
+             false !== strpos( $request->getHeader( 'Content-Type' ), 'application/x-www-form-urlencoded' )
+        ) {
             return true;
         }
 
@@ -259,9 +267,9 @@ class OauthPlugin implements EventSubscriberInterface
      *
      * @return string
      */
-    public function generateNonce(RequestInterface $request)
+    public function generateNonce( RequestInterface $request )
     {
-        return sha1(uniqid('', true) . $request->getUrl());
+        return sha1( uniqid( '', true ) . $request->getUrl() );
     }
 
     /**
@@ -271,9 +279,9 @@ class OauthPlugin implements EventSubscriberInterface
      *
      * @return int
      */
-    public function getTimestamp(Event $event)
+    public function getTimestamp( Event $event )
     {
-       return $event['timestamp'] ?: time();
+        return $event[ 'timestamp' ] ? : time();
     }
 
     /**
@@ -283,19 +291,19 @@ class OauthPlugin implements EventSubscriberInterface
      *
      * @return array
      */
-    protected function prepareParameters($data)
+    protected function prepareParameters( $data )
     {
-        ksort($data);
-        foreach ($data as $key => &$value) {
-            switch (gettype($value)) {
+        ksort( $data );
+        foreach ( $data as $key => &$value ) {
+            switch (gettype( $value )) {
                 case 'NULL':
-                    unset($data[$key]);
+                    unset( $data[ $key ] );
                     break;
                 case 'array':
-                    $data[$key] = self::prepareParameters($value);
+                    $data[ $key ] = self::prepareParameters( $value );
                     break;
                 case 'boolean':
-                    $data[$key] = $value ? 'true' : 'false';
+                    $data[ $key ] = $value ? 'true' : 'false';
                     break;
             }
         }

@@ -15,20 +15,20 @@ use Application\Utils\StringUtil;
 class BoolStrictType extends BaseType
 {
 
-    const VALUE_TRUE = true;
+    const VALUE_TRUE  = true;
     const VALUE_FALSE = false;
 
     /**
-     * @param mixed $rawValue
+     * @param mixed  $rawValue
      * @param string $errorMessage
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($rawValue, $errorMessage = '')
+    public function __construct( $rawValue, $errorMessage = '' )
     {
-        $value = $this::cast($rawValue, null);
-        $isValid = $this::isValid($value);
-        if (!$isValid) {
+        $value   = $this::cast( $rawValue, null );
+        $isValid = $this::isValid( $value );
+        if ( !$isValid ) {
 
             throw new \InvalidArgumentException(
                 $this->createUnableToCastExceptionMessage(
@@ -41,9 +41,10 @@ class BoolStrictType extends BaseType
         }
 
         $this->value = $value;
-        if ($rawValue instanceof BaseType) {
+        if ( $rawValue instanceof BaseType ) {
             $this->rawValue = $rawValue->getValue();
-        } else {
+        }
+        else {
             $this->rawValue = $rawValue;
         }
     }
@@ -61,8 +62,8 @@ class BoolStrictType extends BaseType
 
 
     /**
-     * @param mixed $value
-     * @param mixed $rawValue
+     * @param mixed  $value
+     * @param mixed  $rawValue
      * @param string $errorDetailsText
      *
      * @return string
@@ -71,7 +72,8 @@ class BoolStrictType extends BaseType
         $value,
         $rawValue,
         $errorDetailsText
-    ) {
+    )
+    {
 
         $messageList = array(
             $errorDetailsText,
@@ -80,25 +82,28 @@ class BoolStrictType extends BaseType
         );
 
         try {
-            if (is_scalar($rawValue)) {
-                $messageList[] = '(type ' . gettype($rawValue) . ') !';
-            } else {
-                if (is_resource($messageList)) {
-                    $messageList[] = '(type resource) !';
-                } else {
-                    $messageList[] = '(type '
-                        . ClassUtil::getClassNameAsJavaStyle($rawValue) . ') !';
+            if ( is_scalar( $rawValue ) ) {
+                $messageList[ ] = '(type ' . gettype( $rawValue ) . ') !';
+            }
+            else {
+                if ( is_resource( $messageList ) ) {
+                    $messageList[ ] = '(type resource) !';
+                }
+                else {
+                    $messageList[ ] = '(type '
+                                      . ClassUtil::getClassNameAsJavaStyle( $rawValue ) . ') !';
                 }
             }
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             // nop
         }
 
-        $messageList[] = 'Unable to cast as '
-            . ClassUtil::getClassNameAsJavaStyle($this)
-            . ' allowedValues=' . json_encode($this::getValuesAllowed())
-            . ' !';
+        $messageList[ ] = 'Unable to cast as '
+                          . ClassUtil::getClassNameAsJavaStyle( $this )
+                          . ' allowedValues=' . json_encode( $this::getValuesAllowed() )
+                          . ' !';
 
 
         $errorText = StringUtil::joinStrictIfNotEmpty(
@@ -123,9 +128,9 @@ class BoolStrictType extends BaseType
      *
      * @return bool
      */
-    public static function isValid($rawValue)
+    public static function isValid( $rawValue )
     {
-        $value = self::cast($rawValue, null);
+        $value   = self::cast( $rawValue, null );
         $isValid = $value !== null;
 
         return $isValid;
@@ -137,16 +142,16 @@ class BoolStrictType extends BaseType
      *
      * @return bool|string|mixed
      */
-    public static function cast($value, $defaultValue)
+    public static function cast( $value, $defaultValue )
     {
-        if ($value instanceof BaseType) {
+        if ( $value instanceof BaseType ) {
             $value = $value->getValue();
         }
 
 
         $valuesAllowed = self::getValuesAllowed();
 
-        if (!in_array($value, $valuesAllowed, true)) {
+        if ( !in_array( $value, $valuesAllowed, true ) ) {
 
             return $defaultValue;
         }

@@ -11,7 +11,7 @@ class BatchSizeDivisor implements BatchDivisorInterface
     protected $size;
 
     /** @param int $size Size of each batch */
-    public function __construct($size)
+    public function __construct( $size )
     {
         $this->size = $size;
     }
@@ -23,7 +23,7 @@ class BatchSizeDivisor implements BatchDivisorInterface
      *
      * @return BatchSizeDivisor
      */
-    public function setSize($size)
+    public function setSize( $size )
     {
         $this->size = $size;
 
@@ -40,8 +40,8 @@ class BatchSizeDivisor implements BatchDivisorInterface
         return $this->size;
     }
 
-    public function createBatches(\SplQueue $queue)
+    public function createBatches( \SplQueue $queue )
     {
-        return array_chunk(iterator_to_array($queue, false), $this->size);
+        return array_chunk( iterator_to_array( $queue, false ), $this->size );
     }
 }

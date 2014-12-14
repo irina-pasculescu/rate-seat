@@ -5,7 +5,6 @@ namespace Application;
 use Application\Config\ConfigVo;
 use Application\Config\Loader as ConfigLoader;
 use Application\Utils\ClassUtil;
-use Application\Utils\ExceptionUtil;
 
 /**
  * Class BaseBootstrap
@@ -471,7 +470,8 @@ abstract class BaseBootstrap
         catch (\Exception $e) {
             $profiler->stopTrackingByKey( $methodName );
 
-            var_dump($e->getMessage());die();
+            var_dump( $e->getMessage() );
+            die();
         }
 
     }

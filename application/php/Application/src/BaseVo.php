@@ -19,19 +19,19 @@ class BaseVo implements BaseVoInterface
      *
      * @return $this
      */
-    public function setData($data)
+    public function setData( $data )
     {
         $result = $this;
 
-        if ($data instanceof \stdClass) {
+        if ( $data instanceof \stdClass ) {
             $dataAsArray = array();
-            foreach ($data as $key => $value) {
-                $dataAsArray[$key] = $value;
+            foreach ( $data as $key => $value ) {
+                $dataAsArray[ $key ] = $value;
             }
             $data = $dataAsArray;
         }
 
-        if (!is_array($data)) {
+        if ( !is_array( $data ) ) {
             $data = array();
         }
         $this->data = $data;
@@ -44,7 +44,7 @@ class BaseVo implements BaseVoInterface
      */
     public function getData()
     {
-        if (!is_array($this->data)) {
+        if ( !is_array( $this->data ) ) {
             $this->data = array();
         }
 
@@ -68,32 +68,32 @@ class BaseVo implements BaseVoInterface
      *
      * @return mixed
      */
-    public function getDataKey($key)
+    public function getDataKey( $key )
     {
         $result = null;
 
         $data = $this->getData();
-        if (!array_key_exists($key, $data)) {
+        if ( !array_key_exists( $key, $data ) ) {
 
             return $result;
         }
 
-        return $data[$key];
+        return $data[ $key ];
     }
 
     /**
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return $this
      */
-    public function setDataKey($key, $value)
+    public function setDataKey( $key, $value )
     {
         $result = $this;
 
-        $data = $this->getData();
-        $data[$key] = $value;
-        $this->data = $data;
+        $data         = $this->getData();
+        $data[ $key ] = $value;
+        $this->data   = $data;
 
         return $result;
     }
@@ -103,11 +103,11 @@ class BaseVo implements BaseVoInterface
      *
      * @return bool
      */
-    public function hasDataKey($key)
+    public function hasDataKey( $key )
     {
         $data = $this->getData();
 
-        return array_key_exists($key, $data);
+        return array_key_exists( $key, $data );
     }
 
     /**
@@ -117,6 +117,6 @@ class BaseVo implements BaseVoInterface
     {
         $data = $this->getData();
 
-        return is_array($data) && (count($data) > 0);
+        return is_array( $data ) && ( count( $data ) > 0 );
     }
 } 

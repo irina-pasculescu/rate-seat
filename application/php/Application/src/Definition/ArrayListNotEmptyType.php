@@ -23,16 +23,16 @@ class ArrayListNotEmptyType extends ArrayListType
      *
      * @return array|mixed
      */
-    public static function cast($value, $defaultValue)
+    public static function cast( $value, $defaultValue )
     {
-        $value = parent::cast($value, null);
+        $value = parent::cast( $value, null );
 
-        if (!is_array($value)) {
+        if ( !is_array( $value ) ) {
 
             return $defaultValue;
         }
 
-        if (count($value) > 0) {
+        if ( count( $value ) > 0 ) {
 
             return (array)$value;
         }

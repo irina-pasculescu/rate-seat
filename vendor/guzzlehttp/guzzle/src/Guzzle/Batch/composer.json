@@ -16,7 +16,9 @@
         "guzzle/common": "self.version"
     },
     "autoload": {
-        "psr-0": { "Guzzle\\Batch": "" }
+        "psr-0": {
+            "Guzzle\\Batch": ""
+        }
     },
     "suggest": {
         "guzzle/http": "self.version",

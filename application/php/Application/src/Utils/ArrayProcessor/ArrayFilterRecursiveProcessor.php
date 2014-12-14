@@ -118,17 +118,18 @@ class ArrayFilterRecursiveProcessor
     protected $callback = null;
 
     /**
-     * @param $array
+     * @param          $array
      * @param callable $callback
+     *
      * @return array|mixed
      */
-    public function run($array, \Closure $callback)
+    public function run( $array, \Closure $callback )
     {
-        $this->recursionLevel = 0;
-        $this->parentPropertyQName = $this->rootPropertyQName;
+        $this->recursionLevel       = 0;
+        $this->parentPropertyQName  = $this->rootPropertyQName;
         $this->currentPropertyQName = $this->rootPropertyQName;
-        $this->currentKey = '';
-        $this->currentValue = $array;
+        $this->currentKey           = '';
+        $this->currentValue         = $array;
 
         $this->callback = $callback;
 
@@ -147,22 +148,24 @@ class ArrayFilterRecursiveProcessor
      * @param $parentQName
      * @param $currentKey
      * @param $isRoot
+     *
      * @return array|mixed
      * @throws \Exception
      */
-    private function processArray($array, $parentQName, $currentKey, $isRoot)
+    private function processArray( $array, $parentQName, $currentKey, $isRoot )
     {
         $dataFinal = array();
 
         $this->parentPropertyQName = $parentQName;
 
-        if ($isRoot) {
-            $this->currentKey = $currentKey;
+        if ( $isRoot ) {
+            $this->currentKey           = $currentKey;
             $this->currentPropertyQName = $currentKey;
-        } else {
+        }
+        else {
             $this->currentPropertyQName = implode(
                 $this->propertyQNameDelimiter,
-                array($parentQName, $currentKey)
+                array( $parentQName, $currentKey )
             );
         }
 
@@ -170,10 +173,10 @@ class ArrayFilterRecursiveProcessor
 
 
         $this->currentValue = $array;
-        $this->currentKey = $currentKey;
+        $this->currentKey   = $currentKey;
 
-        if (is_array($array)) {
-            foreach ($array as $key => $value) {
+        if ( is_array( $array ) ) {
+            foreach ( $array as $key => $value ) {
 
                 $m = $this->itemFunction(
                     $value,
@@ -182,16 +185,16 @@ class ArrayFilterRecursiveProcessor
                     false
                 );
 
-                if (!$m) {
+                if ( !$m ) {
 
                     continue;
                 }
 
-                $dataFinal[$key] = $value;
+                $dataFinal[ $key ] = $value;
 
-                if (is_array($value)) {
+                if ( is_array( $value ) ) {
 
-                    $dataFinal[$key] = $this->processArray(
+                    $dataFinal[ $key ] = $this->processArray(
                         $value,
                         $currentPropertyQName,
                         $key,
@@ -213,32 +216,34 @@ class ArrayFilterRecursiveProcessor
      * @param $parentQName
      * @param $currentKey
      * @param $isRoot
+     *
      * @return bool
      * @throws \Exception
      */
-    private function itemFunction($value, $parentQName, $currentKey, $isRoot)
+    private function itemFunction( $value, $parentQName, $currentKey, $isRoot )
     {
-        $this->currentValue = $value;
-        $this->currentKey = $currentKey;
+        $this->currentValue        = $value;
+        $this->currentKey          = $currentKey;
         $this->parentPropertyQName = $parentQName;
-        if ($isRoot) {
-            $this->currentKey = $currentKey;
+        if ( $isRoot ) {
+            $this->currentKey           = $currentKey;
             $this->currentPropertyQName = $currentKey;
-        } else {
+        }
+        else {
             $this->currentPropertyQName = implode(
                 $this->propertyQNameDelimiter,
-                array($parentQName, $currentKey)
+                array( $parentQName, $currentKey )
             );
         }
 
-        if (!is_callable($this->callback)) {
+        if ( !is_callable( $this->callback ) ) {
 
-            throw new \Exception('Callback is not callable!');
+            throw new \Exception( 'Callback is not callable!' );
         }
         $isMatched = call_user_func_array(
-                $this->callback,
-                array($this)
-            ) === true;
+                         $this->callback,
+                         array( $this )
+                     ) === true;
 
         return $isMatched;
     }

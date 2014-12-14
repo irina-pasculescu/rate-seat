@@ -16,7 +16,9 @@
         "guzzle/common": "self.version"
     },
     "autoload": {
-        "psr-0": { "Guzzle\\Cache": "" }
+        "psr-0": {
+            "Guzzle\\Cache": ""
+        }
     },
     "target-dir": "Guzzle/Cache",
     "extra": {

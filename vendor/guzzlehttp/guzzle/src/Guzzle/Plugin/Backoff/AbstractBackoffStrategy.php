@@ -2,9 +2,9 @@
 
 namespace Guzzle\Plugin\Backoff;
 
+use Guzzle\Http\Exception\HttpException;
 use Guzzle\Http\Message\RequestInterface;
 use Guzzle\Http\Message\Response;
-use Guzzle\Http\Exception\HttpException;
 
 /**
  * Abstract backoff strategy that allows for a chain of responsibility
@@ -15,7 +15,7 @@ abstract class AbstractBackoffStrategy implements BackoffStrategyInterface
     protected $next;
 
     /** @param AbstractBackoffStrategy $next Next strategy in the chain */
-    public function setNext(AbstractBackoffStrategy $next)
+    public function setNext( AbstractBackoffStrategy $next )
     {
         $this->next = $next;
     }
@@ -35,28 +35,34 @@ abstract class AbstractBackoffStrategy implements BackoffStrategyInterface
         RequestInterface $request,
         Response $response = null,
         HttpException $e = null
-    ) {
-        $delay = $this->getDelay($retries, $request, $response, $e);
-        if ($delay === false) {
+    )
+    {
+        $delay = $this->getDelay( $retries, $request, $response, $e );
+        if ( $delay === false ) {
             // The strategy knows that this must not be retried
             return false;
-        } elseif ($delay === null) {
+        }
+        elseif ( $delay === null ) {
             // If the strategy is deferring a decision and the next strategy will not make a decision then return false
             return !$this->next || !$this->next->makesDecision()
                 ? false
-                : $this->next->getBackoffPeriod($retries, $request, $response, $e);
-        } elseif ($delay === true) {
+                : $this->next->getBackoffPeriod( $retries, $request, $response, $e );
+        }
+        elseif ( $delay === true ) {
             // if the strategy knows that it must retry but is deferring to the next to determine the delay
-            if (!$this->next) {
+            if ( !$this->next ) {
                 return 0;
-            } else {
+            }
+            else {
                 $next = $this->next;
-                while ($next->makesDecision() && $next->getNext()) {
+                while ( $next->makesDecision() && $next->getNext() ) {
                     $next = $next->getNext();
                 }
-                return !$next->makesDecision() ? $next->getBackoffPeriod($retries, $request, $response, $e) : 0;
+
+                return !$next->makesDecision() ? $next->getBackoffPeriod( $retries, $request, $response, $e ) : 0;
             }
-        } else {
+        }
+        else {
             return $delay;
         }
     }

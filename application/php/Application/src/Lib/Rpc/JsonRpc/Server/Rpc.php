@@ -17,7 +17,7 @@ namespace Application\Lib\Rpc\JsonRpc\Server;
  */
 class Rpc
 {
-    const HTTP_STATUS_HEADER_500 = 'HTTP/1.0 500 Internal Server Error';
+    const HTTP_STATUS_HEADER_500                = 'HTTP/1.0 500 Internal Server Error';
     const HTTP_STATUS_HEADER_420_METHOD_FAILURE = '420 Method Failure';
 
     /**
@@ -30,7 +30,7 @@ class Rpc
      *
      * @return $this
      */
-    private function setFactory(RpcFactory $factory)
+    private function setFactory( RpcFactory $factory )
     {
         $this->factory = $factory;
 
@@ -50,9 +50,9 @@ class Rpc
      * @param RpcFactory $factory
      *
      */
-    public function __construct(RpcFactory $factory)
+    public function __construct( RpcFactory $factory )
     {
-        $this->setFactory($factory);
+        $this->setFactory( $factory );
     }
 
 
@@ -67,7 +67,7 @@ class Rpc
      * @return $this
      *
      */
-    public function setRpcRequestVo(RpcRequestVo $requestVo)
+    public function setRpcRequestVo( RpcRequestVo $requestVo )
     {
         $this->rpcRequestVo = $requestVo;
 
@@ -81,9 +81,9 @@ class Rpc
     public function getRpcRequestVo()
     {
         $value = $this->rpcRequestVo;
-        if (!$value) {
+        if ( !$value ) {
 
-            throw new \Exception('rpc.rpcRequestVo not set! ' . __METHOD__);
+            throw new \Exception( 'rpc.rpcRequestVo not set! ' . __METHOD__ );
         }
 
         return $value;
@@ -109,7 +109,7 @@ class Rpc
      * @return $this
      *
      */
-    public function setRpcResponseVo(RpcResponseVo $requestVo)
+    public function setRpcResponseVo( RpcResponseVo $requestVo )
     {
         $this->rpcResponseVo = $requestVo;
 
@@ -123,9 +123,9 @@ class Rpc
     public function getRpcResponseVo()
     {
         $value = $this->rpcResponseVo;
-        if (!$value) {
+        if ( !$value ) {
 
-            throw new \Exception('rpc.rpcResponseVo not set! ' . __METHOD__);
+            throw new \Exception( 'rpc.rpcResponseVo not set! ' . __METHOD__ );
         }
 
         return $value;
@@ -152,11 +152,11 @@ class Rpc
      * @return $this
      * @throws \Exception
      */
-    public function setServiceMethodArgs($value)
+    public function setServiceMethodArgs( $value )
     {
-        if (!is_array($value)) {
+        if ( !is_array( $value ) ) {
 
-            throw new \Exception('Invalid parameter "value" ! ' . __METHOD__);
+            throw new \Exception( 'Invalid parameter "value" ! ' . __METHOD__ );
         }
 
         $this->serviceMethodArgs = $value;
@@ -170,8 +170,8 @@ class Rpc
     public function getServiceMethodArgs()
     {
         $result = array();
-        $value = $this->serviceMethodArgs;
-        if (!is_array($value)) {
+        $value  = $this->serviceMethodArgs;
+        if ( !is_array( $value ) ) {
 
             return $result;
         }
@@ -189,7 +189,7 @@ class Rpc
      *
      * @return $this
      */
-    public function setServiceMethodResult($value)
+    public function setServiceMethodResult( $value )
     {
         $this->serviceMethodResult = $value;
 
@@ -215,7 +215,7 @@ class Rpc
      *
      * @return $this
      */
-    public function setException(\Exception $value)
+    public function setException( \Exception $value )
     {
         $this->exception = $value;
 
@@ -248,7 +248,7 @@ class Rpc
      *
      * @return $this
      */
-    public function setServiceClassInstance(RpcService $value)
+    public function setServiceClassInstance( RpcService $value )
     {
         $this->serviceClassInstance = $value;
 
@@ -273,7 +273,7 @@ class Rpc
      *
      * @return $this
      */
-    public function setServiceMethodName($value)
+    public function setServiceMethodName( $value )
     {
         $this->serviceMethodName = $value;
 
@@ -294,7 +294,7 @@ class Rpc
     /**
      * @param boolean $isDebugEnabled
      */
-    public function setIsDebugEnabled($isDebugEnabled)
+    public function setIsDebugEnabled( $isDebugEnabled )
     {
         $this->isDebugEnabled = $isDebugEnabled;
     }
@@ -318,7 +318,7 @@ class Rpc
      *
      * @return $this
      */
-    public function setResponseHttpStatusHeader($responseHttpStatusHeader)
+    public function setResponseHttpStatusHeader( $responseHttpStatusHeader )
     {
         $this->responseHttpStatusHeader = $responseHttpStatusHeader;
 
@@ -350,7 +350,7 @@ class Rpc
     {
         $header = $this->getResponseHttpStatusHeader();
 
-        return is_string($header) && (!empty($header));
+        return is_string( $header ) && ( !empty( $header ) );
     }
 
     /**
@@ -364,11 +364,11 @@ class Rpc
      * @return $this
      * @throws \Exception
      */
-    public function setResponseData($value)
+    public function setResponseData( $value )
     {
-        if (!is_array($value)) {
+        if ( !is_array( $value ) ) {
 
-            throw new \Exception('Invalid parameter "value" ! ' . __METHOD__);
+            throw new \Exception( 'Invalid parameter "value" ! ' . __METHOD__ );
         }
 
         $this->responseData = $value;
@@ -382,9 +382,9 @@ class Rpc
     public function getResponseData()
     {
         $result = array();
-        $value = $this->responseData;
+        $value  = $this->responseData;
 
-        if (is_array($value)) {
+        if ( is_array( $value ) ) {
 
             return $value;
         }
@@ -403,7 +403,7 @@ class Rpc
      *
      * @return $this
      */
-    public function setRouteName($value)
+    public function setRouteName( $value )
     {
         $this->routeName = $value;
 

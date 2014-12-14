@@ -20,11 +20,10 @@ class DescriptorCommand2 extends Command
     protected function configure()
     {
         $this
-            ->setName('descriptor:command2')
-            ->setDescription('command 2 description')
-            ->setHelp('command 2 help')
-            ->addArgument('argument_name', InputArgument::REQUIRED)
-            ->addOption('option_name', 'o', InputOption::VALUE_NONE)
-        ;
+            ->setName( 'descriptor:command2' )
+            ->setDescription( 'command 2 description' )
+            ->setHelp( 'command 2 help' )
+            ->addArgument( 'argument_name', InputArgument::REQUIRED )
+            ->addOption( 'option_name', 'o', InputOption::VALUE_NONE );
     }
 }

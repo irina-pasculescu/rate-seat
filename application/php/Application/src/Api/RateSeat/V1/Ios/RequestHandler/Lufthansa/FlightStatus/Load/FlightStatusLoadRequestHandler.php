@@ -54,7 +54,7 @@ class FlightStatusLoadRequestHandler extends BaseRequestHandler
     {
         // make request to Lufthansa
         // create rateSeat api request
-        $settings           = $this->getRateSeatMvoSettings();
+        $settings = $this->getRateSeatMvoSettings();
 
         $requestVo    = $this->getRequestVo();
         $flightNumber = $requestVo->getFlightNUmber();
@@ -79,7 +79,8 @@ class FlightStatusLoadRequestHandler extends BaseRequestHandler
 
         // handle rateSeat api response
         if ( $clientStatus->hasException() ) {
-            var_dump( $clientStatus->getException() );exit;
+            var_dump( $clientStatus->getException() );
+            exit;
         }
 
         $rateSeatResponse = array(

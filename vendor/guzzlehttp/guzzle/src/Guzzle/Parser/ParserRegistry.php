@@ -14,12 +14,13 @@ class ParserRegistry
     protected $instances = array();
 
     /** @var array Mapping of parser name to default class */
-    protected $mapping = array(
-        'message'      => 'Guzzle\\Parser\\Message\\MessageParser',
-        'cookie'       => 'Guzzle\\Parser\\Cookie\\CookieParser',
-        'url'          => 'Guzzle\\Parser\\Url\\UrlParser',
-        'uri_template' => 'Guzzle\\Parser\\UriTemplate\\UriTemplate',
-    );
+    protected $mapping
+        = array(
+            'message'      => 'Guzzle\\Parser\\Message\\MessageParser',
+            'cookie'       => 'Guzzle\\Parser\\Cookie\\CookieParser',
+            'url'          => 'Guzzle\\Parser\\Url\\UrlParser',
+            'uri_template' => 'Guzzle\\Parser\\UriTemplate\\UriTemplate',
+        );
 
     /**
      * @return self
@@ -27,7 +28,7 @@ class ParserRegistry
      */
     public static function getInstance()
     {
-        if (!self::$instance) {
+        if ( !self::$instance ) {
             self::$instance = new static;
         }
 
@@ -37,8 +38,8 @@ class ParserRegistry
     public function __construct()
     {
         // Use the PECL URI template parser if available
-        if (extension_loaded('uri_template')) {
-            $this->mapping['uri_template'] = 'Guzzle\\Parser\\UriTemplate\\PeclUriTemplate';
+        if ( extension_loaded( 'uri_template' ) ) {
+            $this->mapping[ 'uri_template' ] = 'Guzzle\\Parser\\UriTemplate\\PeclUriTemplate';
         }
     }
 
@@ -49,17 +50,17 @@ class ParserRegistry
      *
      * @return mixed|null
      */
-    public function getParser($name)
+    public function getParser( $name )
     {
-        if (!isset($this->instances[$name])) {
-            if (!isset($this->mapping[$name])) {
+        if ( !isset( $this->instances[ $name ] ) ) {
+            if ( !isset( $this->mapping[ $name ] ) ) {
                 return null;
             }
-            $class = $this->mapping[$name];
-            $this->instances[$name] = new $class();
+            $class                    = $this->mapping[ $name ];
+            $this->instances[ $name ] = new $class();
         }
 
-        return $this->instances[$name];
+        return $this->instances[ $name ];
     }
 
     /**
@@ -68,8 +69,8 @@ class ParserRegistry
      * @param string $name   Name or handle of the parser to register
      * @param mixed  $parser Instantiated parser to register
      */
-    public function registerParser($name, $parser)
+    public function registerParser( $name, $parser )
     {
-        $this->instances[$name] = $parser;
+        $this->instances[ $name ] = $parser;
     }
 }

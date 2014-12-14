@@ -22,15 +22,15 @@ class ArrayListType extends ArrayType
 
     /**
      * @param bool|int|string $rawValue
-     * @param string $errorMessage
+     * @param string          $errorMessage
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($rawValue, $errorMessage = '')
+    public function __construct( $rawValue, $errorMessage = '' )
     {
-        $value = $this::cast($rawValue, null);
-        $isValid = $this::isValid($value);
-        if (!$isValid) {
+        $value   = $this::cast( $rawValue, null );
+        $isValid = $this::isValid( $value );
+        if ( !$isValid ) {
 
             throw new \InvalidArgumentException(
                 $this->createUnableToCastExceptionMessage(
@@ -43,9 +43,10 @@ class ArrayListType extends ArrayType
         }
 
         $this->value = $value;
-        if ($rawValue instanceof BaseType) {
+        if ( $rawValue instanceof BaseType ) {
             $this->rawValue = $rawValue->getValue();
-        } else {
+        }
+        else {
             $this->rawValue = $rawValue;
         }
     }
@@ -64,9 +65,9 @@ class ArrayListType extends ArrayType
      *
      * @return bool
      */
-    public static function isValid($rawValue)
+    public static function isValid( $rawValue )
     {
-        $value = self::cast($rawValue, null);
+        $value   = self::cast( $rawValue, null );
         $isValid = $value !== null;
 
         return $isValid;
@@ -74,19 +75,19 @@ class ArrayListType extends ArrayType
 
     /**
      * @param array|null|mixed $value
-     * @param mixed $defaultValue
+     * @param mixed            $defaultValue
      *
      * @return array|mixed
      */
-    public static function cast($value, $defaultValue)
+    public static function cast( $value, $defaultValue )
     {
-        if ($value instanceof BaseType) {
+        if ( $value instanceof BaseType ) {
             $value = $value->getValue();
         }
 
-        $isValid = ArrayListUtil::isArrayList($value);
+        $isValid = ArrayListUtil::isArrayList( $value );
 
-        if ($isValid) {
+        if ( $isValid ) {
 
             return (array)$value;
         }

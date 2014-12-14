@@ -17,7 +17,7 @@ class InconsistentClientTransferException extends RuntimeException
     /**
      * @param array $commands Invalid commands
      */
-    public function __construct(array $commands)
+    public function __construct( array $commands )
     {
         $this->invalidCommands = $commands;
         parent::__construct(

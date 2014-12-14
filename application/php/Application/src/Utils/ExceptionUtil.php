@@ -20,18 +20,19 @@ class ExceptionUtil
 {
     /**
      * @param \Exception $exception
-     * @param bool $isDebugEnabled
+     * @param bool       $isDebugEnabled
      *
      * @return array
      */
     public static function exceptionAsArray(
         \Exception $exception,
         $isDebugEnabled
-    ) {
-        $recursionLevel = 0;
+    )
+    {
+        $recursionLevel    = 0;
         $recursionLevelMax = 5;
 
-        $isDebugEnabled = ($isDebugEnabled === true);
+        $isDebugEnabled = ( $isDebugEnabled === true );
 
         $error = self::exceptionAsArrayRecursive(
             $exception,
@@ -39,7 +40,7 @@ class ExceptionUtil
             $recursionLevel,
             $recursionLevelMax
         );
-        if (!is_array($error)) {
+        if ( !is_array( $error ) ) {
             $error = array(
                 'message' => '' . __METHOD__ . 'failed!',
             );
@@ -50,9 +51,9 @@ class ExceptionUtil
 
     /**
      * @param \Exception $exception
-     * @param bool $isDebugEnabled
-     * @param int $recursionLevel
-     * @param int $recursionLevelMax
+     * @param bool       $isDebugEnabled
+     * @param int        $recursionLevel
+     * @param int        $recursionLevelMax
      *
      * @return array|null
      */
@@ -61,60 +62,61 @@ class ExceptionUtil
         $isDebugEnabled,
         $recursionLevel,
         $recursionLevelMax
-    ) {
+    )
+    {
         $result = null;
-        if (!is_int($recursionLevel)) {
+        if ( !is_int( $recursionLevel ) ) {
 
             return $result;
         }
-        if (!is_int($recursionLevelMax)) {
-
-            return $result;
-        }
-
-        if (($recursionLevel < 0) || ($recursionLevelMax < 0)) {
+        if ( !is_int( $recursionLevelMax ) ) {
 
             return $result;
         }
 
-        if ($recursionLevel > $recursionLevelMax) {
+        if ( ( $recursionLevel < 0 ) || ( $recursionLevelMax < 0 ) ) {
 
             return $result;
         }
 
-        $isDebugEnabled = ($isDebugEnabled === true);
+        if ( $recursionLevel > $recursionLevelMax ) {
+
+            return $result;
+        }
+
+        $isDebugEnabled = ( $isDebugEnabled === true );
         $recursionLevel++;
 
         $debug = array(
-            'class' => self::getClassnameNice($exception),
-            'code' => $exception->getCode(),
-            'file' => $exception->getFile(),
-            'line' => $exception->getLine(),
+            'class'      => self::getClassnameNice( $exception ),
+            'code'       => $exception->getCode(),
+            'file'       => $exception->getFile(),
+            'line'       => $exception->getLine(),
             'stackTrace' => $exception->getTraceAsString(),
         );
-        if ($exception instanceof ApplicationException) {
+        if ( $exception instanceof ApplicationException ) {
             $debug = ArrayAssocUtil::mixinOverride(
                 $debug,
                 $exception->getDebug(),
-                array_keys($debug)
+                array_keys( $debug )
             );
         }
         $error = array(
-            'class' => self::getClassnameNice($exception),
+            'class'   => self::getClassnameNice( $exception ),
             'message' => $exception->getMessage(),
-            'data' => null,
-            'debug' => $debug,
+            'data'    => null,
+            'debug'   => $debug,
         );
-        if ($exception instanceof ApplicationException) {
-            $error['data'] = $exception->getData();
+        if ( $exception instanceof ApplicationException ) {
+            $error[ 'data' ] = $exception->getData();
         }
-        if (!$isDebugEnabled) {
-            $error['debug'] = null;
+        if ( !$isDebugEnabled ) {
+            $error[ 'debug' ] = null;
         }
 
         $result = array();
-        foreach ($error as $key => $value) {
-            if ($value instanceof \Exception) {
+        foreach ( $error as $key => $value ) {
+            if ( $value instanceof \Exception ) {
 
                 $value = self::exceptionAsArrayRecursive(
                     $value,
@@ -122,15 +124,15 @@ class ExceptionUtil
                     $recursionLevel,
                     $recursionLevelMax
                 );
-                if (is_array($value)) {
-                    $value = self::ensureAssocArrayIsJsonSerializable($value);
+                if ( is_array( $value ) ) {
+                    $value = self::ensureAssocArrayIsJsonSerializable( $value );
                 }
             }
 
-            $result[$key] = $value;
+            $result[ $key ] = $value;
         }
 
-        $result = self::ensureAssocArrayIsJsonSerializable($result);
+        $result = self::ensureAssocArrayIsJsonSerializable( $result );
 
         return $result;
     }
@@ -141,20 +143,21 @@ class ExceptionUtil
      *
      * @return array
      */
-    private static function ensureAssocArrayIsJsonSerializable($array)
+    private static function ensureAssocArrayIsJsonSerializable( $array )
     {
         $result = array();
-        if (!is_array($array)) {
+        if ( !is_array( $array ) ) {
 
             return $result;
         }
 
-        foreach ($array as $key => $value) {
-            if (is_string(self::jsonEncode($value, false))) {
-                $result[$key] = $value;
-            } else {
+        foreach ( $array as $key => $value ) {
+            if ( is_string( self::jsonEncode( $value, false ) ) ) {
+                $result[ $key ] = $value;
+            }
+            else {
                 // could not serialize as json
-                $result[$key] = null;
+                $result[ $key ] = null;
             }
         }
 
@@ -164,7 +167,7 @@ class ExceptionUtil
 
     /**
      * @param mixed $value
-     * @param bool $marshallExceptions
+     * @param bool  $marshallExceptions
      *
      * @return null|string
      * @throws \Exception
@@ -172,22 +175,24 @@ class ExceptionUtil
     private static function jsonEncode(
         $value,
         $marshallExceptions
-    ) {
-        $marshallExceptions = ($marshallExceptions === true);
+    )
+    {
+        $marshallExceptions = ( $marshallExceptions === true );
 
         $result = null;
         try {
-            $result = json_encode($value);
-        } catch (\Exception $e) {
+            $result = json_encode( $value );
+        }
+        catch (\Exception $e) {
             $result = null;
-            if ($marshallExceptions) {
+            if ( $marshallExceptions ) {
 
                 // delegate exception
                 throw $e;
             }
         }
 
-        if (!is_string($result)) {
+        if ( !is_string( $result ) ) {
             $result = null;
         }
 
@@ -201,36 +206,37 @@ class ExceptionUtil
      *
      * @return string
      */
-    private static function getClassnameNice($instance)
+    private static function getClassnameNice( $instance )
     {
         $result = 'null';
 
         $className = null;
-        if (is_string($instance)) {
+        if ( is_string( $instance ) ) {
             $className = $instance;
         }
 
-        if (is_object($instance)) {
+        if ( is_object( $instance ) ) {
 
             try {
-                $className = get_class($instance);
-            } catch (\Exception $e) {
+                $className = get_class( $instance );
+            }
+            catch (\Exception $e) {
                 //NOP
             }
         }
 
-        if (!is_string($className)) {
+        if ( !is_string( $className ) ) {
 
             return $result;
         }
 
-        if (empty($className)) {
+        if ( empty( $className ) ) {
 
             return $result;
         }
 
         $classNameNice = str_replace(
-            array('_', '\\'),
+            array( '_', '\\' ),
             '.',
             $className
         );

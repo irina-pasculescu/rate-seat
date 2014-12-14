@@ -19,25 +19,25 @@ class BooleanUtil
 
     /**
      * @param bool|int|string $value
-     * @param mixed $defaultValue
+     * @param mixed           $defaultValue
      *
      * @return bool|mixed
      */
-    public static function castAsBool($value, $defaultValue)
+    public static function castAsBool( $value, $defaultValue )
     {
-        if (is_bool($value)) {
+        if ( is_bool( $value ) ) {
 
             return $value;
         }
 
-        $trueValues = array(true, 'true', 1, '1');
-        if (in_array($value, $trueValues, true)) {
+        $trueValues = array( true, 'true', 1, '1' );
+        if ( in_array( $value, $trueValues, true ) ) {
 
             return true;
         }
 
-        $falseValues = array(false, 'false', 0, '0');
-        if (in_array($value, $falseValues, true)) {
+        $falseValues = array( false, 'false', 0, '0' );
+        if ( in_array( $value, $falseValues, true ) ) {
 
             return false;
         }
@@ -47,15 +47,15 @@ class BooleanUtil
 
     /**
      * @param bool|int|string $value
-     * @param string $errorMessage
+     * @param string          $errorMessage
      *
      * @return bool
      * @throws \Exception
      */
-    public static function castAndRequireBool($value, $errorMessage)
+    public static function castAndRequireBool( $value, $errorMessage )
     {
-        $value = self::castAsBool($value, null);
-        if (is_bool($value)) {
+        $value = self::castAsBool( $value, null );
+        if ( is_bool( $value ) ) {
 
             return $value;
         }

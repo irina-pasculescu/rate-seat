@@ -25,7 +25,7 @@ class RpcResponseVo extends RpcBaseVo
     {
         $key = 'result';
 
-        $value = $this->getDataKey($key);
+        $value = $this->getDataKey( $key );
 
         return $value;
     }
@@ -35,11 +35,11 @@ class RpcResponseVo extends RpcBaseVo
      *
      * @return $this
      */
-    public function setResult($value)
+    public function setResult( $value )
     {
         $key = 'result';
 
-        $value = $this->setDataKey($key, $value);
+        $value = $this->setDataKey( $key, $value );
 
         return $value;
     }
@@ -51,7 +51,7 @@ class RpcResponseVo extends RpcBaseVo
     {
         $key = 'result';
 
-        $value = $this->setDataKey($key, null);
+        $value = $this->setDataKey( $key, null );
 
         return $value;
     }
@@ -63,12 +63,12 @@ class RpcResponseVo extends RpcBaseVo
     public function getError()
     {
         $result = null;
-        $key = 'error';
+        $key    = 'error';
 
-        $value = $this->getDataKey($key);
-        $isValid = is_array($value);
+        $value   = $this->getDataKey( $key );
+        $isValid = is_array( $value );
 
-        if ($isValid) {
+        if ( $isValid ) {
 
             return $value;
         }
@@ -82,17 +82,17 @@ class RpcResponseVo extends RpcBaseVo
      * @return $this
      * @throws \Exception
      */
-    public function setError($value)
+    public function setError( $value )
     {
         $key = 'error';
 
-        $isValid = is_array($value);
-        if (!$isValid) {
+        $isValid = is_array( $value );
+        if ( !$isValid ) {
 
-            throw new \Exception('Invalid parameter "value" ! ' . __METHOD__);
+            throw new \Exception( 'Invalid parameter "value" ! ' . __METHOD__ );
         }
 
-        $this->setDataKey($key, $value);
+        $this->setDataKey( $key, $value );
 
         return $this;
     }
@@ -104,7 +104,7 @@ class RpcResponseVo extends RpcBaseVo
     {
         $key = 'error';
 
-        $value = $this->setDataKey($key, null);
+        $value = $this->setDataKey( $key, null );
 
         return $value;
     }
@@ -116,12 +116,12 @@ class RpcResponseVo extends RpcBaseVo
     public function getId()
     {
         $result = null;
-        $key = 'id';
+        $key    = 'id';
 
-        $value = $this->getDataKey($key);
-        $isValid = is_scalar($value);
+        $value   = $this->getDataKey( $key );
+        $isValid = is_scalar( $value );
 
-        if ($isValid) {
+        if ( $isValid ) {
 
             return $value;
         }
@@ -135,18 +135,18 @@ class RpcResponseVo extends RpcBaseVo
      * @return $this
      * @throws \Exception
      */
-    public function setId($value)
+    public function setId( $value )
     {
         $key = 'id';
 
-        $isValid = $value === null || is_scalar($value);
+        $isValid = $value === null || is_scalar( $value );
 
-        if (!$isValid) {
+        if ( !$isValid ) {
 
-            throw new \Exception('Invalid parameter "value" ! ' . __METHOD__);
+            throw new \Exception( 'Invalid parameter "value" ! ' . __METHOD__ );
         }
 
-        $this->setDataKey($key, $value);
+        $this->setDataKey( $key, $value );
 
         return $this;
     }
@@ -158,7 +158,7 @@ class RpcResponseVo extends RpcBaseVo
     {
         $key = 'id';
 
-        $value = $this->setDataKey($key, null);
+        $value = $this->setDataKey( $key, null );
 
         return $value;
     }

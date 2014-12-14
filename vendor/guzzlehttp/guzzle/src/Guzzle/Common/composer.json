@@ -9,7 +9,9 @@
         "symfony/event-dispatcher": ">=2.1"
     },
     "autoload": {
-        "psr-0": { "Guzzle\\Common": "" }
+        "psr-0": {
+            "Guzzle\\Common": ""
+        }
     },
     "target-dir": "Guzzle/Common",
     "extra": {

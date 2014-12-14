@@ -16,7 +16,9 @@
         "guzzle/http": "self.version"
     },
     "autoload": {
-        "psr-0": { "Guzzle\\Plugin\\CurlAuth": "" }
+        "psr-0": {
+            "Guzzle\\Plugin\\CurlAuth": ""
+        }
     },
     "target-dir": "Guzzle/Plugin/CurlAuth",
     "extra": {

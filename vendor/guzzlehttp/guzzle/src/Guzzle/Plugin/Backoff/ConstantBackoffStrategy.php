@@ -2,9 +2,9 @@
 
 namespace Guzzle\Plugin\Backoff;
 
+use Guzzle\Http\Exception\HttpException;
 use Guzzle\Http\Message\RequestInterface;
 use Guzzle\Http\Message\Response;
-use Guzzle\Http\Exception\HttpException;
 
 /**
  * Will retry the request using the same amount of delay for each retry.
@@ -17,7 +17,7 @@ class ConstantBackoffStrategy extends AbstractBackoffStrategy
     protected $delay;
 
     /** @param int $delay Amount of time to delay between each additional backoff */
-    public function __construct($delay)
+    public function __construct( $delay )
     {
         $this->delay = $delay;
     }
@@ -27,7 +27,7 @@ class ConstantBackoffStrategy extends AbstractBackoffStrategy
         return false;
     }
 
-    protected function getDelay($retries, RequestInterface $request, Response $response = null, HttpException $e = null)
+    protected function getDelay( $retries, RequestInterface $request, Response $response = null, HttpException $e = null )
     {
         return $this->delay;
     }

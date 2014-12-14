@@ -22,18 +22,18 @@ class BatchClosureDivisor implements BatchDivisorInterface
      *
      * @throws InvalidArgumentException if the callable is not callable
      */
-    public function __construct($callable, $context = null)
+    public function __construct( $callable, $context = null )
     {
-        if (!is_callable($callable)) {
-            throw new InvalidArgumentException('Must pass a callable');
+        if ( !is_callable( $callable ) ) {
+            throw new InvalidArgumentException( 'Must pass a callable' );
         }
 
         $this->callable = $callable;
-        $this->context = $context;
+        $this->context  = $context;
     }
 
-    public function createBatches(\SplQueue $queue)
+    public function createBatches( \SplQueue $queue )
     {
-        return call_user_func($this->callable, $queue, $this->context);
+        return call_user_func( $this->callable, $queue, $this->context );
     }
 }

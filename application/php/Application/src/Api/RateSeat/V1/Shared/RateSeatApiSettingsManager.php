@@ -31,7 +31,7 @@ class RateSeatApiSettingsManager
      */
     public static function getInstance()
     {
-        if (!self::$instance) {
+        if ( !self::$instance ) {
             self::$instance = new self();
         }
 
@@ -52,8 +52,8 @@ class RateSeatApiSettingsManager
     private function getApplicationSettingsMvo()
     {
         return $this->getApplicationContext()
-            ->getModel()
-            ->getApplicationSettingsMvo();
+                    ->getModel()
+                    ->getApplicationSettingsMvo();
     }
 
     /**
@@ -67,18 +67,19 @@ class RateSeatApiSettingsManager
      */
     public function getApiClientSettingsVo()
     {
-        $method = ClassUtil::getQualifiedMethodName($this, __METHOD__, true);
+        $method = ClassUtil::getQualifiedMethodName( $this, __METHOD__, true );
 
-        if (!$this->apiClientSettingsVo) {
+        if ( !$this->apiClientSettingsVo ) {
 
             $mvo = $this->getApplicationSettingsMvo();
-            $this->apiClientSettingsVo =
-                $mvo
-                    ->getRateSeatApiClientSettingsVo();
+            $this->apiClientSettingsVo
+                 = $mvo
+                ->getRateSeatApiClientSettingsVo();
 
             try {
                 $this->apiClientSettingsVo->validate();
-            } catch (\Exception $e) {
+            }
+            catch (\Exception $e) {
 
                 throw new \Exception(
                     'Invalid ApplicationSettings.' . $mvo::KEY_RATE_SEAT_API_CLIENT . ' ! '

@@ -51,7 +51,7 @@ class Rpc extends BaseRpc
      *
      * @return $this
      */
-    public function setDebug($value)
+    public function setDebug( $value )
     {
         $this->debug = $value;
 
@@ -76,7 +76,7 @@ class Rpc extends BaseRpc
      *
      * @return $this
      */
-    public function setRpcContext(RpcContext $value)
+    public function setRpcContext( RpcContext $value )
     {
         $this->rpcContext = $value;
 

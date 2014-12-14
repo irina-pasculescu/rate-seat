@@ -80,7 +80,7 @@ class RateSeatRequestBuilder
     )
     {
 
-        $request       = $this->createRequest(
+        $request = $this->createRequest(
             $httpMethod,
             $requestUri,
             $requestData

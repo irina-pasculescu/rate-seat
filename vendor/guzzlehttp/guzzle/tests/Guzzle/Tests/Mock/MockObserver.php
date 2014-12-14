@@ -14,10 +14,10 @@ class MockObserver implements \Countable, EventSubscriberInterface
         return array();
     }
 
-    public function has($eventName)
+    public function has( $eventName )
     {
-        foreach ($this->events as $event) {
-            if ($event->getName() == $eventName) {
+        foreach ( $this->events as $event ) {
+            if ( $event->getName() == $eventName ) {
                 return true;
             }
         }
@@ -27,39 +27,39 @@ class MockObserver implements \Countable, EventSubscriberInterface
 
     public function getLastEvent()
     {
-        return end($this->events);
+        return end( $this->events );
     }
 
     public function count()
     {
-        return count($this->events);
+        return count( $this->events );
     }
 
     public function getGrouped()
     {
         $events = array();
-        foreach ($this->events as $event) {
-            if (!isset($events[$event->getName()])) {
-                $events[$event->getName()] = array();
+        foreach ( $this->events as $event ) {
+            if ( !isset( $events[ $event->getName() ] ) ) {
+                $events[ $event->getName() ] = array();
             }
-            $events[$event->getName()][] = $event;
+            $events[ $event->getName() ][ ] = $event;
         }
 
         return $events;
     }
 
-    public function getData($event, $key, $occurrence = 0)
+    public function getData( $event, $key, $occurrence = 0 )
     {
         $grouped = $this->getGrouped();
-        if (isset($grouped[$event])) {
-            return $grouped[$event][$occurrence][$key];
+        if ( isset( $grouped[ $event ] ) ) {
+            return $grouped[ $event ][ $occurrence ][ $key ];
         }
 
         return null;
     }
 
-    public function update(Event $event)
+    public function update( Event $event )
     {
-        $this->events[] = $event;
+        $this->events[ ] = $event;
     }
 }

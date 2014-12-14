@@ -12,5 +12,5 @@ interface BatchTransferInterface
      *
      * @param array $batch Array of items to transfer
      */
-    public function transfer(array $batch);
+    public function transfer( array $batch );
 }

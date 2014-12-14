@@ -7,8 +7,7 @@
  */
 namespace Application\Api\RateSeat\V1\Ios\Server;
 
-use
-    Application\Api\Base\Server\ApiManagerSettingsVo as BaseApiManagerSettingsVo;
+use Application\Api\Base\Server\ApiManagerSettingsVo as BaseApiManagerSettingsVo;
 use Application\Mvo\ApplicationSettings\ApplicationSettingsMvo;
 
 /**

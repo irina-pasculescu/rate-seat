@@ -18,11 +18,12 @@ class SignedRequestUtil
 
 
     /**
-     * @param $data
-     * @param $signKeys
-     * @param $appSecret
+     * @param           $data
+     * @param           $signKeys
+     * @param           $appSecret
      * @param \DateTime $issuedAt
-     * @param string $signedRequestAlgorithm
+     * @param string    $signedRequestAlgorithm
+     *
      * @return string
      */
     public static function createRequestSignature(
@@ -33,36 +34,37 @@ class SignedRequestUtil
         \DateTime $issuedAt,
         $signedRequestAlgorithm = 'HMAC-SHA256'
 
-    ) {
-        if (!is_array($data)) {
+    )
+    {
+        if ( !is_array( $data ) ) {
             $data = array();
         }
-        if (!is_array($signKeys)) {
+        if ( !is_array( $signKeys ) ) {
             $signKeys = array();
         }
 
-        $signedRequestAlgorithm = strtoupper($signedRequestAlgorithm);
+        $signedRequestAlgorithm = strtoupper( $signedRequestAlgorithm );
 
         $dataNew = array();
-        foreach ($signKeys as $key) {
+        foreach ( $signKeys as $key ) {
             $value = null;
-            if (array_key_exists($key, $data)) {
-                $value = $data[$key];
+            if ( array_key_exists( $key, $data ) ) {
+                $value = $data[ $key ];
             }
-            $dataNew[$key] = $value;
+            $dataNew[ $key ] = $value;
         }
         $data = $dataNew;
 
         // sort keys
-        uksort($data, 'strcmp');
+        uksort( $data, 'strcmp' );
 
-        $json = (string)self::jsonEncode($data, false);
+        $json = (string)self::jsonEncode( $data, false );
 
         $signatureParts
             = array(
-            (string)strtoupper($signedRequestAlgorithm),
+            (string)strtoupper( $signedRequestAlgorithm ),
             (string)$issuedAt->getTimestamp(),
-            (string)self::base64UrlEncodeUrlSafe($json),
+            (string)self::base64UrlEncodeUrlSafe( $json ),
         );
 
         $b64Data = self::base64UrlEncodeUrlSafe(
@@ -74,7 +76,7 @@ class SignedRequestUtil
         switch ($signedRequestAlgorithm) {
             case 'MD5':
             {
-                $rawSig = md5((string)$b64Data . '' . $appSecret);
+                $rawSig = md5( (string)$b64Data . '' . $appSecret );
 
                 break;
             }
@@ -107,13 +109,13 @@ class SignedRequestUtil
         $sig = (string)implode(
             '.',
             array(
-                $signatureParts[0],
-                $signatureParts[1],
+                $signatureParts[ 0 ],
+                $signatureParts[ 1 ],
                 $rawSig,
             )
         );
 
-        $sig = (string)self::base64UrlEncodeUrlSafe($sig);
+        $sig = (string)self::base64UrlEncodeUrlSafe( $sig );
 
         return $sig;
 
@@ -121,8 +123,8 @@ class SignedRequestUtil
 
     /**
      * @param string $signature
-     * @param array $data
-     * @param array $signKeys
+     * @param array  $data
+     * @param array  $signKeys
      * @param string $appSecret
      * @param string $signedRequestAlgorithm
      *
@@ -134,61 +136,62 @@ class SignedRequestUtil
         $signKeys,
         $appSecret,
         $signedRequestAlgorithm = 'HMAC-SHA256'
-    ) {
+    )
+    {
 
         $result = false;
 
-        if (!is_string($signature)) {
+        if ( !is_string( $signature ) ) {
 
             return $result;
         }
 
-        $sigGiven = $signature;
-        $sigDecoded = self::base64UrlDecodeUrlSafe($sigGiven);
+        $sigGiven   = $signature;
+        $sigDecoded = self::base64UrlDecodeUrlSafe( $sigGiven );
 
         list(
             $algorithmGiven,
             $issuedAtGiven,
             $rawSigGiven
             )
-            = explode('.', $sigDecoded, 3);
+            = explode( '.', $sigDecoded, 3 );
 
-        if (!is_string($algorithmGiven)) {
-
-            return $result;
-        }
-
-        if (!is_string($issuedAtGiven)) {
+        if ( !is_string( $algorithmGiven ) ) {
 
             return $result;
         }
 
-        if (!is_string($rawSigGiven)) {
+        if ( !is_string( $issuedAtGiven ) ) {
+
+            return $result;
+        }
+
+        if ( !is_string( $rawSigGiven ) ) {
 
             return $result;
         }
 
         $issuedAtGiven = (int)$issuedAtGiven;
-        if ($issuedAtGiven < 0) {
+        if ( $issuedAtGiven < 0 ) {
             $issuedAtGiven = 0;
         }
-        $signedRequestAlgorithm = strtoupper($signedRequestAlgorithm);
-        $algorithmGiven = strtoupper($signedRequestAlgorithm);
+        $signedRequestAlgorithm = strtoupper( $signedRequestAlgorithm );
+        $algorithmGiven         = strtoupper( $signedRequestAlgorithm );
 
-        if ($algorithmGiven !== $signedRequestAlgorithm) {
+        if ( $algorithmGiven !== $signedRequestAlgorithm ) {
 
             return $result;
         }
 
-        if (!is_array($data)) {
+        if ( !is_array( $data ) ) {
             $data = array();
         }
-        if (!is_array($signKeys)) {
+        if ( !is_array( $signKeys ) ) {
             $signKeys = array();
         }
 
         $issuedAtGivenDateTime = new \DateTime();
-        $issuedAtGivenDateTime->setTimestamp($issuedAtGiven);
+        $issuedAtGivenDateTime->setTimestamp( $issuedAtGiven );
 
         $signatureExpected = self::createRequestSignature(
             $data,
@@ -198,7 +201,7 @@ class SignedRequestUtil
             $signedRequestAlgorithm
         );
 
-        $result = ($signatureExpected === $sigGiven);
+        $result = ( $signatureExpected === $sigGiven );
 
         return $result;
     }
@@ -206,7 +209,7 @@ class SignedRequestUtil
 
     /**
      * @param mixed $value
-     * @param bool $marshallExceptions
+     * @param bool  $marshallExceptions
      *
      * @return null|string
      * @throws \Exception
@@ -214,22 +217,24 @@ class SignedRequestUtil
     private static function jsonEncode(
         $value,
         $marshallExceptions
-    ) {
-        $marshallExceptions = ($marshallExceptions === true);
+    )
+    {
+        $marshallExceptions = ( $marshallExceptions === true );
 
         $result = null;
         try {
-            $result = json_encode($value);
-        } catch (\Exception $e) {
+            $result = json_encode( $value );
+        }
+        catch (\Exception $e) {
             $result = null;
-            if ($marshallExceptions) {
+            if ( $marshallExceptions ) {
 
                 // delegate exception
                 throw $e;
             }
         }
 
-        if (!is_string($result)) {
+        if ( !is_string( $result ) ) {
             $result = null;
         }
 
@@ -249,10 +254,10 @@ class SignedRequestUtil
      *
      * @return string
      */
-    private static function base64UrlDecodeUrlSafe($input)
+    private static function base64UrlDecodeUrlSafe( $input )
     {
 
-        return base64_decode(strtr($input, '-_', '+/'));
+        return base64_decode( strtr( $input, '-_', '+/' ) );
     }
 
     /**
@@ -266,10 +271,10 @@ class SignedRequestUtil
      *
      * @return string base64Url encoded string
      */
-    private static function base64UrlEncodeUrlSafe($input)
+    private static function base64UrlEncodeUrlSafe( $input )
     {
-        $str = strtr(base64_encode($input), '+/', '-_');
-        $str = str_replace('=', '', $str);
+        $str = strtr( base64_encode( $input ), '+/', '-_' );
+        $str = str_replace( '=', '', $str );
 
         return $str;
     }

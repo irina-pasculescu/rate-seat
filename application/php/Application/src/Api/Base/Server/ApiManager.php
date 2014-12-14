@@ -12,7 +12,6 @@ use Application\Context;
 use Application\Profiler;
 use Application\Utils\ArrayAssocUtil;
 use Application\Utils\ClassUtil;
-use Application\Utils\ExceptionUtil;
 use Application\Utils\StringUtil;
 
 /**
@@ -162,7 +161,6 @@ abstract class ApiManager
      */
     public function initRoutesHttp()
     {
-
         $routes = $this->getRoutesHttp();
         $this->applyRoutes( $routes );
     }
@@ -195,6 +193,7 @@ abstract class ApiManager
 
             $className  = $qualifiedMethodNameParts[ 0 ];
             $methodName = $qualifiedMethodNameParts[ 1 ];
+
 
             $router->addRoute( $rpcMethod, $className, $methodName );
         }
@@ -473,7 +472,6 @@ abstract class ApiManager
 
         return $this;
     }
-
 
 
     /**

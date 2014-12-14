@@ -20,15 +20,15 @@ class UintType extends IntType
 
     /**
      * @param int|string $rawValue
-     * @param string $errorMessage
+     * @param string     $errorMessage
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($rawValue, $errorMessage = '')
+    public function __construct( $rawValue, $errorMessage = '' )
     {
-        $value = $this::cast($rawValue, null);
-        $isValid = $this::isValid($value);
-        if (!$isValid) {
+        $value   = $this::cast( $rawValue, null );
+        $isValid = $this::isValid( $value );
+        if ( !$isValid ) {
 
             throw new \InvalidArgumentException(
                 $this->createUnableToCastExceptionMessage(
@@ -41,9 +41,10 @@ class UintType extends IntType
         }
 
         $this->value = $value;
-        if ($rawValue instanceof BaseType) {
+        if ( $rawValue instanceof BaseType ) {
             $this->rawValue = $rawValue->getValue();
-        } else {
+        }
+        else {
             $this->rawValue = $rawValue;
         }
     }
@@ -62,9 +63,9 @@ class UintType extends IntType
      *
      * @return bool
      */
-    public static function isValid($rawValue)
+    public static function isValid( $rawValue )
     {
-        $value = self::cast($rawValue, null);
+        $value   = self::cast( $rawValue, null );
         $isValid = $value !== null;
 
         return $isValid;
@@ -72,21 +73,21 @@ class UintType extends IntType
 
     /**
      * @param int|string $value
-     * @param mixed $defaultValue
+     * @param mixed      $defaultValue
      *
      * @return int|mixed
      */
-    public static function cast($value, $defaultValue)
+    public static function cast( $value, $defaultValue )
     {
-        if ($value instanceof BaseType) {
+        if ( $value instanceof BaseType ) {
             $value = $value->getValue();
         }
 
         // cast as int
-        $value = IntType::cast($value, null);
-        $isValid = is_int($value) && $value >= 0;
+        $value   = IntType::cast( $value, null );
+        $isValid = is_int( $value ) && $value >= 0;
 
-        if ($isValid) {
+        if ( $isValid ) {
 
             return (int)$value;
         }

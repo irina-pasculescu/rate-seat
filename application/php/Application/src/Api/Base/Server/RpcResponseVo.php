@@ -26,10 +26,10 @@ class RpcResponseVo extends BaseRpcResponseVo
     public function getDebug()
     {
         $result = array();
-        $key = 'debug';
+        $key    = 'debug';
 
-        $value = $this->getDataKey($key);
-        if (is_array($value)) {
+        $value = $this->getDataKey( $key );
+        if ( is_array( $value ) ) {
 
             return $value;
         }
@@ -43,16 +43,16 @@ class RpcResponseVo extends BaseRpcResponseVo
      * @return $this
      * @throws \Exception
      */
-    public function setDebug($value)
+    public function setDebug( $value )
     {
         $key = 'debug';
 
-        if (!is_array($value)) {
+        if ( !is_array( $value ) ) {
 
-            throw new \Exception('Invalid parameter "value" ! ' . __METHOD__);
+            throw new \Exception( 'Invalid parameter "value" ! ' . __METHOD__ );
         }
 
-        $value = $this->setDataKey($key, $value);
+        $value = $this->setDataKey( $key, $value );
 
         return $value;
     }
@@ -64,7 +64,7 @@ class RpcResponseVo extends BaseRpcResponseVo
     {
         $key = 'debug';
 
-        $value = $this->setDataKey($key, null);
+        $value = $this->setDataKey( $key, null );
 
         return $value;
     }

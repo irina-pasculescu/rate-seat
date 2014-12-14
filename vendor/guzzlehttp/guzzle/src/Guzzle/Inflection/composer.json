@@ -15,7 +15,9 @@
         "php": ">=5.3.2"
     },
     "autoload": {
-        "psr-0": { "Guzzle\\Inflection": "" }
+        "psr-0": {
+            "Guzzle\\Inflection": ""
+        }
     },
     "target-dir": "Guzzle/Inflection",
     "extra": {

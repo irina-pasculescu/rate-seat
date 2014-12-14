@@ -28,7 +28,7 @@ class BaseConsoleCommand extends AbstractCommand
 
     const INPUT_OPTION_VALUE_REQUIRED = InputOption::VALUE_REQUIRED;
     const INPUT_OPTION_VALUE_OPTIONAL = InputOption::VALUE_OPTIONAL;
-    const INPUT_OPTION_VALUE_NONE = InputOption::VALUE_NONE;
+    const INPUT_OPTION_VALUE_NONE     = InputOption::VALUE_NONE;
     const INPUT_OPTION_VALUE_IS_ARRAY = InputOption::VALUE_IS_ARRAY;
 
     /**
@@ -46,7 +46,7 @@ class BaseConsoleCommand extends AbstractCommand
      *
      * @return $this
      */
-    public function setInput(InputInterface $input)
+    public function setInput( InputInterface $input )
     {
         $this->input = $input;
 
@@ -66,7 +66,7 @@ class BaseConsoleCommand extends AbstractCommand
      *
      * @return $this
      */
-    protected function setOutput(OutputInterface $output)
+    protected function setOutput( OutputInterface $output )
     {
         $this->output = $output;
 
@@ -87,19 +87,19 @@ class BaseConsoleCommand extends AbstractCommand
      */
     protected function configure()
     {
-        $this->setName(self::COMMAND_NAME)
-            ->setDescription(
-                ' do magic stuff: '
-                . ' : ' . ClassUtil::getQualifiedMethodName(
-                    $this,
-                    __METHOD__,
-                    true
-                )
-            );
+        $this->setName( self::COMMAND_NAME )
+             ->setDescription(
+                 ' do magic stuff: '
+                 . ' : ' . ClassUtil::getQualifiedMethodName(
+                     $this,
+                     __METHOD__,
+                     true
+                 )
+             );
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      *
      * @return int|null|void
@@ -107,16 +107,18 @@ class BaseConsoleCommand extends AbstractCommand
     protected function execute(
         InputInterface $input,
         OutputInterface $output
-    ) {
-        $this->setInput($input);
-        $this->setOutput($output);
+    )
+    {
+        $this->setInput( $input );
+        $this->setOutput( $output );
 
         try {
             $resultCode = (int)$this->executeCommand();
 
             return $resultCode;
-        } catch (\Exception $e) {
-            $this->onError($e);
+        }
+        catch (\Exception $e) {
+            $this->onError( $e );
         }
 
 
@@ -128,7 +130,7 @@ class BaseConsoleCommand extends AbstractCommand
     protected function executeCommand()
     {
         $this->echoLn(
-            ClassUtil::getQualifiedMethodName($this, __METHOD__, true)
+            ClassUtil::getQualifiedMethodName( $this, __METHOD__, true )
         );
 
         return 0;
@@ -136,16 +138,17 @@ class BaseConsoleCommand extends AbstractCommand
 
     /**
      * @param \Exception $exception
+     *
      * @throws \Exception
      */
-    protected function onError(\Exception $exception)
+    protected function onError( \Exception $exception )
     {
         $this->echoLn(
-            ClassUtil::getQualifiedMethodName($this, __METHOD__, true)
+            ClassUtil::getQualifiedMethodName( $this, __METHOD__, true )
             . ' : ERROR: '
             . ' file: ' . $exception->getFile()
             . ' line: ' . $exception->getLine()
-            . ' class: ' . ClassUtil::getClassNameAsJavaStyle($exception)
+            . ' class: ' . ClassUtil::getClassNameAsJavaStyle( $exception )
             . ' message: ' . $exception->getMessage()
 
 
@@ -155,25 +158,25 @@ class BaseConsoleCommand extends AbstractCommand
     }
 
     /**
-     * @param string $message
+     * @param string   $message
      * @param int|null $lineCount
      *
      * @return $this
      */
-    protected function echoLn($message, $lineCount = null)
+    protected function echoLn( $message, $lineCount = null )
     {
-        if ($lineCount == null) {
+        if ( $lineCount == null ) {
             $lineCount = 1;
         }
         $lineCount = (int)$lineCount;
 
         echo $message;
-        if ($lineCount < 1) {
+        if ( $lineCount < 1 ) {
 
             return $this;
         }
 
-        for ($i = 0; $i < $lineCount; $i++) {
+        for ( $i = 0; $i < $lineCount; $i++ ) {
 
             echo PHP_EOL;
         }

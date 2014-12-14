@@ -20,7 +20,7 @@ class Question
 {
     private $question;
     private $attempts;
-    private $hidden = false;
+    private $hidden         = false;
     private $hiddenFallback = true;
     private $autocompleterValues;
     private $validator;
@@ -33,10 +33,10 @@ class Question
      * @param string $question The question to ask to the user
      * @param mixed  $default  The default answer to return if the user enters nothing
      */
-    public function __construct($question, $default = null)
+    public function __construct( $question, $default = null )
     {
         $this->question = $question;
-        $this->default = $default;
+        $this->default  = $default;
     }
 
     /**
@@ -72,19 +72,19 @@ class Question
     /**
      * Sets whether the user response must be hidden or not.
      *
-     * @param bool    $hidden
+     * @param bool $hidden
      *
      * @return Question The current instance
      *
      * @throws \LogicException In case the autocompleter is also used
      */
-    public function setHidden($hidden)
+    public function setHidden( $hidden )
     {
-        if ($this->autocompleterValues) {
-            throw new \LogicException('A hidden question cannot use the autocompleter.');
+        if ( $this->autocompleterValues ) {
+            throw new \LogicException( 'A hidden question cannot use the autocompleter.' );
         }
 
-        $this->hidden = (bool) $hidden;
+        $this->hidden = (bool)$hidden;
 
         return $this;
     }
@@ -102,13 +102,13 @@ class Question
     /**
      * Sets whether to fallback on non-hidden question if the response can not be hidden.
      *
-     * @param bool    $fallback
+     * @param bool $fallback
      *
      * @return Question The current instance
      */
-    public function setHiddenFallback($fallback)
+    public function setHiddenFallback( $fallback )
     {
-        $this->hiddenFallback = (bool) $fallback;
+        $this->hiddenFallback = (bool)$fallback;
 
         return $this;
     }
@@ -133,16 +133,16 @@ class Question
      * @throws \InvalidArgumentException
      * @throws \LogicException
      */
-    public function setAutocompleterValues($values)
+    public function setAutocompleterValues( $values )
     {
-        if (null !== $values && !is_array($values)) {
-            if (!$values instanceof \Traversable || $values instanceof \Countable) {
-                throw new \InvalidArgumentException('Autocompleter values can be either an array, `null` or an object implementing both `Countable` and `Traversable` interfaces.');
+        if ( null !== $values && !is_array( $values ) ) {
+            if ( !$values instanceof \Traversable || $values instanceof \Countable ) {
+                throw new \InvalidArgumentException( 'Autocompleter values can be either an array, `null` or an object implementing both `Countable` and `Traversable` interfaces.' );
             }
         }
 
-        if ($this->hidden) {
-            throw new \LogicException('A hidden question cannot use the autocompleter.');
+        if ( $this->hidden ) {
+            throw new \LogicException( 'A hidden question cannot use the autocompleter.' );
         }
 
         $this->autocompleterValues = $values;
@@ -157,7 +157,7 @@ class Question
      *
      * @return Question The current instance
      */
-    public function setValidator($validator)
+    public function setValidator( $validator )
     {
         $this->validator = $validator;
 
@@ -179,16 +179,16 @@ class Question
      *
      * Null means an unlimited number of attempts.
      *
-     * @param null|int     $attempts
+     * @param null|int $attempts
      *
      * @return Question The current instance
      *
      * @throws \InvalidArgumentException In case the number of attempts is invalid.
      */
-    public function setMaxAttempts($attempts)
+    public function setMaxAttempts( $attempts )
     {
-        if (null !== $attempts && $attempts < 1) {
-            throw new \InvalidArgumentException('Maximum number of attempts must be a positive value.');
+        if ( null !== $attempts && $attempts < 1 ) {
+            throw new \InvalidArgumentException( 'Maximum number of attempts must be a positive value.' );
         }
 
         $this->attempts = $attempts;
@@ -217,7 +217,7 @@ class Question
      *
      * @return Question The current instance
      */
-    public function setNormalizer($normalizer)
+    public function setNormalizer( $normalizer )
     {
         $this->normalizer = $normalizer;
 

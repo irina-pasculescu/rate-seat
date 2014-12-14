@@ -6,6 +6,6 @@ class ExceptionMock
 {
     public function __construct()
     {
-        throw new \Exception('Oh no!');
+        throw new \Exception( 'Oh no!' );
     }
 }

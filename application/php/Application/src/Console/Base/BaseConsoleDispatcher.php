@@ -31,7 +31,7 @@ abstract class BaseConsoleDispatcher
      */
     public function getConsoleApplication()
     {
-        if (!$this->consoleApplication) {
+        if ( !$this->consoleApplication ) {
             $this->consoleApplication = new ConsoleApplication();
         }
 
@@ -53,7 +53,7 @@ abstract class BaseConsoleDispatcher
     protected function init()
     {
         $bootstrap = Bootstrap::getInstance();
-        $bootstrap->init($bootstrap::MODE_CONSOLE);
+        $bootstrap->init( $bootstrap::MODE_CONSOLE );
 
         return $this;
     }

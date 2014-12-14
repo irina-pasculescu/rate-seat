@@ -19,14 +19,14 @@ class Profiler
     private $oboeEnabled = true;
 
     const COMMAND_START = 'start';
-    const COMMAND_STOP = 'stop';
+    const COMMAND_STOP  = 'stop';
 
-    private $items = array();
-    private $startTime = 0;
-    private $startMicroTime = 0;
-    private $stopTime = 0;
-    private $stopMicroTime = 0;
-    private $durationTime = 0;
+    private $items             = array();
+    private $startTime         = 0;
+    private $startMicroTime    = 0;
+    private $stopTime          = 0;
+    private $stopMicroTime     = 0;
+    private $durationTime      = 0;
     private $durationMicroTime = 0;
 
 
@@ -93,8 +93,8 @@ class Profiler
      */
     public function start()
     {
-        $this->startTime = time();
-        $this->startMicroTime = microtime(true);
+        $this->startTime      = time();
+        $this->startMicroTime = microtime( true );
 
         return $this;
     }
@@ -104,14 +104,14 @@ class Profiler
      */
     public function stop()
     {
-        $this->stopTime = time();
-        $this->stopMicroTime = microtime(true);
+        $this->stopTime      = time();
+        $this->stopMicroTime = microtime( true );
 
-        if ($this->startTime !== 0) {
+        if ( $this->startTime !== 0 ) {
             $this->durationTime = $this->stopTime - $this->startTime;
         }
 
-        if ($this->startMicroTime !== 0) {
+        if ( $this->startMicroTime !== 0 ) {
             $this->durationMicroTime
                 = $this->stopMicroTime - $this->startMicroTime;
         }
@@ -120,88 +120,88 @@ class Profiler
     }
 
     /**
-     * @param string $key
+     * @param string     $key
      * @param null|mixed $debugLog
      *
      * @return $this
      */
-    public function startTrackingByKey($key, $debugLog = null)
+    public function startTrackingByKey( $key, $debugLog = null )
     {
-        if ($this->startTime === 0) {
+        if ( $this->startTime === 0 ) {
             $this->startTime = time();
         }
-        if ($this->startMicroTime === 0) {
-            $this->startMicroTime = microtime(true);
+        if ( $this->startMicroTime === 0 ) {
+            $this->startMicroTime = microtime( true );
         }
 
-        $time = time();
-        $microTime = microtime(true);
+        $time      = time();
+        $microTime = microtime( true );
 
         $startDurationMicroTime = 0;
-        if ($this->startMicroTime !== 0) {
+        if ( $this->startMicroTime !== 0 ) {
             $startDurationMicroTime = $microTime - $this->startMicroTime;
         }
         $startDurationTime = 0;
-        if ($this->startTime !== 0) {
+        if ( $this->startTime !== 0 ) {
             $startDurationTime = $time - $this->startTime;
         }
 
 
         $command = $this::COMMAND_START;
 
-        $item = array(
-            'key' => $key,
-            'command' => $command,
-            'time' => $time,
-            'microTime' => $microTime,
-            'initTime' => $this->startTime,
-            'initMicroTime' => $this->startMicroTime,
-            'initDurationTime' => $startDurationTime,
+        $item                            = array(
+            'key'                   => $key,
+            'command'               => $command,
+            'time'                  => $time,
+            'microTime'             => $microTime,
+            'initTime'              => $this->startTime,
+            'initMicroTime'         => $this->startMicroTime,
+            'initDurationTime'      => $startDurationTime,
             'initDurationMicroTime' => $startDurationMicroTime,
-            'debugLog' => $debugLog,
+            'debugLog'              => $debugLog,
         );
-        $this->items[$key][$command] = $item;
+        $this->items[ $key ][ $command ] = $item;
 
 
         return $this;
     }
 
     /**
-     * @param string $key
+     * @param string     $key
      * @param null|mixed $debugLog
      *
      * @return $this
      */
-    public function stopTrackingByKey($key, $debugLog = null)
+    public function stopTrackingByKey( $key, $debugLog = null )
     {
         $command = $this::COMMAND_STOP;
 
-        $time = time();
-        $microTime = microtime(true);
+        $time      = time();
+        $microTime = microtime( true );
 
         $startDurationMicroTime = 0;
-        if ($this->startMicroTime !== 0) {
+        if ( $this->startMicroTime !== 0 ) {
             $startDurationMicroTime = $microTime - $this->startMicroTime;
         }
         $startDurationTime = 0;
-        if ($this->startTime !== 0) {
+        if ( $this->startTime !== 0 ) {
             $startDurationTime = $time - $this->startTime;
         }
 
-        $item = array(
-            'key' => $key,
-            'command' => $command,
-            'time' => $time,
-            'microTime' => $microTime,
-            'initTime' => $this->startTime,
-            'initMicroTime' => $this->startMicroTime,
-            'initDurationTime' => $startDurationTime,
+        $item                            = array(
+            'key'                   => $key,
+            'command'               => $command,
+            'time'                  => $time,
+            'microTime'             => $microTime,
+            'initTime'              => $this->startTime,
+            'initMicroTime'         => $this->startMicroTime,
+            'initDurationTime'      => $startDurationTime,
             'initDurationMicroTime' => $startDurationMicroTime,
-            'debugLog' => $debugLog,
+            'debugLog'              => $debugLog,
         );
-        $this->items[$key][$command] = $item;
+        $this->items[ $key ][ $command ] = $item;
 
-        $this->calcDurationByKey($key);
+        $this->calcDurationByKey( $key );
 
 
         return $this;
@@ -212,21 +212,21 @@ class Profiler
      *
      * @return mixed
      */
-    public function getItemsDictionaryByKey($key)
+    public function getItemsDictionaryByKey( $key )
     {
         $items = $this->items;
-        if (!isset($items[$key])) {
-            $items[$key] = array();
+        if ( !isset( $items[ $key ] ) ) {
+            $items[ $key ] = array();
         }
-        if (!isset($items[$key][$this::COMMAND_START])) {
-            $items[$key][$this::COMMAND_START] = null;
+        if ( !isset( $items[ $key ][ $this::COMMAND_START ] ) ) {
+            $items[ $key ][ $this::COMMAND_START ] = null;
         }
-        if (!isset($items[$key][$this::COMMAND_STOP])) {
-            $items[$key][$this::COMMAND_STOP] = null;
+        if ( !isset( $items[ $key ][ $this::COMMAND_STOP ] ) ) {
+            $items[ $key ][ $this::COMMAND_STOP ] = null;
         }
         $this->items = $items;
 
-        return $items[$key];
+        return $items[ $key ];
     }
 
     /**
@@ -234,57 +234,57 @@ class Profiler
      *
      * @return $this
      */
-    public function calcDurationByKey($key)
+    public function calcDurationByKey( $key )
     {
-        $dictionary = $this->getItemsDictionaryByKey($key);
-        $startItem = $dictionary[$this::COMMAND_START];
-        $stopItem = $dictionary[$this::COMMAND_STOP];
+        $dictionary = $this->getItemsDictionaryByKey( $key );
+        $startItem  = $dictionary[ $this::COMMAND_START ];
+        $stopItem   = $dictionary[ $this::COMMAND_STOP ];
 
-        if (!is_array($stopItem)) {
+        if ( !is_array( $stopItem ) ) {
             $stopItem = array(
-                'key' => $key,
-                'command' => $this::COMMAND_STOP,
-                'time' => 0,
-                'microTime' => 0,
-                'initTime' => $this->startTime,
-                'initMicroTime' => $this->startMicroTime,
-                'initDurationTime' => 0,
+                'key'                   => $key,
+                'command'               => $this::COMMAND_STOP,
+                'time'                  => 0,
+                'microTime'             => 0,
+                'initTime'              => $this->startTime,
+                'initMicroTime'         => $this->startMicroTime,
+                'initDurationTime'      => 0,
                 'initDurationMicroTime' => 0,
             );
         }
-        if (!is_array($startItem)) {
+        if ( !is_array( $startItem ) ) {
             $startItem = array(
-                'key' => $key,
-                'command' => $this::COMMAND_START,
-                'time' => 0,
-                'microTime' => 0,
-                'initTime' => $this->startTime,
-                'initMicroTime' => $this->startMicroTime,
-                'initDurationTime' => 0,
+                'key'                   => $key,
+                'command'               => $this::COMMAND_START,
+                'time'                  => 0,
+                'microTime'             => 0,
+                'initTime'              => $this->startTime,
+                'initMicroTime'         => $this->startMicroTime,
+                'initDurationTime'      => 0,
                 'initDurationMicroTime' => 0,
             );
         }
 
-        $stopItem['durationTime'] = 0;
-        $stopItem['durationMicroTime'] = 0;
+        $stopItem[ 'durationTime' ]      = 0;
+        $stopItem[ 'durationMicroTime' ] = 0;
 
-        if (($stopItem['time'] > 0) && ($startItem['time'] > 0)) {
-            $stopItem['durationTime'] = $stopItem['time'] - $startItem['time'];
+        if ( ( $stopItem[ 'time' ] > 0 ) && ( $startItem[ 'time' ] > 0 ) ) {
+            $stopItem[ 'durationTime' ] = $stopItem[ 'time' ] - $startItem[ 'time' ];
         }
 
-        if (($stopItem['microTime'] > 0) && ($startItem['microTime'] > 0)) {
-            $stopItem['durationMicroTime'] = $stopItem['microTime'] - $startItem['microTime'];
+        if ( ( $stopItem[ 'microTime' ] > 0 ) && ( $startItem[ 'microTime' ] > 0 ) ) {
+            $stopItem[ 'durationMicroTime' ] = $stopItem[ 'microTime' ] - $startItem[ 'microTime' ];
         }
 
-        if ($stopItem['durationMicroTime'] > 0) {
-            $stopItem['requestsPerSeconds'] = 1 / $stopItem['durationMicroTime'];
+        if ( $stopItem[ 'durationMicroTime' ] > 0 ) {
+            $stopItem[ 'requestsPerSeconds' ] = 1 / $stopItem[ 'durationMicroTime' ];
         }
 
-        $dictionary[$this::COMMAND_START] = $startItem;
-        $dictionary[$this::COMMAND_STOP] = $stopItem;
+        $dictionary[ $this::COMMAND_START ] = $startItem;
+        $dictionary[ $this::COMMAND_STOP ]  = $stopItem;
 
 
-        $this->items[$key] = $dictionary;
+        $this->items[ $key ] = $dictionary;
 
         return $this;
     }
@@ -294,7 +294,7 @@ class Profiler
      */
     public function getIsOboeEnabled()
     {
-        return ($this->oboeEnabled === true);
+        return ( $this->oboeEnabled === true );
     }
 
     /**
@@ -302,15 +302,15 @@ class Profiler
      *
      * @return $this
      */
-    public function oboeStart($key)
+    public function oboeStart( $key )
     {
-        if (!$this->getIsOboeEnabled()) {
+        if ( !$this->getIsOboeEnabled() ) {
 
             return $this;
         }
 
         $command = 'profile_entry';
-        if (function_exists('oboe_log')) {
+        if ( function_exists( 'oboe_log' ) ) {
             try {
                 oboe_log(
                     $command,
@@ -318,7 +318,8 @@ class Profiler
                         'ProfileName' => (string)$key,
                     )
                 );
-            } catch (\Exception $e) {
+            }
+            catch (\Exception $e) {
                 //nop
             }
         }
@@ -331,15 +332,15 @@ class Profiler
      *
      * @return $this
      */
-    public function oboeStop($key)
+    public function oboeStop( $key )
     {
-        if (!$this->getIsOboeEnabled()) {
+        if ( !$this->getIsOboeEnabled() ) {
 
             return $this;
         }
 
         $command = 'profile_exit';
-        if (function_exists('oboe_log')) {
+        if ( function_exists( 'oboe_log' ) ) {
             try {
                 oboe_log(
                     $command,
@@ -347,7 +348,8 @@ class Profiler
                         'ProfileName' => (string)$key,
                     )
                 );
-            } catch (\Exception $e) {
+            }
+            catch (\Exception $e) {
                 //nop
             }
         }
@@ -363,14 +365,14 @@ class Profiler
      *
      * @return $this
      */
-    public function oboeTagControllerAction($controller, $action)
+    public function oboeTagControllerAction( $controller, $action )
     {
-        if (!$this->getIsOboeEnabled()) {
+        if ( !$this->getIsOboeEnabled() ) {
 
             return $this;
         }
 
-        if (!function_exists('oboe_log')) {
+        if ( !function_exists( 'oboe_log' ) ) {
 
             return $this;
         }
@@ -380,10 +382,11 @@ class Profiler
                 'info',
                 array(
                     'Controller' => (string)$controller,
-                    'Action' => (string)$action,
+                    'Action'     => (string)$action,
                 )
             );
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             //nop
         }
 

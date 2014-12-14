@@ -254,7 +254,7 @@ class RateSeatResourceRequestSigned
         $this->requestCanonicalUriPath = $canonicalUri;
 
 
-        $curlData = $request->getCurlData();
+        $curlData     = $request->getCurlData();
         $curlDataText = '';
         if ( is_array( $curlData ) ) {
             $curlDataText = json_encode( $curlData );
@@ -287,7 +287,7 @@ class RateSeatResourceRequestSigned
      */
     private function createRequestHeaderContentLength()
     {
-        $curlDataText                      = $this->getRequestPostFieldsText();
+        $curlDataText                     = $this->getRequestPostFieldsText();
         $this->requestHeaderContentLength = 'Content-Length: ' . strlen( $curlDataText );
 
         return $this;

@@ -60,7 +60,7 @@ class Version
      * @param string $release
      * @param string $path
      */
-    public function __construct($release, $path)
+    public function __construct( $release, $path )
     {
         $this->release = $release;
         $this->path    = $path;
@@ -71,22 +71,24 @@ class Version
      */
     public function getVersion()
     {
-        if ($this->version === null) {
-            if (count(explode('.', $this->release)) == 3) {
+        if ( $this->version === null ) {
+            if ( count( explode( '.', $this->release ) ) == 3 ) {
                 $this->version = $this->release;
-            } else {
+            }
+            else {
                 $this->version = $this->release . '-dev';
             }
 
-            $git = $this->getGitInformation($this->path);
+            $git = $this->getGitInformation( $this->path );
 
-            if ($git) {
-                if (count(explode('.', $this->release)) == 3) {
+            if ( $git ) {
+                if ( count( explode( '.', $this->release ) ) == 3 ) {
                     $this->version = $git;
-                } else {
-                    $git = explode('-', $git);
+                }
+                else {
+                    $git = explode( '-', $git );
 
-                    $this->version = $this->release . '-' . $git[2];
+                    $this->version = $this->release . '-' . $git[ 2 ];
                 }
             }
         }
@@ -96,20 +98,21 @@ class Version
 
     /**
      * @param  string $path
+     *
      * @return boolean|string
      */
-    private function getGitInformation($path)
+    private function getGitInformation( $path )
     {
-        if (!is_dir($path . DIRECTORY_SEPARATOR . '.git')) {
+        if ( !is_dir( $path . DIRECTORY_SEPARATOR . '.git' ) ) {
             return false;
         }
 
         $dir = getcwd();
-        chdir($path);
-        $result = @exec('git describe --tags 2>&1', $output, $returnCode);
-        chdir($dir);
+        chdir( $path );
+        $result = @exec( 'git describe --tags 2>&1', $output, $returnCode );
+        chdir( $dir );
 
-        if ($returnCode !== 0) {
+        if ( $returnCode !== 0 ) {
             return false;
         }
 

@@ -14,15 +14,16 @@ use Application\Definition\UintType;
 use Application\Mvo\Base\BaseMvo;
 use Application\Utils\ClassUtil;
 
-class ApplicationSettingsMvo extends BaseMvo{
+class ApplicationSettingsMvo extends BaseMvo
+{
 
 
     // required
-    const DATA_KEY_MVO_TYPE = 'mvoType';
+    const DATA_KEY_MVO_TYPE  = 'mvoType';
     const MVO_TYPE_PREFERRED = 'rate-seat:application:settings'; // player, user:info, ...
 
     // custom
-    const KEY_RATE_SEAT_API_CLIENT='RateSeatApiClient';
+    const KEY_RATE_SEAT_API_CLIENT = 'RateSeatApiClient';
 
 
     // ========= implement abstracts ==========
@@ -34,7 +35,7 @@ class ApplicationSettingsMvo extends BaseMvo{
     {
         $value = 0; // never expire
 
-        return new UintType($value);
+        return new UintType( $value );
     }
 
 
@@ -45,8 +46,8 @@ class ApplicationSettingsMvo extends BaseMvo{
     protected function validateBeforeSave()
     {
 
-        $method = ClassUtil::getQualifiedMethodName($this,__METHOD__,true);
-        $this->requireHasData($method);
+        $method = ClassUtil::getQualifiedMethodName( $this, __METHOD__, true );
+        $this->requireHasData( $method );
 
         return $this;
     }
@@ -70,7 +71,7 @@ class ApplicationSettingsMvo extends BaseMvo{
         return new StringStrictNotEmptyType(
             $mvoMemId,
             'Invalid mvo.mvoMemId!'
-            . ' ' . ClassUtil::getQualifiedMethodName($this, __METHOD__, true)
+            . ' ' . ClassUtil::getQualifiedMethodName( $this, __METHOD__, true )
         );
     }
 
@@ -82,7 +83,7 @@ class ApplicationSettingsMvo extends BaseMvo{
     {
         $mvoMemId = $this->createMemId();
 
-        $this->setMvoMemId($mvoMemId);
+        $this->setMvoMemId( $mvoMemId );
 
         $this->loadMvo();
 
@@ -96,8 +97,8 @@ class ApplicationSettingsMvo extends BaseMvo{
     {
         $mvoMemId = $this->createMemId();
 
-        $this->setMvoMemId($mvoMemId);
-        $this->requireHasData(null);
+        $this->setMvoMemId( $mvoMemId );
+        $this->requireHasData( null );
 
 
         $this->validateBeforeSave();
@@ -115,12 +116,12 @@ class ApplicationSettingsMvo extends BaseMvo{
      */
     public function getRateSeatApiClientSettingsVo()
     {
-        $key = $this::KEY_RATE_SEAT_API_CLIENT;
-        $value = $this->getDataKey($key);
+        $key   = $this::KEY_RATE_SEAT_API_CLIENT;
+        $value = $this->getDataKey( $key );
 
         $vo = new RateSeatApiClientSettingsVo();
-        if(is_array($value)) {
-            $vo->setData($value);
+        if ( is_array( $value ) ) {
+            $vo->setData( $value );
         }
 
         return $vo;

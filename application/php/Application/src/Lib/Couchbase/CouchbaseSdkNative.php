@@ -33,7 +33,7 @@ class CouchbaseSdkNative extends \Couchbase
     /**
      * @param CouchbaseClientConfigVo $configVo
      */
-    public function __construct(CouchbaseClientConfigVo $configVo)
+    public function __construct( CouchbaseClientConfigVo $configVo )
     {
         $this->configVo = $configVo;
 

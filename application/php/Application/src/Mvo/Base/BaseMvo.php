@@ -27,12 +27,12 @@ abstract class BaseMvo
 
     // required
 
-    const DATA_KEY_MVO_TYPE = ''; // mvoType, or type (old-backend-mvo') ...
+    const DATA_KEY_MVO_TYPE  = ''; // mvoType, or type (old-backend-mvo') ...
     const MVO_TYPE_PREFERRED = ''; // player, user:info, ...
 
     // custom
-    const DATA_KEY_MVO_TTL = 'mvoTtl';
-    const DATA_KEY_MVO_CREATED = 'created';
+    const DATA_KEY_MVO_TTL      = 'mvoTtl';
+    const DATA_KEY_MVO_CREATED  = 'created';
     const DATA_KEY_MVO_MODIFIED = 'modified';
 
     /**
@@ -49,7 +49,7 @@ abstract class BaseMvo
                 true
             ) . ' !'
             . ' ('
-            . ClassUtil::getQualifiedMethodName($this, __METHOD__, true)
+            . ClassUtil::getQualifiedMethodName( $this, __METHOD__, true )
             . ')'
         );
     }
@@ -142,7 +142,8 @@ abstract class BaseMvo
 
             return $this;
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
 
             throw new BaseMvoException(
                 'Mvo contains errors! '
@@ -167,12 +168,12 @@ abstract class BaseMvo
      */
     public function resetMvo()
     {
-        $this->mvoMemId = null;
-        $this->data = null;
-        $this->hasMvoDataLoaded = false;
+        $this->mvoMemId                       = null;
+        $this->data                           = null;
+        $this->hasMvoDataLoaded               = false;
         $this->lastMvoPersistenceDataChecksum = null;
-        $this->mvoLoadedAtMicroTime = null;
-        $this->mvoSavedAtMicroTime = null;
+        $this->mvoLoadedAtMicroTime           = null;
+        $this->mvoSavedAtMicroTime            = null;
 
         $this->updateLastPersistenceDataChecksum();
 
@@ -190,7 +191,7 @@ abstract class BaseMvo
      */
     public function getData()
     {
-        if (!is_array($this->data)) {
+        if ( !is_array( $this->data ) ) {
             $this->data = array();
         }
 
@@ -203,17 +204,17 @@ abstract class BaseMvo
      * @return $this
      * @throws \Exception
      */
-    public function setData($value)
+    public function setData( $value )
     {
-        if ($value instanceof \stdClass) {
-            $value = (array)get_object_vars($value);
+        if ( $value instanceof \stdClass ) {
+            $value = (array)get_object_vars( $value );
         }
 
-        if (!is_array($value)) {
+        if ( !is_array( $value ) ) {
 
             throw new \Exception(
                 'Invalid value! '
-                . ClassUtil::getQualifiedMethodName($this, __METHOD__, true)
+                . ClassUtil::getQualifiedMethodName( $this, __METHOD__, true )
             );
         }
 
@@ -238,11 +239,11 @@ abstract class BaseMvo
      *
      * @return $this
      */
-    public function setDataKey($key, $value)
+    public function setDataKey( $key, $value )
     {
-        $data = $this->getData();
-        $data[$key] = $value;
-        $this->setData($data);
+        $data         = $this->getData();
+        $data[ $key ] = $value;
+        $this->setData( $data );
 
         return $this;
     }
@@ -252,12 +253,12 @@ abstract class BaseMvo
      *
      * @return mixed|null
      */
-    public function getDataKey($key)
+    public function getDataKey( $key )
     {
         $result = null;
-        $data = $this->getData();
-        if (array_key_exists($key, $data)) {
-            $result = $data[$key];
+        $data   = $this->getData();
+        if ( array_key_exists( $key, $data ) ) {
+            $result = $data[ $key ];
         }
 
         return $result;
@@ -273,7 +274,7 @@ abstract class BaseMvo
      *
      * @return $this
      */
-    public function setMvoMemId(StringStrictNotEmptyType $value)
+    public function setMvoMemId( StringStrictNotEmptyType $value )
     {
         $this->mvoMemId = $value->getValue();
 
@@ -285,7 +286,7 @@ abstract class BaseMvo
      */
     public function getMvoMemId()
     {
-        return (string)StringStrictNotEmptyType::cast($this->mvoMemId, '');
+        return (string)StringStrictNotEmptyType::cast( $this->mvoMemId, '' );
     }
 
 
@@ -297,15 +298,15 @@ abstract class BaseMvo
         $mvoMemId = new StringStrictNotEmptyType(
             $this->getMvoMemId(),
             'Invalid mvo.mvoMemId ! '
-            . ClassUtil::getQualifiedMethodName($this, __METHOD__, true)
+            . ClassUtil::getQualifiedMethodName( $this, __METHOD__, true )
         );
 
-        $this->setMvoLoadedAtMicroTime(microtime(true));
-        $value = $this->getCbKey($mvoMemId);
+        $this->setMvoLoadedAtMicroTime( microtime( true ) );
+        $value = $this->getCbKey( $mvoMemId );
 
 
         // import the data we just loaded
-        $this->importMvoLoadedData($value);
+        $this->importMvoLoadedData( $value );
 
         // remember the checksum of the data that has been loaded and imported,
         // that is required for isDirty()
@@ -323,10 +324,10 @@ abstract class BaseMvo
      *
      * @return $this
      */
-    protected function importMvoLoadedData($data)
+    protected function importMvoLoadedData( $data )
     {
-        if ($data instanceof \stdClass) {
-            $data = (array)get_object_vars($data);
+        if ( $data instanceof \stdClass ) {
+            $data = (array)get_object_vars( $data );
         }
 
         $this->data = $data;
@@ -345,40 +346,40 @@ abstract class BaseMvo
         $this->validateBeforeSaveMvo();
         $this->validateMvoPropertiesPreferred();
 
-        $currentMicroTimestamp = microtime(true);
-        $currentTimestamp = (int)floor($currentMicroTimestamp);
+        $currentMicroTimestamp = microtime( true );
+        $currentTimestamp      = (int)floor( $currentMicroTimestamp );
 
 
         $data = (array)$this->getData();
 
-        $keyMvoType = $this::DATA_KEY_MVO_TYPE;
-        $keyMvoTtl = $this::DATA_KEY_MVO_TTL;
-        $keyMvoCreated = $this::DATA_KEY_MVO_CREATED;
+        $keyMvoType     = $this::DATA_KEY_MVO_TYPE;
+        $keyMvoTtl      = $this::DATA_KEY_MVO_TTL;
+        $keyMvoCreated  = $this::DATA_KEY_MVO_CREATED;
         $keyMvoModified = $this::DATA_KEY_MVO_MODIFIED;
 
         // add data.mvoType
-        $mvoTypePreferred = $this->getMvoTypePreferred();
-        $data[$keyMvoType] = $mvoTypePreferred->getValue();
+        $mvoTypePreferred    = $this->getMvoTypePreferred();
+        $data[ $keyMvoType ] = $mvoTypePreferred->getValue();
         // add data.modified timestamp
-        $mvoModified = new UintTypeNotEmpty($currentTimestamp);
-        $data[$keyMvoModified] = $mvoModified->getValue();
+        $mvoModified             = new UintTypeNotEmpty( $currentTimestamp );
+        $data[ $keyMvoModified ] = $mvoModified->getValue();
         // add data.created timestamp (if not exists)
         $created = (int)UintTypeNotEmpty::cast(
-            ArrayAssocUtil::getProperty($data, $keyMvoCreated),
+            ArrayAssocUtil::getProperty( $data, $keyMvoCreated ),
             0
         );
-        if ($created < 1) {
+        if ( $created < 1 ) {
             $created = $currentTimestamp;
         }
-        $mvoCreated = new UintTypeNotEmpty($created);
-        $data[$keyMvoCreated] = $mvoCreated->getValue();
+        $mvoCreated             = new UintTypeNotEmpty( $created );
+        $data[ $keyMvoCreated ] = $mvoCreated->getValue();
         // add data.mvoTtl
-        $mvoTtlPreferred = new UintType($this->getMvoTtlPreferred());
-        $data[$keyMvoTtl] = $mvoTtlPreferred->getValue();
+        $mvoTtlPreferred    = new UintType( $this->getMvoTtlPreferred() );
+        $data[ $keyMvoTtl ] = $mvoTtlPreferred->getValue();
 
         // calculate mvoExpireAt for saving to cb
-        $mvoExpireAt = new UintType(0);
-        if ($mvoTtlPreferred->getValue() !== 0) {
+        $mvoExpireAt = new UintType( 0 );
+        if ( $mvoTtlPreferred->getValue() !== 0 ) {
             $mvoExpireAt = new UintType(
                 $currentTimestamp + $mvoTtlPreferred->getValue()
             );
@@ -387,19 +388,19 @@ abstract class BaseMvo
 
         // save to cb
         $this->saveCbKey(
-            new StringStrictNotEmptyType($this->getMvoMemId()),
-            new ArrayAssocNotEmptyType($data),
+            new StringStrictNotEmptyType( $this->getMvoMemId() ),
+            new ArrayAssocNotEmptyType( $data ),
             $mvoExpireAt
         );
 
         // remember the time when mvo was saved
-        $this->setMvoSavedAtMicroTime(microtime(true));
+        $this->setMvoSavedAtMicroTime( microtime( true ) );
 
         // inject the meta data into mvo.data
-        $this->setDataKey($keyMvoType, $mvoTypePreferred->getValue());
-        $this->setDataKey($keyMvoTtl, $mvoTtlPreferred->getValue());
-        $this->setDataKey($keyMvoCreated, $mvoCreated->getValue());
-        $this->setDataKey($keyMvoModified, $mvoModified->getValue());
+        $this->setDataKey( $keyMvoType, $mvoTypePreferred->getValue() );
+        $this->setDataKey( $keyMvoTtl, $mvoTtlPreferred->getValue() );
+        $this->setDataKey( $keyMvoCreated, $mvoCreated->getValue() );
+        $this->setDataKey( $keyMvoModified, $mvoModified->getValue() );
 
 
         // remember the checksum of the data that has been saved,
@@ -423,7 +424,7 @@ abstract class BaseMvo
      *
      * @return $this
      */
-    protected function setMvoSavedAtMicroTime($value)
+    protected function setMvoSavedAtMicroTime( $value )
     {
         $this->mvoSavedAtMicroTime = $value;
 
@@ -436,7 +437,7 @@ abstract class BaseMvo
     protected function getMvoSavedAtMicroTime()
     {
         $value = (float)$this->mvoSavedAtMicroTime;
-        if ($value < 0) {
+        if ( $value < 0 ) {
             $value = 0.0;
         }
 
@@ -453,7 +454,7 @@ abstract class BaseMvo
      *
      * @return $this
      */
-    protected function setMvoLoadedAtMicroTime($value)
+    protected function setMvoLoadedAtMicroTime( $value )
     {
         $this->mvoLoadedAtMicroTime = $value;
 
@@ -466,7 +467,7 @@ abstract class BaseMvo
     public function getMvoLoadedAtMicroTime()
     {
         $value = (float)$this->mvoLoadedAtMicroTime;
-        if ($value < 0) {
+        if ( $value < 0 ) {
             $value = 0;
         }
 
@@ -509,7 +510,7 @@ abstract class BaseMvo
         );
 
         // validate: data
-        $this->requireHasData($methodName);
+        $this->requireHasData( $methodName );
 
 
         return $this;
@@ -521,9 +522,9 @@ abstract class BaseMvo
      * @return $this
      * @throws \Exception
      */
-    public function requireHasData($errorDetails)
+    public function requireHasData( $errorDetails )
     {
-        $className = ClassUtil::getClassNameAsJavaStyle($this);
+        $className = ClassUtil::getClassNameAsJavaStyle( $this );
 
         $errorMessage = StringUtil::joinStrictIfNotEmpty(
             ' ',
@@ -534,9 +535,9 @@ abstract class BaseMvo
             )
         );
 
-        if (!$this->hasData()) {
+        if ( !$this->hasData() ) {
 
-            throw new \Exception($errorMessage);
+            throw new \Exception( $errorMessage );
         }
 
         return $this;
@@ -547,7 +548,7 @@ abstract class BaseMvo
      */
     public function hasData()
     {
-        return ArrayAssocNotEmptyType::isValid($this->getData());
+        return ArrayAssocNotEmptyType::isValid( $this->getData() );
     }
 
 
@@ -557,9 +558,9 @@ abstract class BaseMvo
      * @return $this
      * @throws \Exception
      */
-    public function requireIsLoaded($errorDetails)
+    public function requireIsLoaded( $errorDetails )
     {
-        if ($this->isMvoLoaded()) {
+        if ( $this->isMvoLoaded() ) {
 
             return $this;
         }
@@ -568,13 +569,13 @@ abstract class BaseMvo
             ' ',
             array(
                 'Mvo not loaded!',
-                ' mvoClass = ' . ClassUtil::getClassNameAsJavaStyle($this),
+                ' mvoClass = ' . ClassUtil::getClassNameAsJavaStyle( $this ),
                 ' mvoMemId = ' . $this->getMvoMemId() . ' ! '
                 . ' details: ' . $errorDetails
             )
         );
 
-        throw new \Exception($errorMessage);
+        throw new \Exception( $errorMessage );
     }
 
 
@@ -585,17 +586,17 @@ abstract class BaseMvo
     {
         $mvoLoadedAt = $this->getMvoLoadedAtMicroTime();
 
-        if ($mvoLoadedAt < 1) {
+        if ( $mvoLoadedAt < 1 ) {
 
             return false;
         }
 
-        if (!$this->hasMvoDataLoaded()) {
+        if ( !$this->hasMvoDataLoaded() ) {
 
             return false;
         }
 
-        if (!$this->hasData()) {
+        if ( !$this->hasData() ) {
 
             return false;
         }
@@ -616,7 +617,7 @@ abstract class BaseMvo
     public function isMvoDirty()
     {
         return $this->lastMvoPersistenceDataChecksum
-        !== $this->calculateMvoDataPersistenceChecksum($this->getData());
+               !== $this->calculateMvoDataPersistenceChecksum( $this->getData() );
     }
 
     /**
@@ -624,11 +625,11 @@ abstract class BaseMvo
      *
      * @return string
      */
-    protected function calculateMvoDataPersistenceChecksum($data)
+    protected function calculateMvoDataPersistenceChecksum( $data )
     {
-        $json = json_encode($data);
+        $json = json_encode( $data );
 
-        return sha1($json) . md5($json);
+        return sha1( $json ) . md5( $json );
     }
 
     /**
@@ -637,7 +638,7 @@ abstract class BaseMvo
     protected function updateLastPersistenceDataChecksum()
     {
         $this->lastMvoPersistenceDataChecksum
-            = $this->calculateMvoDataPersistenceChecksum($this->getData());
+            = $this->calculateMvoDataPersistenceChecksum( $this->getData() );
 
         return $this;
     }
@@ -665,7 +666,7 @@ abstract class BaseMvo
     public function getMvoTtl()
     {
         return (int)UintTypeNotEmpty::cast(
-            $this->getDataKey($this::DATA_KEY_MVO_TTL),
+            $this->getDataKey( $this::DATA_KEY_MVO_TTL ),
             0
         );
     }
@@ -676,7 +677,7 @@ abstract class BaseMvo
     public function getMvoCreated()
     {
         return (int)UintTypeNotEmpty::cast(
-            $this->getDataKey($this::DATA_KEY_MVO_CREATED),
+            $this->getDataKey( $this::DATA_KEY_MVO_CREATED ),
             0
         );
     }
@@ -687,7 +688,7 @@ abstract class BaseMvo
     public function getMvoModified()
     {
         return (int)UintTypeNotEmpty::cast(
-            $this->getDataKey($this::DATA_KEY_MVO_MODIFIED),
+            $this->getDataKey( $this::DATA_KEY_MVO_MODIFIED ),
             0
         );
     }
@@ -698,7 +699,7 @@ abstract class BaseMvo
     public function getMvoType()
     {
         return (string)StringStrictNotEmptyType::cast(
-            $this->getDataKey($this::DATA_KEY_MVO_TYPE),
+            $this->getDataKey( $this::DATA_KEY_MVO_TYPE ),
             ''
         );
     }
@@ -731,19 +732,19 @@ abstract class BaseMvo
      *
      * @return mixed|null
      */
-    protected function getCbKey(StringStrictNotEmptyType $key)
+    protected function getCbKey( StringStrictNotEmptyType $key )
     {
         $value = $this->getCouchbaseClient()
-            ->getSdkJson()
-            ->get($key);
+                      ->getSdkJson()
+                      ->get( $key );
 
         return $value;
     }
 
     /**
      * @param StringStrictNotEmptyType $key
-     * @param ArrayAssocNotEmptyType $value
-     * @param UintType $expiry
+     * @param ArrayAssocNotEmptyType   $value
+     * @param UintType                 $expiry
      *
      * @return string
      */
@@ -751,11 +752,12 @@ abstract class BaseMvo
         StringStrictNotEmptyType $key,
         ArrayAssocNotEmptyType $value,
         UintType $expiry
-    ) {
+    )
+    {
 
         $casValue = $this->getCouchbaseClient()
-            ->getSdkJson()
-            ->set($key, $value, $expiry);
+                         ->getSdkJson()
+                         ->set( $key, $value, $expiry );
 
 
         return $casValue;

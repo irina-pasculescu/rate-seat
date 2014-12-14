@@ -20,5 +20,5 @@ interface StreamRequestFactoryInterface
      * @return StreamInterface Returns a stream object
      * @throws \Guzzle\Common\Exception\RuntimeException if the stream cannot be opened or an error occurs
      */
-    public function fromRequest(RequestInterface $request, $context = array(), array $params = array());
+    public function fromRequest( RequestInterface $request, $context = array(), array $params = array() );
 }

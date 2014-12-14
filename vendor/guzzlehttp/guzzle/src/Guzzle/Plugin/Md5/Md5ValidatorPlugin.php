@@ -28,57 +28,60 @@ class Md5ValidatorPlugin implements EventSubscriberInterface
      *                                      response with a Content-Length greater than this value will not be validated
      *                                      because it will be deemed too memory intensive.
      */
-    public function __construct($contentEncoded = true, $contentLengthCutoff = false)
+    public function __construct( $contentEncoded = true, $contentLengthCutoff = false )
     {
         $this->contentLengthCutoff = $contentLengthCutoff;
-        $this->contentEncoded = $contentEncoded;
+        $this->contentEncoded      = $contentEncoded;
     }
 
     public static function getSubscribedEvents()
     {
-        return array('request.complete' => array('onRequestComplete', 255));
+        return array( 'request.complete' => array( 'onRequestComplete', 255 ) );
     }
 
     /**
      * {@inheritdoc}
      * @throws UnexpectedValueException
      */
-    public function onRequestComplete(Event $event)
+    public function onRequestComplete( Event $event )
     {
-        $response = $event['response'];
+        $response = $event[ 'response' ];
 
-        if (!$contentMd5 = $response->getContentMd5()) {
+        if ( !$contentMd5 = $response->getContentMd5() ) {
             return;
         }
 
         $contentEncoding = $response->getContentEncoding();
-        if ($contentEncoding && !$this->contentEncoded) {
+        if ( $contentEncoding && !$this->contentEncoded ) {
             return false;
         }
 
         // Make sure that the size of the request is under the cutoff size
-        if ($this->contentLengthCutoff) {
-            $size = $response->getContentLength() ?: $response->getBody()->getSize();
-            if (!$size || $size > $this->contentLengthCutoff) {
+        if ( $this->contentLengthCutoff ) {
+            $size = $response->getContentLength() ? : $response->getBody()->getSize();
+            if ( !$size || $size > $this->contentLengthCutoff ) {
                 return;
             }
         }
 
-        if (!$contentEncoding) {
+        if ( !$contentEncoding ) {
             $hash = $response->getBody()->getContentMd5();
-        } elseif ($contentEncoding == 'gzip') {
-            $response->getBody()->compress('zlib.deflate');
-            $hash = $response->getBody()->getContentMd5();
-            $response->getBody()->uncompress();
-        } elseif ($contentEncoding == 'compress') {
-            $response->getBody()->compress('bzip2.compress');
+        }
+        elseif ( $contentEncoding == 'gzip' ) {
+            $response->getBody()->compress( 'zlib.deflate' );
             $hash = $response->getBody()->getContentMd5();
             $response->getBody()->uncompress();
-        } else {
+        }
+        elseif ( $contentEncoding == 'compress' ) {
+            $response->getBody()->compress( 'bzip2.compress' );
+            $hash = $response->getBody()->getContentMd5();
+            $response->getBody()->uncompress();
+        }
+        else {
             return;
         }
 
-        if ($contentMd5 !== $hash) {
+        if ( $contentMd5 !== $hash ) {
             throw new UnexpectedValueException(
                 "The response entity body may have been modified over the wire.  The Content-MD5 "
                 . "received ({$contentMd5}) did not match the calculated MD5 hash ({$hash})."

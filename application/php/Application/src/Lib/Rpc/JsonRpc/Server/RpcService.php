@@ -28,7 +28,7 @@ abstract class RpcService
      *
      * @return $this
      */
-    protected function setRpc($rpc)
+    protected function setRpc( $rpc )
     {
         $this->rpc = $rpc;
 
@@ -53,7 +53,7 @@ abstract class RpcService
      *
      * @return $this
      */
-    protected function setFactory(RpcFactory $factory)
+    protected function setFactory( RpcFactory $factory )
     {
         $this->factory = $factory;
 
@@ -70,12 +70,12 @@ abstract class RpcService
 
     /**
      * @param RpcFactory $factory
-     * @param Rpc $rpc
+     * @param Rpc        $rpc
      */
-    public function __construct(RpcFactory $factory, Rpc $rpc)
+    public function __construct( RpcFactory $factory, Rpc $rpc )
     {
-        $this->setFactory($factory);
-        $this->setRpc($rpc);
+        $this->setFactory( $factory );
+        $this->setRpc( $rpc );
     }
 
 }

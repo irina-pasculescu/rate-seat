@@ -28,12 +28,16 @@ class Cookie implements ToArrayInterface
      */
     protected static function getInvalidCharacters()
     {
-        if (!self::$invalidCharString) {
-            self::$invalidCharString = implode('', array_map('chr', array_merge(
-                range(0, 32),
-                array(34, 40, 41, 44, 47),
-                array(58, 59, 60, 61, 62, 63, 64, 91, 92, 93, 123, 125, 127)
-            )));
+        if ( !self::$invalidCharString ) {
+            self::$invalidCharString = implode(
+                '', array_map(
+                      'chr', array_merge(
+                               range( 0, 32 ),
+                               array( 34, 40, 41, 44, 47 ),
+                               array( 58, 59, 60, 61, 62, 63, 64, 91, 92, 93, 123, 125, 127 )
+                           )
+                  )
+            );
         }
 
         return self::$invalidCharString;
@@ -42,9 +46,10 @@ class Cookie implements ToArrayInterface
     /**
      * @param array $data Array of cookie data provided by a Cookie parser
      */
-    public function __construct(array $data = array())
+    public function __construct( array $data = array() )
     {
-        static $defaults = array(
+        static $defaults
+        = array(
             'name'        => '',
             'value'       => '',
             'domain'      => '',
@@ -60,13 +65,14 @@ class Cookie implements ToArrayInterface
             'http_only'   => false
         );
 
-        $this->data = array_merge($defaults, $data);
+        $this->data = array_merge( $defaults, $data );
         // Extract the expires value and turn it into a UNIX timestamp if needed
-        if (!$this->getExpires() && $this->getMaxAge()) {
+        if ( !$this->getExpires() && $this->getMaxAge() ) {
             // Calculate the expires date
-            $this->setExpires(time() + (int) $this->getMaxAge());
-        } elseif ($this->getExpires() && !is_numeric($this->getExpires())) {
-            $this->setExpires(strtotime($this->getExpires()));
+            $this->setExpires( time() + (int)$this->getMaxAge() );
+        }
+        elseif ( $this->getExpires() && !is_numeric( $this->getExpires() ) ) {
+            $this->setExpires( strtotime( $this->getExpires() ) );
         }
     }
 
@@ -87,7 +93,7 @@ class Cookie implements ToArrayInterface
      */
     public function getName()
     {
-        return $this->data['name'];
+        return $this->data[ 'name' ];
     }
 
     /**
@@ -97,9 +103,9 @@ class Cookie implements ToArrayInterface
      *
      * @return Cookie
      */
-    public function setName($name)
+    public function setName( $name )
     {
-        return $this->setData('name', $name);
+        return $this->setData( 'name', $name );
     }
 
     /**
@@ -109,7 +115,7 @@ class Cookie implements ToArrayInterface
      */
     public function getValue()
     {
-        return $this->data['value'];
+        return $this->data[ 'value' ];
     }
 
     /**
@@ -119,9 +125,9 @@ class Cookie implements ToArrayInterface
      *
      * @return Cookie
      */
-    public function setValue($value)
+    public function setValue( $value )
     {
-        return $this->setData('value', $value);
+        return $this->setData( 'value', $value );
     }
 
     /**
@@ -131,7 +137,7 @@ class Cookie implements ToArrayInterface
      */
     public function getDomain()
     {
-        return $this->data['domain'];
+        return $this->data[ 'domain' ];
     }
 
     /**
@@ -141,9 +147,9 @@ class Cookie implements ToArrayInterface
      *
      * @return Cookie
      */
-    public function setDomain($domain)
+    public function setDomain( $domain )
     {
-        return $this->setData('domain', $domain);
+        return $this->setData( 'domain', $domain );
     }
 
     /**
@@ -153,7 +159,7 @@ class Cookie implements ToArrayInterface
      */
     public function getPath()
     {
-        return $this->data['path'];
+        return $this->data[ 'path' ];
     }
 
     /**
@@ -163,9 +169,9 @@ class Cookie implements ToArrayInterface
      *
      * @return Cookie
      */
-    public function setPath($path)
+    public function setPath( $path )
     {
-        return $this->setData('path', $path);
+        return $this->setData( 'path', $path );
     }
 
     /**
@@ -175,7 +181,7 @@ class Cookie implements ToArrayInterface
      */
     public function getMaxAge()
     {
-        return $this->data['max_age'];
+        return $this->data[ 'max_age' ];
     }
 
     /**
@@ -185,9 +191,9 @@ class Cookie implements ToArrayInterface
      *
      * @return Cookie
      */
-    public function setMaxAge($maxAge)
+    public function setMaxAge( $maxAge )
     {
-        return $this->setData('max_age', $maxAge);
+        return $this->setData( 'max_age', $maxAge );
     }
 
     /**
@@ -197,7 +203,7 @@ class Cookie implements ToArrayInterface
      */
     public function getExpires()
     {
-        return $this->data['expires'];
+        return $this->data[ 'expires' ];
     }
 
     /**
@@ -207,9 +213,9 @@ class Cookie implements ToArrayInterface
      *
      * @return Cookie
      */
-    public function setExpires($timestamp)
+    public function setExpires( $timestamp )
     {
-        return $this->setData('expires', $timestamp);
+        return $this->setData( 'expires', $timestamp );
     }
 
     /**
@@ -219,7 +225,7 @@ class Cookie implements ToArrayInterface
      */
     public function getVersion()
     {
-        return $this->data['version'];
+        return $this->data[ 'version' ];
     }
 
     /**
@@ -229,9 +235,9 @@ class Cookie implements ToArrayInterface
      *
      * @return Cookie
      */
-    public function setVersion($version)
+    public function setVersion( $version )
     {
-        return $this->setData('version', $version);
+        return $this->setData( 'version', $version );
     }
 
     /**
@@ -241,7 +247,7 @@ class Cookie implements ToArrayInterface
      */
     public function getSecure()
     {
-        return $this->data['secure'];
+        return $this->data[ 'secure' ];
     }
 
     /**
@@ -251,9 +257,9 @@ class Cookie implements ToArrayInterface
      *
      * @return Cookie
      */
-    public function setSecure($secure)
+    public function setSecure( $secure )
     {
-        return $this->setData('secure', (bool) $secure);
+        return $this->setData( 'secure', (bool)$secure );
     }
 
     /**
@@ -263,7 +269,7 @@ class Cookie implements ToArrayInterface
      */
     public function getDiscard()
     {
-        return $this->data['discard'];
+        return $this->data[ 'discard' ];
     }
 
     /**
@@ -273,9 +279,9 @@ class Cookie implements ToArrayInterface
      *
      * @return Cookie
      */
-    public function setDiscard($discard)
+    public function setDiscard( $discard )
     {
-        return $this->setData('discard', $discard);
+        return $this->setData( 'discard', $discard );
     }
 
     /**
@@ -285,7 +291,7 @@ class Cookie implements ToArrayInterface
      */
     public function getComment()
     {
-        return $this->data['comment'];
+        return $this->data[ 'comment' ];
     }
 
     /**
@@ -295,9 +301,9 @@ class Cookie implements ToArrayInterface
      *
      * @return Cookie
      */
-    public function setComment($comment)
+    public function setComment( $comment )
     {
-        return $this->setData('comment', $comment);
+        return $this->setData( 'comment', $comment );
     }
 
     /**
@@ -307,7 +313,7 @@ class Cookie implements ToArrayInterface
      */
     public function getCommentUrl()
     {
-        return $this->data['comment_url'];
+        return $this->data[ 'comment_url' ];
     }
 
     /**
@@ -317,9 +323,9 @@ class Cookie implements ToArrayInterface
      *
      * @return Cookie
      */
-    public function setCommentUrl($commentUrl)
+    public function setCommentUrl( $commentUrl )
     {
-        return $this->setData('comment_url', $commentUrl);
+        return $this->setData( 'comment_url', $commentUrl );
     }
 
     /**
@@ -329,7 +335,7 @@ class Cookie implements ToArrayInterface
      */
     public function getPorts()
     {
-        return $this->data['port'];
+        return $this->data[ 'port' ];
     }
 
     /**
@@ -339,9 +345,9 @@ class Cookie implements ToArrayInterface
      *
      * @return Cookie
      */
-    public function setPorts(array $ports)
+    public function setPorts( array $ports )
     {
-        return $this->setData('port', $ports);
+        return $this->setData( 'port', $ports );
     }
 
     /**
@@ -351,7 +357,7 @@ class Cookie implements ToArrayInterface
      */
     public function getHttpOnly()
     {
-        return $this->data['http_only'];
+        return $this->data[ 'http_only' ];
     }
 
     /**
@@ -361,9 +367,9 @@ class Cookie implements ToArrayInterface
      *
      * @return Cookie
      */
-    public function setHttpOnly($httpOnly)
+    public function setHttpOnly( $httpOnly )
     {
-        return $this->setData('http_only', $httpOnly);
+        return $this->setData( 'http_only', $httpOnly );
     }
 
     /**
@@ -373,7 +379,7 @@ class Cookie implements ToArrayInterface
      */
     public function getAttributes()
     {
-        return $this->data['data'];
+        return $this->data[ 'data' ];
     }
 
     /**
@@ -383,9 +389,9 @@ class Cookie implements ToArrayInterface
      *
      * @return null|string
      */
-    public function getAttribute($name)
+    public function getAttribute( $name )
     {
-        return array_key_exists($name, $this->data['data']) ? $this->data['data'][$name] : null;
+        return array_key_exists( $name, $this->data[ 'data' ] ) ? $this->data[ 'data' ][ $name ] : null;
     }
 
     /**
@@ -396,9 +402,9 @@ class Cookie implements ToArrayInterface
      *
      * @return Cookie
      */
-    public function setAttribute($name, $value)
+    public function setAttribute( $name, $value )
     {
-        $this->data['data'][$name] = $value;
+        $this->data[ 'data' ][ $name ] = $value;
 
         return $this;
     }
@@ -410,9 +416,9 @@ class Cookie implements ToArrayInterface
      *
      * @return bool
      */
-    public function matchesPath($path)
+    public function matchesPath( $path )
     {
-        return !$this->getPath() || 0 === stripos($path, $this->getPath());
+        return !$this->getPath() || 0 === stripos( $path, $this->getPath() );
     }
 
     /**
@@ -422,22 +428,22 @@ class Cookie implements ToArrayInterface
      *
      * @return bool
      */
-    public function matchesDomain($domain)
+    public function matchesDomain( $domain )
     {
         // Remove the leading '.' as per spec in RFC 6265: http://tools.ietf.org/html/rfc6265#section-5.2.3
-        $cookieDomain = ltrim($this->getDomain(), '.');
+        $cookieDomain = ltrim( $this->getDomain(), '.' );
 
         // Domain not set or exact match.
-        if (!$cookieDomain || !strcasecmp($domain, $cookieDomain)) {
+        if ( !$cookieDomain || !strcasecmp( $domain, $cookieDomain ) ) {
             return true;
         }
 
         // Matching the subdomain according to RFC 6265: http://tools.ietf.org/html/rfc6265#section-5.1.3
-        if (filter_var($domain, FILTER_VALIDATE_IP)) {
+        if ( filter_var( $domain, FILTER_VALIDATE_IP ) ) {
             return false;
         }
 
-        return (bool) preg_match('/\.' . preg_quote($cookieDomain, '/') . '$/i', $domain);
+        return (bool)preg_match( '/\.' . preg_quote( $cookieDomain, '/' ) . '$/i', $domain );
     }
 
     /**
@@ -447,9 +453,9 @@ class Cookie implements ToArrayInterface
      *
      * @return bool
      */
-    public function matchesPort($port)
+    public function matchesPort( $port )
     {
-        return count($this->getPorts()) == 0 || in_array($port, $this->getPorts());
+        return count( $this->getPorts() ) == 0 || in_array( $port, $this->getPorts() );
     }
 
     /**
@@ -471,25 +477,25 @@ class Cookie implements ToArrayInterface
     {
         // Names must not be empty, but can be 0
         $name = $this->getName();
-        if (empty($name) && !is_numeric($name)) {
+        if ( empty( $name ) && !is_numeric( $name ) ) {
             return 'The cookie name must not be empty';
         }
 
         // Check if any of the invalid characters are present in the cookie name
-        if (strpbrk($name, self::getInvalidCharacters()) !== false) {
+        if ( strpbrk( $name, self::getInvalidCharacters() ) !== false ) {
             return 'The cookie name must not contain invalid characters: ' . $name;
         }
 
         // Value must not be empty, but can be 0
         $value = $this->getValue();
-        if (empty($value) && !is_numeric($value)) {
+        if ( empty( $value ) && !is_numeric( $value ) ) {
             return 'The cookie value must not be empty';
         }
 
         // Domains must not be empty, but can be 0
         // A "0" is not a valid internet domain, but may be used as server name in a private network
         $domain = $this->getDomain();
-        if (empty($domain) && !is_numeric($domain)) {
+        if ( empty( $domain ) && !is_numeric( $domain ) ) {
             return 'The cookie domain must not be empty';
         }
 
@@ -504,9 +510,9 @@ class Cookie implements ToArrayInterface
      *
      * @return Cookie
      */
-    private function setData($key, $value)
+    private function setData( $key, $value )
     {
-        $this->data[$key] = $value;
+        $this->data[ $key ] = $value;
 
         return $this;
     }

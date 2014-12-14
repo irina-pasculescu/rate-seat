@@ -16,7 +16,9 @@
         "guzzle/service": "self.version"
     },
     "autoload": {
-        "psr-0": { "Guzzle\\Plugin\\ErrorResponse": "" }
+        "psr-0": {
+            "Guzzle\\Plugin\\ErrorResponse": ""
+        }
     },
     "target-dir": "Guzzle/Plugin/ErrorResponse",
     "extra": {

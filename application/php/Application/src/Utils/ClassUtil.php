@@ -18,25 +18,26 @@ class ClassUtil
 
     /**
      * @param object|string $class
-     * @param bool $autoLoad
-     * @param bool $delegateExceptions
+     * @param bool          $autoLoad
+     * @param bool          $delegateExceptions
      *
      * @return bool
      */
-    public static function classExists($class, $autoLoad, $delegateExceptions)
+    public static function classExists( $class, $autoLoad, $delegateExceptions )
     {
-        $result = false;
-        $delegateExceptions = ($delegateExceptions === true);
-        $autoLoad = ($autoLoad === true);
-        if ($delegateExceptions) {
+        $result             = false;
+        $delegateExceptions = ( $delegateExceptions === true );
+        $autoLoad           = ( $autoLoad === true );
+        if ( $delegateExceptions ) {
 
-            return (class_exists($class, $autoLoad) === true);
+            return ( class_exists( $class, $autoLoad ) === true );
         }
 
         try {
 
-            return (class_exists($class, $autoLoad) === true);
-        } catch (\Exception $e) {
+            return ( class_exists( $class, $autoLoad ) === true );
+        }
+        catch (\Exception $e) {
             // nop
         }
 
@@ -48,35 +49,36 @@ class ClassUtil
      *
      * @return string
      */
-    public static function getClassName($instance)
+    public static function getClassName( $instance )
     {
         $result = '';
 
-        if ($instance === null) {
+        if ( $instance === null ) {
 
             return 'null';
         }
 
         $className = null;
-        if (is_string($instance)) {
+        if ( is_string( $instance ) ) {
             $className = $instance;
         }
 
-        if (is_object($instance)) {
+        if ( is_object( $instance ) ) {
 
             try {
-                $className = get_class($instance);
-            } catch (\Exception $e) {
+                $className = get_class( $instance );
+            }
+            catch (\Exception $e) {
                 //NOP
             }
         }
 
-        if (!is_string($className)) {
+        if ( !is_string( $className ) ) {
 
             return $result;
         }
 
-        if (empty($className)) {
+        if ( empty( $className ) ) {
 
             return $result;
         }
@@ -89,12 +91,12 @@ class ClassUtil
      *
      * @return string
      */
-    public static function getClassNameAsJavaStyle($instance)
+    public static function getClassNameAsJavaStyle( $instance )
     {
-        $className = self::getClassName($instance);
+        $className = self::getClassName( $instance );
 
         $classNameNice = str_replace(
-            array('_', '\\'),
+            array( '_', '\\' ),
             '.',
             $className
         );
@@ -104,8 +106,8 @@ class ClassUtil
 
     /**
      * @param string|object $class
-     * @param string $method
-     * @param bool $useJavaStyle
+     * @param string        $method
+     * @param bool          $useJavaStyle
      *
      * @return string
      */
@@ -113,13 +115,15 @@ class ClassUtil
         $class,
         $method,
         $useJavaStyle
-    ) {
-        $useJavaStyle = ($useJavaStyle === true);
+    )
+    {
+        $useJavaStyle = ( $useJavaStyle === true );
 
-        if ($useJavaStyle) {
-            $className = (string)self::getClassNameAsJavaStyle($class);
-        } else {
-            $className = (string)self::getClassName($class);
+        if ( $useJavaStyle ) {
+            $className = (string)self::getClassNameAsJavaStyle( $class );
+        }
+        else {
+            $className = (string)self::getClassName( $class );
         }
 
         $method = (string)$method;
@@ -129,18 +133,18 @@ class ClassUtil
             '::', // php
             '.' // java style
         );
-        foreach ($delimiters as $delimiter) {
-            if (strpos($methodName, $delimiter) !== false) {
-                $methodParts = (array)explode($delimiter, $method);
-                $lastMethodPart = array_pop($methodParts);
-                $methodName = (string)$lastMethodPart;
+        foreach ( $delimiters as $delimiter ) {
+            if ( strpos( $methodName, $delimiter ) !== false ) {
+                $methodParts    = (array)explode( $delimiter, $method );
+                $lastMethodPart = array_pop( $methodParts );
+                $methodName     = (string)$lastMethodPart;
 
                 break;
             }
         }
 
         $resultDelimiter = '::';
-        if ($useJavaStyle) {
+        if ( $useJavaStyle ) {
             $resultDelimiter = '.';
         }
 
@@ -151,9 +155,9 @@ class ClassUtil
             $methodName
         );
 
-        foreach ($parts as $part) {
-            if ((is_string($part)) && (!empty($part))) {
-                $resultParts[] = $part;
+        foreach ( $parts as $part ) {
+            if ( ( is_string( $part ) ) && ( !empty( $part ) ) ) {
+                $resultParts[ ] = $part;
             }
         }
 
@@ -171,16 +175,16 @@ class ClassUtil
      *
      * @return string
      */
-    public static function toJavaStyle($text)
+    public static function toJavaStyle( $text )
     {
-        if (!is_string($text)) {
+        if ( !is_string( $text ) ) {
 
             return '';
         }
 
         return (string)str_replace(
-            array('\\', '::'),
-            array('.', '.'),
+            array( '\\', '::' ),
+            array( '.', '.' ),
             $text
         );
     }

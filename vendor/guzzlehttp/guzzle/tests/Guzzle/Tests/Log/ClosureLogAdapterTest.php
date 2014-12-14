@@ -11,13 +11,15 @@ class ClosureLogAdapterTest extends \Guzzle\Tests\GuzzleTestCase
 {
     public function testClosure()
     {
-        $that = $this;
-        $modified = null;
-        $this->adapter = new ClosureLogAdapter(function($message, $priority, $extras = null) use ($that, &$modified) {
-            $modified = array($message, $priority, $extras);
-        });
-        $this->adapter->log('test', LOG_NOTICE, 'localhost');
-        $this->assertEquals(array('test', LOG_NOTICE, 'localhost'), $modified);
+        $that          = $this;
+        $modified      = null;
+        $this->adapter = new ClosureLogAdapter(
+            function ( $message, $priority, $extras = null ) use ( $that, &$modified ) {
+                $modified = array( $message, $priority, $extras );
+            }
+        );
+        $this->adapter->log( 'test', LOG_NOTICE, 'localhost' );
+        $this->assertEquals( array( 'test', LOG_NOTICE, 'localhost' ), $modified );
     }
 
     /**
@@ -25,6 +27,6 @@ class ClosureLogAdapterTest extends \Guzzle\Tests\GuzzleTestCase
      */
     public function testThrowsExceptionWhenNotCallable()
     {
-        $this->adapter = new ClosureLogAdapter(123);
+        $this->adapter = new ClosureLogAdapter( 123 );
     }
 }

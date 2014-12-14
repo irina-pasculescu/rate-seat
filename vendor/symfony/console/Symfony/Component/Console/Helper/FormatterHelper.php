@@ -29,9 +29,9 @@ class FormatterHelper extends Helper
      *
      * @return string The format section
      */
-    public function formatSection($section, $message, $style = 'info')
+    public function formatSection( $section, $message, $style = 'info' )
     {
-        return sprintf('<%s>[%s]</%s> %s', $style, $section, $style, $message);
+        return sprintf( '<%s>[%s]</%s> %s', $style, $section, $style, $message );
     }
 
     /**
@@ -43,31 +43,31 @@ class FormatterHelper extends Helper
      *
      * @return string The formatter message
      */
-    public function formatBlock($messages, $style, $large = false)
+    public function formatBlock( $messages, $style, $large = false )
     {
-        $messages = (array) $messages;
+        $messages = (array)$messages;
 
-        $len = 0;
+        $len   = 0;
         $lines = array();
-        foreach ($messages as $message) {
-            $message = OutputFormatter::escape($message);
-            $lines[] = sprintf($large ? '  %s  ' : ' %s ', $message);
-            $len = max($this->strlen($message) + ($large ? 4 : 2), $len);
+        foreach ( $messages as $message ) {
+            $message  = OutputFormatter::escape( $message );
+            $lines[ ] = sprintf( $large ? '  %s  ' : ' %s ', $message );
+            $len      = max( $this->strlen( $message ) + ( $large ? 4 : 2 ), $len );
         }
 
-        $messages = $large ? array(str_repeat(' ', $len)) : array();
-        foreach ($lines as $line) {
-            $messages[] = $line.str_repeat(' ', $len - $this->strlen($line));
+        $messages = $large ? array( str_repeat( ' ', $len ) ) : array();
+        foreach ( $lines as $line ) {
+            $messages[ ] = $line . str_repeat( ' ', $len - $this->strlen( $line ) );
         }
-        if ($large) {
-            $messages[] = str_repeat(' ', $len);
-        }
-
-        foreach ($messages as &$message) {
-            $message = sprintf('<%s>%s</%s>', $style, $message, $style);
+        if ( $large ) {
+            $messages[ ] = str_repeat( ' ', $len );
         }
 
-        return implode("\n", $messages);
+        foreach ( $messages as &$message ) {
+            $message = sprintf( '<%s>%s</%s>', $style, $message, $style );
+        }
+
+        return implode( "\n", $messages );
     }
 
     /**

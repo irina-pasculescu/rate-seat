@@ -15,14 +15,14 @@ namespace Application\Definition;
 class StringStrictAlphaNumericTypeNotEmpty extends StringStrictAlphaNumericType
 {
     /**
-     * @param mixed $rawValue
+     * @param mixed  $rawValue
      * @param string $errorMessage
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($rawValue, $errorMessage = '')
+    public function __construct( $rawValue, $errorMessage = '' )
     {
-        parent::__construct($rawValue, $errorMessage);
+        parent::__construct( $rawValue, $errorMessage );
     }
 
     /**
@@ -38,9 +38,9 @@ class StringStrictAlphaNumericTypeNotEmpty extends StringStrictAlphaNumericType
      *
      * @return bool
      */
-    public static function isValid($rawValue)
+    public static function isValid( $rawValue )
     {
-        $value = self::cast($rawValue, null);
+        $value   = self::cast( $rawValue, null );
         $isValid = $value !== null;
 
         return $isValid;
@@ -52,19 +52,19 @@ class StringStrictAlphaNumericTypeNotEmpty extends StringStrictAlphaNumericType
      *
      * @return mixed|string
      */
-    public static function cast($value, $defaultValue)
+    public static function cast( $value, $defaultValue )
     {
-        $value = parent::cast($value, null);
-        if ($value === null) {
+        $value = parent::cast( $value, null );
+        if ( $value === null ) {
 
             return $defaultValue;
         }
 
-        $isValid = is_string($value)
-            && ctype_alnum($value)
-            && trim($value) !== '';
+        $isValid = is_string( $value )
+                   && ctype_alnum( $value )
+                   && trim( $value ) !== '';
 
-        if ($isValid) {
+        if ( $isValid ) {
 
             return (string)$value;
         }

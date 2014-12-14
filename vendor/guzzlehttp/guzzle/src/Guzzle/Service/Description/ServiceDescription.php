@@ -41,56 +41,57 @@ class ServiceDescription implements ServiceDescriptionInterface, ToArrayInterfac
      *
      * @return self
      */
-    public static function factory($config, array $options = array())
+    public static function factory( $config, array $options = array() )
     {
         // @codeCoverageIgnoreStart
-        if (!self::$descriptionLoader) {
+        if ( !self::$descriptionLoader ) {
             self::$descriptionLoader = new ServiceDescriptionLoader();
         }
+
         // @codeCoverageIgnoreEnd
 
-        return self::$descriptionLoader->load($config, $options);
+        return self::$descriptionLoader->load( $config, $options );
     }
 
     /**
      * @param array $config Array of configuration data
      */
-    public function __construct(array $config = array())
+    public function __construct( array $config = array() )
     {
-        $this->fromArray($config);
+        $this->fromArray( $config );
     }
 
     public function serialize()
     {
-        return json_encode($this->toArray());
+        return json_encode( $this->toArray() );
     }
 
-    public function unserialize($json)
+    public function unserialize( $json )
     {
         $this->operations = array();
-        $this->fromArray(json_decode($json, true));
+        $this->fromArray( json_decode( $json, true ) );
     }
 
     public function toArray()
     {
-        $result = array(
-            'name'        => $this->name,
-            'apiVersion'  => $this->apiVersion,
-            'baseUrl'     => $this->baseUrl,
-            'description' => $this->description
-        ) + $this->extraData;
-        $result['operations'] = array();
-        foreach ($this->getOperations() as $name => $operation) {
-            $result['operations'][$operation->getName() ?: $name] = $operation->toArray();
+        $result                 = array(
+                                      'name'        => $this->name,
+                                      'apiVersion'  => $this->apiVersion,
+                                      'baseUrl'     => $this->baseUrl,
+                                      'description' => $this->description
+                                  ) + $this->extraData;
+        $result[ 'operations' ] = array();
+        foreach ( $this->getOperations() as $name => $operation ) {
+            $result[ 'operations' ][ $operation->getName() ? : $name ] = $operation->toArray();
         }
-        if (!empty($this->models)) {
-            $result['models'] = array();
-            foreach ($this->models as $id => $model) {
-                $result['models'][$id] = $model instanceof Parameter ? $model->toArray(): $model;
+        if ( !empty( $this->models ) ) {
+            $result[ 'models' ] = array();
+            foreach ( $this->models as $id => $model ) {
+                $result[ 'models' ][ $id ] = $model instanceof Parameter ? $model->toArray() : $model;
             }
         }
 
-        return array_filter($result);
+        return array_filter( $result );
     }
 
     public function getBaseUrl()
@@ -105,7 +106,7 @@ class ServiceDescription implements ServiceDescriptionInterface, ToArrayInterfac
      *
      * @return self
      */
-    public function setBaseUrl($baseUrl)
+    public function setBaseUrl( $baseUrl )
     {
         $this->baseUrl = $baseUrl;
 
@@ -114,30 +115,30 @@ class ServiceDescription implements ServiceDescriptionInterface, ToArrayInterfac
 
     public function getOperations()
     {
-        foreach (array_keys($this->operations) as $name) {
-            $this->getOperation($name);
+        foreach ( array_keys( $this->operations ) as $name ) {
+            $this->getOperation( $name );
         }
 
         return $this->operations;
     }
 
-    public function hasOperation($name)
+    public function hasOperation( $name )
     {
-        return isset($this->operations[$name]);
+        return isset( $this->operations[ $name ] );
     }
 
-    public function getOperation($name)
+    public function getOperation( $name )
     {
         // Lazily retrieve and build operations
-        if (!isset($this->operations[$name])) {
+        if ( !isset( $this->operations[ $name ] ) ) {
             return null;
         }
 
-        if (!($this->operations[$name] instanceof Operation)) {
-            $this->operations[$name] = new Operation($this->operations[$name], $this);
+        if ( !( $this->operations[ $name ] instanceof Operation ) ) {
+            $this->operations[ $name ] = new Operation( $this->operations[ $name ], $this );
         }
 
-        return $this->operations[$name];
+        return $this->operations[ $name ];
     }
 
     /**
@@ -147,39 +148,39 @@ class ServiceDescription implements ServiceDescriptionInterface, ToArrayInterfac
      *
      * @return self
      */
-    public function addOperation(OperationInterface $operation)
+    public function addOperation( OperationInterface $operation )
     {
-        $this->operations[$operation->getName()] = $operation->setServiceDescription($this);
+        $this->operations[ $operation->getName() ] = $operation->setServiceDescription( $this );
 
         return $this;
     }
 
-    public function getModel($id)
+    public function getModel( $id )
     {
-        if (!isset($this->models[$id])) {
+        if ( !isset( $this->models[ $id ] ) ) {
             return null;
         }
 
-        if (!($this->models[$id] instanceof Parameter)) {
-            $this->models[$id] = new Parameter($this->models[$id] + array('name' => $id), $this);
+        if ( !( $this->models[ $id ] instanceof Parameter ) ) {
+            $this->models[ $id ] = new Parameter( $this->models[ $id ] + array( 'name' => $id ), $this );
         }
 
-        return $this->models[$id];
+        return $this->models[ $id ];
     }
 
     public function getModels()
     {
         // Ensure all models are converted into parameter objects
-        foreach (array_keys($this->models) as $id) {
-            $this->getModel($id);
+        foreach ( array_keys( $this->models ) as $id ) {
+            $this->getModel( $id );
         }
 
         return $this->models;
     }
 
-    public function hasModel($id)
+    public function hasModel( $id )
     {
-        return isset($this->models[$id]);
+        return isset( $this->models[ $id ] );
     }
 
     /**
@@ -189,9 +190,9 @@ class ServiceDescription implements ServiceDescriptionInterface, ToArrayInterfac
      *
      * @return self
      */
-    public function addModel(Parameter $model)
+    public function addModel( Parameter $model )
     {
-        $this->models[$model->getName()] = $model;
+        $this->models[ $model->getName() ] = $model;
 
         return $this;
     }
@@ -211,14 +212,14 @@ class ServiceDescription implements ServiceDescriptionInterface, ToArrayInterfac
         return $this->description;
     }
 
-    public function getData($key)
+    public function getData( $key )
     {
-        return isset($this->extraData[$key]) ? $this->extraData[$key] : null;
+        return isset( $this->extraData[ $key ] ) ? $this->extraData[ $key ] : null;
     }
 
-    public function setData($key, $value)
+    public function setData( $key, $value )
     {
-        $this->extraData[$key] = $value;
+        $this->extraData[ $key ] = $value;
 
         return $this;
     }
@@ -227,45 +228,48 @@ class ServiceDescription implements ServiceDescriptionInterface, ToArrayInterfac
      * Initialize the state from an array
      *
      * @param array $config Configuration data
+     *
      * @throws InvalidArgumentException
      */
-    protected function fromArray(array $config)
+    protected function fromArray( array $config )
     {
         // Keep a list of default keys used in service descriptions that is later used to determine extra data keys
-        static $defaultKeys = array('name', 'models', 'apiVersion', 'baseUrl', 'description');
+        static $defaultKeys = array( 'name', 'models', 'apiVersion', 'baseUrl', 'description' );
         // Pull in the default configuration values
-        foreach ($defaultKeys as $key) {
-            if (isset($config[$key])) {
-                $this->{$key} = $config[$key];
+        foreach ( $defaultKeys as $key ) {
+            if ( isset( $config[ $key ] ) ) {
+                $this->{$key} = $config[ $key ];
             }
         }
 
         // Account for the Swagger name for Guzzle's baseUrl
-        if (isset($config['basePath'])) {
-            $this->baseUrl = $config['basePath'];
+        if ( isset( $config[ 'basePath' ] ) ) {
+            $this->baseUrl = $config[ 'basePath' ];
         }
 
         // Ensure that the models and operations properties are always arrays
-        $this->models = (array) $this->models;
-        $this->operations = (array) $this->operations;
+        $this->models     = (array)$this->models;
+        $this->operations = (array)$this->operations;
 
         // We want to add operations differently than adding the other properties
-        $defaultKeys[] = 'operations';
+        $defaultKeys[ ] = 'operations';
 
         // Create operations for each operation
-        if (isset($config['operations'])) {
-            foreach ($config['operations'] as $name => $operation) {
-                if (!($operation instanceof Operation) && !is_array($operation)) {
-                    throw new InvalidArgumentException('Invalid operation in service description: '
-                        . gettype($operation));
+        if ( isset( $config[ 'operations' ] ) ) {
+            foreach ( $config[ 'operations' ] as $name => $operation ) {
+                if ( !( $operation instanceof Operation ) && !is_array( $operation ) ) {
+                    throw new InvalidArgumentException(
+                        'Invalid operation in service description: '
+                        . gettype( $operation )
+                    );
                 }
-                $this->operations[$name] = $operation;
+                $this->operations[ $name ] = $operation;
             }
         }
 
         // Get all of the additional properties of the service description and store them in a data array
-        foreach (array_diff(array_keys($config), $defaultKeys) as $key) {
-            $this->extraData[$key] = $config[$key];
+        foreach ( array_diff( array_keys( $config ), $defaultKeys ) as $key ) {
+            $this->extraData[ $key ] = $config[ $key ];
         }
     }
 }

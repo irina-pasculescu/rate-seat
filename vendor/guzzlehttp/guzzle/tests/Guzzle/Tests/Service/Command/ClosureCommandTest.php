@@ -4,7 +4,6 @@ namespace Guzzle\Tests\Service\Command;
 
 use Guzzle\Http\Message\RequestFactory;
 use Guzzle\Service\Command\ClosureCommand;
-use Guzzle\Service\Client;
 
 /**
  * @covers Guzzle\Service\Command\ClosureCommand
@@ -22,18 +21,21 @@ class ClosureCommandTest extends \Guzzle\Tests\GuzzleTestCase
 
     public function testExecutesClosure()
     {
-        $c = new ClosureCommand(array(
-            'closure' => function($command, $api) {
-                $command->set('testing', '123');
-                $request = RequestFactory::getInstance()->create('GET', 'http://www.test.com/');
-                return $request;
-            }
-        ));
+        $c = new ClosureCommand(
+            array(
+                'closure' => function ( $command, $api ) {
+                        $command->set( 'testing', '123' );
+                        $request = RequestFactory::getInstance()->create( 'GET', 'http://www.test.com/' );
 
-        $client = $this->getServiceBuilder()->get('mock');
-        $c->setClient($client)->prepare();
-        $this->assertEquals('123', $c->get('testing'));
-        $this->assertEquals('http://www.test.com/', $c->getRequest()->getUrl());
+                        return $request;
+                    }
+            )
+        );
+
+        $client = $this->getServiceBuilder()->get( 'mock' );
+        $c->setClient( $client )->prepare();
+        $this->assertEquals( '123', $c->get( 'testing' ) );
+        $this->assertEquals( 'http://www.test.com/', $c->getRequest()->getUrl() );
     }
 
     /**
@@ -42,13 +44,15 @@ class ClosureCommandTest extends \Guzzle\Tests\GuzzleTestCase
      */
     public function testMustReturnRequest()
     {
-        $c = new ClosureCommand(array(
-            'closure' => function($command, $api) {
-                return false;
-            }
-        ));
+        $c = new ClosureCommand(
+            array(
+                'closure' => function ( $command, $api ) {
+                        return false;
+                    }
+            )
+        );
 
-        $client = $this->getServiceBuilder()->get('mock');
-        $c->setClient($client)->prepare();
+        $client = $this->getServiceBuilder()->get( 'mock' );
+        $c->setClient( $client )->prepare();
     }
 }

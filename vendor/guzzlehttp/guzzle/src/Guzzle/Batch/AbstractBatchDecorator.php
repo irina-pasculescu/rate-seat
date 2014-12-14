@@ -11,9 +11,9 @@ abstract class AbstractBatchDecorator implements BatchInterface
     protected $decoratedBatch;
 
     /**
-     * @param BatchInterface $decoratedBatch  BatchInterface that is being decorated
+     * @param BatchInterface $decoratedBatch BatchInterface that is being decorated
      */
-    public function __construct(BatchInterface $decoratedBatch)
+    public function __construct( BatchInterface $decoratedBatch )
     {
         $this->decoratedBatch = $decoratedBatch;
     }
@@ -27,14 +27,14 @@ abstract class AbstractBatchDecorator implements BatchInterface
      * @return mixed
      * @codeCoverageIgnore
      */
-    public function __call($method, array $args)
+    public function __call( $method, array $args )
     {
-        return call_user_func_array(array($this->decoratedBatch, $method), $args);
+        return call_user_func_array( array( $this->decoratedBatch, $method ), $args );
     }
 
-    public function add($item)
+    public function add( $item )
     {
-        $this->decoratedBatch->add($item);
+        $this->decoratedBatch->add( $item );
 
         return $this;
     }
@@ -56,9 +56,9 @@ abstract class AbstractBatchDecorator implements BatchInterface
      */
     public function getDecorators()
     {
-        $found = array($this);
-        if (method_exists($this->decoratedBatch, 'getDecorators')) {
-            $found = array_merge($found, $this->decoratedBatch->getDecorators());
+        $found = array( $this );
+        if ( method_exists( $this->decoratedBatch, 'getDecorators' ) ) {
+            $found = array_merge( $found, $this->decoratedBatch->getDecorators() );
         }
 
         return $found;

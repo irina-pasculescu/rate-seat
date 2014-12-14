@@ -29,7 +29,7 @@ class Bootstrap extends BaseBootstrap
      */
     public static function getInstance()
     {
-        if (!self::$instance) {
+        if ( !self::$instance ) {
             self::$instance = new self();
         }
 
@@ -52,7 +52,7 @@ class Bootstrap extends BaseBootstrap
     {
         parent::initLocale();
 
-        date_default_timezone_set('UTC');
+        date_default_timezone_set( 'UTC' );
 
         return $this;
     }

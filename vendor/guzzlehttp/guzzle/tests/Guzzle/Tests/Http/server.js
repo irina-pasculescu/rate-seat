@@ -31,7 +31,7 @@ var http = require("http");
  * Guzzle node.js server
  * @class
  */
-var GuzzleServer = function(port, log) {
+var GuzzleServer = function (port, log) {
 
     this.port = port;
     this.log = log;
@@ -39,7 +39,7 @@ var GuzzleServer = function(port, log) {
     this.requests = [];
     var that = this;
 
-    var controlRequest = function(request, req, res) {
+    var controlRequest = function (request, req, res) {
         if (req.url == '/guzzle-server/perf') {
             res.writeHead(200, "OK", {"Content-Length": 16});
             res.end("Body of response");
@@ -95,7 +95,7 @@ var GuzzleServer = function(port, log) {
         }
     };
 
-    var receivedRequest = function(request, req, res) {
+    var receivedRequest = function (request, req, res) {
         if (req.url.indexOf("/guzzle-server") === 0) {
             controlRequest(request, req, res);
         } else if (req.url.indexOf("/guzzle-server") == -1 && !that.responses.length) {
@@ -109,9 +109,9 @@ var GuzzleServer = function(port, log) {
         }
     };
 
-    this.start = function() {
+    this.start = function () {
 
-        that.server = http.createServer(function(req, res) {
+        that.server = http.createServer(function (req, res) {
 
             var request = req.method + " " + req.url + " HTTP/" + req.httpVersion + "\r\n";
             for (var i in req.headers) {
@@ -120,12 +120,12 @@ var GuzzleServer = function(port, log) {
             request += "\r\n";
 
             // Receive each chunk of the request body
-            req.addListener("data", function(chunk) {
+            req.addListener("data", function (chunk) {
                 request += chunk;
             });
 
             // Called when the request completes
-            req.addListener("end", function() {
+            req.addListener("end", function () {
                 receivedRequest(request, req, res);
             });
         });

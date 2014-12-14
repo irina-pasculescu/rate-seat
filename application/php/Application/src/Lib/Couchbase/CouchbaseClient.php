@@ -21,10 +21,10 @@ class CouchbaseClient
      *
      * @return CouchbaseClientConfigVo
      */
-    public static function createClientConfigVo($data)
+    public static function createClientConfigVo( $data )
     {
         $vo = new CouchbaseClientConfigVo();
-        $vo->setData($data);
+        $vo->setData( $data );
 
         return $vo;
     }
@@ -45,7 +45,7 @@ class CouchbaseClient
     /**
      * @param CouchbaseClientConfigVo $configVo
      */
-    public function __construct(CouchbaseClientConfigVo $configVo)
+    public function __construct( CouchbaseClientConfigVo $configVo )
     {
         $this->configVo = $configVo;
     }
@@ -60,7 +60,7 @@ class CouchbaseClient
      */
     public function getSdkNative()
     {
-        if (!$this->sdkNative) {
+        if ( !$this->sdkNative ) {
             $this->sdkNative = new CouchbaseSdkNative(
                 $this->getConfigVo()
             );
@@ -79,7 +79,7 @@ class CouchbaseClient
      */
     public function getSdkJson()
     {
-        if (!$this->sdkJson) {
+        if ( !$this->sdkJson ) {
             $this->sdkJson = new CouchbaseSdkJson(
                 $this->getSdkNative()
             );

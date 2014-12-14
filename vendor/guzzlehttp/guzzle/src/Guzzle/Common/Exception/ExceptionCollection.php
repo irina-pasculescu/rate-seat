@@ -13,9 +13,9 @@ class ExceptionCollection extends \Exception implements GuzzleException, \Iterat
     /** @var string Succinct exception message not including sub-exceptions */
     private $shortMessage;
 
-    public function __construct($message = '', $code = 0, \Exception $previous = null)
+    public function __construct( $message = '', $code = 0, \Exception $previous = null )
     {
-        parent::__construct($message, $code, $previous);
+        parent::__construct( $message, $code, $previous );
         $this->shortMessage = $message;
     }
 
@@ -26,11 +26,11 @@ class ExceptionCollection extends \Exception implements GuzzleException, \Iterat
      *
      * @return self
      */
-    public function setExceptions(array $exceptions)
+    public function setExceptions( array $exceptions )
     {
         $this->exceptions = array();
-        foreach ($exceptions as $exception) {
-            $this->add($exception);
+        foreach ( $exceptions as $exception ) {
+            $this->add( $exception );
         }
 
         return $this;
@@ -43,14 +43,14 @@ class ExceptionCollection extends \Exception implements GuzzleException, \Iterat
      *
      * @return ExceptionCollection;
      */
-    public function add($e)
+    public function add( $e )
     {
-        $this->exceptions[] = $e;
-        if ($this->message) {
+        $this->exceptions[ ] = $e;
+        if ( $this->message ) {
             $this->message .= "\n";
         }
 
-        $this->message .= $this->getExceptionMessage($e, 0);
+        $this->message .= $this->getExceptionMessage( $e, 0 );
 
         return $this;
     }
@@ -62,7 +62,7 @@ class ExceptionCollection extends \Exception implements GuzzleException, \Iterat
      */
     public function count()
     {
-        return count($this->exceptions);
+        return count( $this->exceptions );
     }
 
     /**
@@ -72,7 +72,7 @@ class ExceptionCollection extends \Exception implements GuzzleException, \Iterat
      */
     public function getIterator()
     {
-        return new \ArrayIterator($this->exceptions);
+        return new \ArrayIterator( $this->exceptions );
     }
 
     /**
@@ -82,27 +82,28 @@ class ExceptionCollection extends \Exception implements GuzzleException, \Iterat
      */
     public function getFirst()
     {
-        return $this->exceptions ? $this->exceptions[0] : null;
+        return $this->exceptions ? $this->exceptions[ 0 ] : null;
     }
 
-    private function getExceptionMessage(\Exception $e, $depth = 0)
+    private function getExceptionMessage( \Exception $e, $depth = 0 )
     {
         static $sp = '    ';
-        $prefix = $depth ? str_repeat($sp, $depth) : '';
-        $message = "{$prefix}(" . get_class($e) . ') ' . $e->getFile() . ' line ' . $e->getLine() . "\n";
+        $prefix  = $depth ? str_repeat( $sp, $depth ) : '';
+        $message = "{$prefix}(" . get_class( $e ) . ') ' . $e->getFile() . ' line ' . $e->getLine() . "\n";
 
-        if ($e instanceof self) {
-            if ($e->shortMessage) {
-                $message .= "\n{$prefix}{$sp}" . str_replace("\n", "\n{$prefix}{$sp}", $e->shortMessage) . "\n";
+        if ( $e instanceof self ) {
+            if ( $e->shortMessage ) {
+                $message .= "\n{$prefix}{$sp}" . str_replace( "\n", "\n{$prefix}{$sp}", $e->shortMessage ) . "\n";
             }
-            foreach ($e as $ee) {
-                $message .= "\n" . $this->getExceptionMessage($ee, $depth + 1);
+            foreach ( $e as $ee ) {
+                $message .= "\n" . $this->getExceptionMessage( $ee, $depth + 1 );
             }
-        }  else {
-            $message .= "\n{$prefix}{$sp}" . str_replace("\n", "\n{$prefix}{$sp}", $e->getMessage()) . "\n";
-            $message .= "\n{$prefix}{$sp}" . str_replace("\n", "\n{$prefix}{$sp}", $e->getTraceAsString()) . "\n";
+        }
+        else {
+            $message .= "\n{$prefix}{$sp}" . str_replace( "\n", "\n{$prefix}{$sp}", $e->getMessage() ) . "\n";
+            $message .= "\n{$prefix}{$sp}" . str_replace( "\n", "\n{$prefix}{$sp}", $e->getTraceAsString() ) . "\n";
         }
 
-        return str_replace(getcwd(), '.', $message);
+        return str_replace( getcwd(), '.', $message );
     }
 }

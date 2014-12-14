@@ -31,40 +31,40 @@ abstract class Descriptor implements DescriptorInterface
     /**
      * {@inheritdoc}
      */
-    public function describe(OutputInterface $output, $object, array $options = array())
+    public function describe( OutputInterface $output, $object, array $options = array() )
     {
         $this->output = $output;
 
         switch (true) {
             case $object instanceof InputArgument:
-                $this->describeInputArgument($object, $options);
+                $this->describeInputArgument( $object, $options );
                 break;
             case $object instanceof InputOption:
-                $this->describeInputOption($object, $options);
+                $this->describeInputOption( $object, $options );
                 break;
             case $object instanceof InputDefinition:
-                $this->describeInputDefinition($object, $options);
+                $this->describeInputDefinition( $object, $options );
                 break;
             case $object instanceof Command:
-                $this->describeCommand($object, $options);
+                $this->describeCommand( $object, $options );
                 break;
             case $object instanceof Application:
-                $this->describeApplication($object, $options);
+                $this->describeApplication( $object, $options );
                 break;
             default:
-                throw new \InvalidArgumentException(sprintf('Object of type "%s" is not describable.', get_class($object)));
+                throw new \InvalidArgumentException( sprintf( 'Object of type "%s" is not describable.', get_class( $object ) ) );
         }
     }
 
     /**
      * Writes content to output.
      *
-     * @param string  $content
-     * @param bool    $decorated
+     * @param string $content
+     * @param bool   $decorated
      */
-    protected function write($content, $decorated = false)
+    protected function write( $content, $decorated = false )
     {
-        $this->output->write($content, false, $decorated ? OutputInterface::OUTPUT_NORMAL : OutputInterface::OUTPUT_RAW);
+        $this->output->write( $content, false, $decorated ? OutputInterface::OUTPUT_NORMAL : OutputInterface::OUTPUT_RAW );
     }
 
     /**
@@ -75,7 +75,7 @@ abstract class Descriptor implements DescriptorInterface
      *
      * @return string|mixed
      */
-    abstract protected function describeInputArgument(InputArgument $argument, array $options = array());
+    abstract protected function describeInputArgument( InputArgument $argument, array $options = array() );
 
     /**
      * Describes an InputOption instance.
@@ -85,7 +85,7 @@ abstract class Descriptor implements DescriptorInterface
      *
      * @return string|mixed
      */
-    abstract protected function describeInputOption(InputOption $option, array $options = array());
+    abstract protected function describeInputOption( InputOption $option, array $options = array() );
 
     /**
      * Describes an InputDefinition instance.
@@ -95,7 +95,7 @@ abstract class Descriptor implements DescriptorInterface
      *
      * @return string|mixed
      */
-    abstract protected function describeInputDefinition(InputDefinition $definition, array $options = array());
+    abstract protected function describeInputDefinition( InputDefinition $definition, array $options = array() );
 
     /**
      * Describes a Command instance.
@@ -105,7 +105,7 @@ abstract class Descriptor implements DescriptorInterface
      *
      * @return string|mixed
      */
-    abstract protected function describeCommand(Command $command, array $options = array());
+    abstract protected function describeCommand( Command $command, array $options = array() );
 
     /**
      * Describes an Application instance.
@@ -115,5 +115,5 @@ abstract class Descriptor implements DescriptorInterface
      *
      * @return string|mixed
      */
-    abstract protected function describeApplication(Application $application, array $options = array());
+    abstract protected function describeApplication( Application $application, array $options = array() );
 }

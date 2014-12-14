@@ -21,15 +21,15 @@ class ArrayAssocNotEmptyType extends ArrayAssocType
 
     /**
      * @param bool|int|string $rawValue
-     * @param string $errorMessage
+     * @param string          $errorMessage
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($rawValue, $errorMessage = '')
+    public function __construct( $rawValue, $errorMessage = '' )
     {
-        $value = $this::cast($rawValue, null);
-        $isValid = $this::isValid($value);
-        if (!$isValid) {
+        $value   = $this::cast( $rawValue, null );
+        $isValid = $this::isValid( $value );
+        if ( !$isValid ) {
 
             throw new \InvalidArgumentException(
                 $this->createUnableToCastExceptionMessage(
@@ -42,9 +42,10 @@ class ArrayAssocNotEmptyType extends ArrayAssocType
         }
 
         $this->value = $value;
-        if ($rawValue instanceof BaseType) {
+        if ( $rawValue instanceof BaseType ) {
             $this->rawValue = $rawValue->getValue();
-        } else {
+        }
+        else {
             $this->rawValue = $rawValue;
         }
     }
@@ -63,9 +64,9 @@ class ArrayAssocNotEmptyType extends ArrayAssocType
      *
      * @return bool
      */
-    public static function isValid($rawValue)
+    public static function isValid( $rawValue )
     {
-        $value = self::cast($rawValue, null);
+        $value   = self::cast( $rawValue, null );
         $isValid = $value !== null;
 
         return $isValid;
@@ -77,13 +78,13 @@ class ArrayAssocNotEmptyType extends ArrayAssocType
      *
      * @return array|mixed
      */
-    public static function cast($value, $defaultValue)
+    public static function cast( $value, $defaultValue )
     {
-        if ($value instanceof BaseType) {
+        if ( $value instanceof BaseType ) {
             $value = $value->getValue();
         }
 
-        if (ArrayAssocUtil::isAssocArrayNotEmpty($value)) {
+        if ( ArrayAssocUtil::isAssocArrayNotEmpty( $value ) ) {
 
             return (array)$value;
         }

@@ -11,8 +11,7 @@ namespace Application\Api\RateSeat\V1\Shared;
 
 use Application\Definition\UfloatTypeNotEmpty;
 use Application\Definition\UintTypeNotEmpty;
-use
-    Application\Lib\RateSeat\RestApiClient\Api\Base\Request\BaseRateSeatApiClientRequest;
+use Application\Lib\RateSeat\RestApiClient\Api\Base\Request\BaseRateSeatApiClientRequest;
 use Application\Lib\RateSeat\RestApiClient\HttpClientOptionsVo;
 use Application\Lib\RateSeat\RestApiClient\RateSeatRestApiClient;
 use Application\Lib\RateSeat\RestApiClient\RateSeatRestApiClientConfigVo;
@@ -188,7 +187,7 @@ class RateSeatApiClientFacade
             $rateSeatRestApiClientConfigVo
         );
 
-        $guzzleStatus  = $restApiClient->makeRequestGuzzle(
+        $guzzleStatus = $restApiClient->makeRequestGuzzle(
             $rateSeatApiClientRequest->getHttpMethod(),
             $rateSeatApiClientRequest->getResourceUri(),
             $rateSeatApiClientRequest->getCurlData(),

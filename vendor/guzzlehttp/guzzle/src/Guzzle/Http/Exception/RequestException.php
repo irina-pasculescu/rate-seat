@@ -20,7 +20,7 @@ class RequestException extends RuntimeException implements HttpException
      *
      * @return RequestException
      */
-    public function setRequest(RequestInterface $request)
+    public function setRequest( RequestInterface $request )
     {
         $this->request = $request;
 

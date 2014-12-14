@@ -17,7 +17,7 @@ interface ValidatorInterface
      *
      * @return bool  Returns true if the input data is valid for the schema
      */
-    public function validate(Parameter $param, &$value);
+    public function validate( Parameter $param, &$value );
 
     /**
      * Get validation errors encountered while validating

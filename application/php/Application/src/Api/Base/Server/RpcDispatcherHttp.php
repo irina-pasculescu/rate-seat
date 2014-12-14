@@ -35,21 +35,20 @@ class RpcDispatcherHttp extends AbstractDispatcher
     public function run()
     {
         $apiManager = $this->getFactory()
-            ->getApiManager();
+                           ->getApiManager();
 
 
         $apiManager->initRoutesHttp();
         $apiManager->initRouterCallbacks();
 
         $rpcFactory = $this->getFactory();
-        $router = $rpcFactory->getRouter();
+        $router     = $rpcFactory->getRouter();
 
         $router->setRequestData(
             $this->fetchRequestData()
         )
-            ->route()
-            ->sendResponse();
-
+               ->route()
+               ->sendResponse();
 
         return $this;
     }
@@ -60,10 +59,10 @@ class RpcDispatcherHttp extends AbstractDispatcher
     protected function fetchRequestData()
     {
         $rpcFactory = $this->getFactory();
-        $router = $rpcFactory->getRouter();
+        $router     = $rpcFactory->getRouter();
 
         $requestText = $router->fetchRequestText();
-        $requestData = $router->decodeJson($requestText, true, false);
+        $requestData = $router->decodeJson( $requestText, true, false );
 
         return $requestData;
     }

@@ -12,14 +12,14 @@ class HeaderCollection implements \IteratorAggregate, \Countable, \ArrayAccess, 
     /** @var array */
     protected $headers;
 
-    public function __construct($headers = array())
+    public function __construct( $headers = array() )
     {
         $this->headers = $headers;
     }
 
     public function __clone()
     {
-        foreach ($this->headers as &$header) {
+        foreach ( $this->headers as &$header ) {
             $header = clone $header;
         }
     }
@@ -39,9 +39,9 @@ class HeaderCollection implements \IteratorAggregate, \Countable, \ArrayAccess, 
      *
      * @return self
      */
-    public function add(HeaderInterface $header)
+    public function add( HeaderInterface $header )
     {
-        $this->headers[strtolower($header->getName())] = $header;
+        $this->headers[ strtolower( $header->getName() ) ] = $header;
 
         return $this;
     }
@@ -59,48 +59,48 @@ class HeaderCollection implements \IteratorAggregate, \Countable, \ArrayAccess, 
     /**
      * Alias of offsetGet
      */
-    public function get($key)
+    public function get( $key )
     {
-        return $this->offsetGet($key);
+        return $this->offsetGet( $key );
     }
 
     public function count()
     {
-        return count($this->headers);
+        return count( $this->headers );
     }
 
-    public function offsetExists($offset)
+    public function offsetExists( $offset )
     {
-        return isset($this->headers[strtolower($offset)]);
+        return isset( $this->headers[ strtolower( $offset ) ] );
     }
 
-    public function offsetGet($offset)
+    public function offsetGet( $offset )
     {
-        $l = strtolower($offset);
+        $l = strtolower( $offset );
 
-        return isset($this->headers[$l]) ? $this->headers[$l] : null;
+        return isset( $this->headers[ $l ] ) ? $this->headers[ $l ] : null;
     }
 
-    public function offsetSet($offset, $value)
+    public function offsetSet( $offset, $value )
     {
-        $this->add($value);
+        $this->add( $value );
     }
 
-    public function offsetUnset($offset)
+    public function offsetUnset( $offset )
     {
-        unset($this->headers[strtolower($offset)]);
+        unset( $this->headers[ strtolower( $offset ) ] );
     }
 
     public function getIterator()
     {
-        return new \ArrayIterator($this->headers);
+        return new \ArrayIterator( $this->headers );
     }
 
     public function toArray()
     {
         $result = array();
-        foreach ($this->headers as $header) {
-            $result[$header->getName()] = $header->toArray();
+        foreach ( $this->headers as $header ) {
+            $result[ $header->getName() ] = $header->toArray();
         }
 
         return $result;

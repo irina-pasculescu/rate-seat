@@ -10,8 +10,7 @@ namespace Application\Console\RateSeat;
 
 
 use Application\Console\Base\BaseConsoleDispatcher;
-use
-    Application\Console\RateSeat\Ios\Lufthansa\GetFlightStatus\GetFlightStatusConsoleCommand;
+use Application\Console\RateSeat\Ios\Lufthansa\GetFlightStatus\GetFlightStatusConsoleCommand;
 use Application\Console\RateSeat\Ios\Lufthansa\GetOffersSeats\GetOffersSeatsConsoleCommand;
 
 /**

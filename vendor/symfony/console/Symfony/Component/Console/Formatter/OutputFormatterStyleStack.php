@@ -31,9 +31,9 @@ class OutputFormatterStyleStack
      *
      * @param OutputFormatterStyleInterface|null $emptyStyle
      */
-    public function __construct(OutputFormatterStyleInterface $emptyStyle = null)
+    public function __construct( OutputFormatterStyleInterface $emptyStyle = null )
     {
-        $this->emptyStyle = $emptyStyle ?: new OutputFormatterStyle();
+        $this->emptyStyle = $emptyStyle ? : new OutputFormatterStyle();
         $this->reset();
     }
 
@@ -50,9 +50,9 @@ class OutputFormatterStyleStack
      *
      * @param OutputFormatterStyleInterface $style
      */
-    public function push(OutputFormatterStyleInterface $style)
+    public function push( OutputFormatterStyleInterface $style )
     {
-        $this->styles[] = $style;
+        $this->styles[ ] = $style;
     }
 
     /**
@@ -64,25 +64,25 @@ class OutputFormatterStyleStack
      *
      * @throws \InvalidArgumentException When style tags incorrectly nested
      */
-    public function pop(OutputFormatterStyleInterface $style = null)
+    public function pop( OutputFormatterStyleInterface $style = null )
     {
-        if (empty($this->styles)) {
+        if ( empty( $this->styles ) ) {
             return $this->emptyStyle;
         }
 
-        if (null === $style) {
-            return array_pop($this->styles);
+        if ( null === $style ) {
+            return array_pop( $this->styles );
         }
 
-        foreach (array_reverse($this->styles, true) as $index => $stackedStyle) {
-            if ($style->apply('') === $stackedStyle->apply('')) {
-                $this->styles = array_slice($this->styles, 0, $index);
+        foreach ( array_reverse( $this->styles, true ) as $index => $stackedStyle ) {
+            if ( $style->apply( '' ) === $stackedStyle->apply( '' ) ) {
+                $this->styles = array_slice( $this->styles, 0, $index );
 
                 return $stackedStyle;
             }
         }
 
-        throw new \InvalidArgumentException('Incorrectly nested style tag found.');
+        throw new \InvalidArgumentException( 'Incorrectly nested style tag found.' );
     }
 
     /**
@@ -92,11 +92,11 @@ class OutputFormatterStyleStack
      */
     public function getCurrent()
     {
-        if (empty($this->styles)) {
+        if ( empty( $this->styles ) ) {
             return $this->emptyStyle;
         }
 
-        return $this->styles[count($this->styles)-1];
+        return $this->styles[ count( $this->styles ) - 1 ];
     }
 
     /**
@@ -104,7 +104,7 @@ class OutputFormatterStyleStack
      *
      * @return OutputFormatterStyleStack
      */
-    public function setEmptyStyle(OutputFormatterStyleInterface $emptyStyle)
+    public function setEmptyStyle( OutputFormatterStyleInterface $emptyStyle )
     {
         $this->emptyStyle = $emptyStyle;
 

@@ -23,23 +23,23 @@ class ArrayListUtil
      *
      * @return bool
      */
-    public static function isArrayList($array)
+    public static function isArrayList( $array )
     {
         $result = false;
 
-        if (!is_array($array)) {
+        if ( !is_array( $array ) ) {
 
             return $result;
         }
 
         // empty array?
         // --> we have an empty list type array or empty assoc array
-        if (count($array) < 1) {
+        if ( count( $array ) < 1 ) {
 
             return true;
         }
         // no assoc array? --> we have a list type array
-        if (!ArrayAssocUtil::isAssocArray($array)) {
+        if ( !ArrayAssocUtil::isAssocArray( $array ) ) {
 
             return true;
         }
@@ -52,21 +52,21 @@ class ArrayListUtil
      *
      * @return bool
      */
-    public static function isArrayListNotEmpty($array)
+    public static function isArrayListNotEmpty( $array )
     {
         $result = false;
 
-        if (!is_array($array)) {
+        if ( !is_array( $array ) ) {
 
             return $result;
         }
 
-        if (count($array) < 1) {
+        if ( count( $array ) < 1 ) {
 
             return false;
         }
 
-        return self::isArrayList($array);
+        return self::isArrayList( $array );
     }
 
 
@@ -75,16 +75,16 @@ class ArrayListUtil
      *
      * @return array
      */
-    public static function ensureList($list)
+    public static function ensureList( $list )
     {
         $result = array();
 
-        if (!is_array($list)) {
+        if ( !is_array( $list ) ) {
 
             return $result;
         }
-        $newList = array_values($list);
-        if (is_array($newList)) {
+        $newList = array_values( $list );
+        if ( is_array( $newList ) ) {
 
             return $newList;
         }
@@ -95,9 +95,9 @@ class ArrayListUtil
 
     /**
      * @param array|null $list
-     * @param int $offset
-     * @param int|null $length
-     * @param bool $ensureListEnabled
+     * @param int        $offset
+     * @param int|null   $length
+     * @param bool       $ensureListEnabled
      *
      * @return array
      * @throws \Exception
@@ -107,17 +107,18 @@ class ArrayListUtil
         $offset,
         $length,
         $ensureListEnabled
-    ) {
+    )
+    {
         $result = array();
 
-        if (!is_bool($ensureListEnabled)) {
+        if ( !is_bool( $ensureListEnabled ) ) {
 
             throw new \Exception(
                 'Invalid parameter "ensureListEnabled". ' . __METHOD__
             );
         }
 
-        if (!is_int($offset)) {
+        if ( !is_int( $offset ) ) {
 
             throw new \Exception(
                 'Invalid parameter "offset". ' . __METHOD__
@@ -125,9 +126,9 @@ class ArrayListUtil
         }
         // offset can be positive or negative
 
-        if ($length !== null) {
-            $isValid = (is_int($length) && ($length >= 0));
-            if (!$isValid) {
+        if ( $length !== null ) {
+            $isValid = ( is_int( $length ) && ( $length >= 0 ) );
+            if ( !$isValid ) {
 
                 throw new \Exception(
                     'Invalid parameter "length". ' . __METHOD__
@@ -135,24 +136,24 @@ class ArrayListUtil
             }
         }
 
-        if (!is_array($list)) {
+        if ( !is_array( $list ) ) {
 
             return $result;
         }
 
-        if ($ensureListEnabled) {
-            $list = array_values($list);
+        if ( $ensureListEnabled ) {
+            $list = array_values( $list );
         }
-        $result = array_slice($list, $offset, $length, false);
+        $result = array_slice( $list, $offset, $length, false );
 
         return $result;
     }
 
     /**
      * @param array|null $list
-     * @param int $offset
-     * @param int|null $length
-     * @param bool $ensureListEnabled
+     * @param int        $offset
+     * @param int|null   $length
+     * @param bool       $ensureListEnabled
      *
      * @return array
      * @throws \Exception
@@ -162,26 +163,27 @@ class ArrayListUtil
         $offset,
         $length,
         $ensureListEnabled
-    ) {
-        if (!is_int($offset)) {
+    )
+    {
+        if ( !is_int( $offset ) ) {
 
             throw new \Exception(
                 'Invalid parameter "offset". ' . __METHOD__
             );
         }
         // offset must be positive
-        if ($offset < 0) {
-            $offset = (-1) * $offset;
+        if ( $offset < 0 ) {
+            $offset = ( -1 ) * $offset;
         }
 
-        return self::slice($list, $offset, $length, $ensureListEnabled);
+        return self::slice( $list, $offset, $length, $ensureListEnabled );
     }
 
     /**
      * @param array|null $list
-     * @param int $offset
-     * @param int|null $length
-     * @param bool $ensureListEnabled
+     * @param int        $offset
+     * @param int|null   $length
+     * @param bool       $ensureListEnabled
      *
      * @return array
      * @throws \Exception
@@ -191,25 +193,26 @@ class ArrayListUtil
         $offset,
         $length,
         $ensureListEnabled
-    ) {
-        if (!is_int($offset)) {
+    )
+    {
+        if ( !is_int( $offset ) ) {
 
             throw new \Exception(
                 'Invalid parameter "offset". ' . __METHOD__
             );
         }
         // offset must be negative
-        if ($offset > 0) {
-            $offset = (-1) * $offset;
+        if ( $offset > 0 ) {
+            $offset = ( -1 ) * $offset;
         }
 
-        return self::slice($list, $offset, $length, $ensureListEnabled);
+        return self::slice( $list, $offset, $length, $ensureListEnabled );
     }
 
     /**
      * @param array|null $sourceList
      * @param array|null $appendList
-     * @param bool $ensureListEnabled
+     * @param bool       $ensureListEnabled
      *
      * @return array
      * @throws \Exception
@@ -218,32 +221,33 @@ class ArrayListUtil
         $sourceList,
         $appendList,
         $ensureListEnabled
-    ) {
+    )
+    {
 
         $result = array();
 
-        if (!is_bool($ensureListEnabled)) {
+        if ( !is_bool( $ensureListEnabled ) ) {
 
             throw new \Exception(
                 'Invalid parameter "ensureListEnabled". ' . __METHOD__
             );
         }
 
-        if (!is_array($sourceList)) {
+        if ( !is_array( $sourceList ) ) {
             $sourceList = array();
         }
-        if (!is_array($appendList)) {
+        if ( !is_array( $appendList ) ) {
             $appendList = array();
         }
 
-        if ($ensureListEnabled) {
+        if ( $ensureListEnabled ) {
 
-            $sourceList = array_values($sourceList);
-            $appendList = array_values($appendList);
+            $sourceList = array_values( $sourceList );
+            $appendList = array_values( $appendList );
         }
 
-        $resultList = array_merge($sourceList, $appendList);
-        if (is_array($resultList)) {
+        $resultList = array_merge( $sourceList, $appendList );
+        if ( is_array( $resultList ) ) {
 
             return $resultList;
         }

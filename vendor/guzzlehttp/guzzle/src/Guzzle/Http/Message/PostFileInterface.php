@@ -16,7 +16,7 @@ interface PostFileInterface
      *
      * @return self
      */
-    public function setFieldName($name);
+    public function setFieldName( $name );
 
     /**
      * Get the name of the field
@@ -33,7 +33,7 @@ interface PostFileInterface
      * @return self
      * @throws InvalidArgumentException if the file cannot be read
      */
-    public function setFilename($path);
+    public function setFilename( $path );
 
     /**
      * Set the post name of the file
@@ -42,7 +42,7 @@ interface PostFileInterface
      *
      * @return self
      */
-    public function setPostname($name);
+    public function setPostname( $name );
 
     /**
      * Get the full path to the file
@@ -65,7 +65,7 @@ interface PostFileInterface
      *
      * @return self
      */
-    public function setContentType($type);
+    public function setContentType( $type );
 
     /**
      * Get the Content-Type of the file

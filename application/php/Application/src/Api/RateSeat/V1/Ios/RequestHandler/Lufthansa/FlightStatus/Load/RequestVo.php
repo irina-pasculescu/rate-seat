@@ -10,7 +10,7 @@ namespace Application\Api\RateSeat\V1\Ios\RequestHandler\Lufthansa\FlightStatus\
 
 
 use Application\Api\Base\Server\BaseRequestException as RequestException;
-use \Application\Api\RateSeat\V1\Ios\RequestHandler\Lufthansa\FlightStatus\Base\Request\BaseGetFlightStatusRequestVo;
+use Application\Api\RateSeat\V1\Ios\RequestHandler\Lufthansa\FlightStatus\Base\Request\BaseGetFlightStatusRequestVo;
 
 
 class RequestVo extends BaseGetFlightStatusRequestVo
@@ -57,7 +57,6 @@ class RequestVo extends BaseGetFlightStatusRequestVo
         // make it public
         return parent::getFlightNumber();
     }
-
 
 
     /**

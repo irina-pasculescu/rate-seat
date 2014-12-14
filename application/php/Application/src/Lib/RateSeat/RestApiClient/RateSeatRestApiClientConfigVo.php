@@ -14,22 +14,22 @@ use Application\Definition\StringStrictNotEmptyType;
 use Application\Lib\Url\PhutilURI;
 use Application\Utils\ClassUtil;
 
-class RateSeatRestApiClientConfigVo extends BaseVo{
-
+class RateSeatRestApiClientConfigVo extends BaseVo
+{
 
 
     const KEY_API_BASE_URI = 'apiBaseUri';
-    const KEY_API__TOKEN = 'apiToken';
+    const KEY_API__TOKEN   = 'apiToken';
 
     /**
      * @return string
      */
     public function getApiBaseUri()
     {
-        $key = $this::KEY_API_BASE_URI;
-        $value = $this->getDataKey($key);
+        $key   = $this::KEY_API_BASE_URI;
+        $value = $this->getDataKey( $key );
 
-        return (string)StringStrictNotEmptyType::cast($value, '');
+        return (string)StringStrictNotEmptyType::cast( $value, '' );
     }
 
     /**
@@ -53,18 +53,16 @@ class RateSeatRestApiClientConfigVo extends BaseVo{
     }
 
 
-
     /**
      * @return string
      */
     public function getApiToken()
     {
-        $key = $this::KEY_API__TOKEN;
-        $value = $this->getDataKey($key);
+        $key   = $this::KEY_API__TOKEN;
+        $value = $this->getDataKey( $key );
 
-        return (string)StringStrictNotEmptyType::cast($value, '');
+        return (string)StringStrictNotEmptyType::cast( $value, '' );
     }
-
 
 
     /**
@@ -73,25 +71,25 @@ class RateSeatRestApiClientConfigVo extends BaseVo{
      */
     public function validate()
     {
-        $method = ClassUtil::getQualifiedMethodName($this, __METHOD__, true);
+        $method = ClassUtil::getQualifiedMethodName( $this, __METHOD__, true );
 
-        $key = $this::KEY_API_BASE_URI;
-        $value=$this->getApiBaseUri();
-        if(empty($value)) {
+        $key   = $this::KEY_API_BASE_URI;
+        $value = $this->getApiBaseUri();
+        if ( empty( $value ) ) {
 
             throw new \Exception(
-                'Invalid clientConfig.'.$key.'!'
-                .' ('.$method.')'
+                'Invalid clientConfig.' . $key . '!'
+                . ' (' . $method . ')'
             );
         }
 
-        $key = $this::KEY_API__TOKEN;
-        $value=$this->getApiToken();
-        if(empty($value)) {
+        $key   = $this::KEY_API__TOKEN;
+        $value = $this->getApiToken();
+        if ( empty( $value ) ) {
 
             throw new \Exception(
-                'Invalid clientConfig.'.$key.'!'
-                .' ('.$method.')'
+                'Invalid clientConfig.' . $key . '!'
+                . ' (' . $method . ')'
             );
         }
 
@@ -99,5 +97,4 @@ class RateSeatRestApiClientConfigVo extends BaseVo{
     }
 
 
-
-} 
+}

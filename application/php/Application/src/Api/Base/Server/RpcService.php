@@ -35,7 +35,7 @@ class RpcService extends AbstractService
     protected function getFactory()
     {
 
-        throw new \Exception('Implement! ' . __METHOD__);
+        throw new \Exception( 'Implement! ' . __METHOD__ );
     }
 
     /**

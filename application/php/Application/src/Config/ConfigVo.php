@@ -20,7 +20,7 @@ use Application\BaseVo;
 class ConfigVo extends BaseVo
 {
     const KEY_BOOTSTRAP = 'bootstrap';
-    const KEY_HOSTNAME = 'hostname';
+    const KEY_HOSTNAME  = 'hostname';
     const KEY_COUCHBASE = 'couchbase';
 
 
@@ -30,12 +30,12 @@ class ConfigVo extends BaseVo
      */
     public function requireHasData()
     {
-        if ($this->hasData()) {
+        if ( $this->hasData() ) {
 
             return $this;
         }
 
-        throw new ConfigException('Failed to load config !');
+        throw new ConfigException( 'Failed to load config !' );
     }
 
 
@@ -45,14 +45,14 @@ class ConfigVo extends BaseVo
      * @return $this
      * @throws ConfigException
      */
-    public function validate($prefix = '')
+    public function validate( $prefix = '' )
     {
-        $key = $this::KEY_HOSTNAME;
-        $value = $this->getHostname();
-        $isValid = !empty($value);
-        if (!$isValid) {
+        $key     = $this::KEY_HOSTNAME;
+        $value   = $this->getHostname();
+        $isValid = !empty( $value );
+        if ( !$isValid ) {
 
-            throw new ConfigException('Invalid ' . $prefix . $key . ' !');
+            throw new ConfigException( 'Invalid ' . $prefix . $key . ' !' );
         }
 
         $this->getCouchbaseVo()->validate();
@@ -69,9 +69,9 @@ class ConfigVo extends BaseVo
      */
     public function getBootstrap()
     {
-        $key = $this::KEY_BOOTSTRAP;
-        $value = $this->getDataKey($key);
-        if (is_array($value)) {
+        $key   = $this::KEY_BOOTSTRAP;
+        $value = $this->getDataKey( $key );
+        if ( is_array( $value ) ) {
 
             return (array)$value;
         }
@@ -84,10 +84,10 @@ class ConfigVo extends BaseVo
      */
     public function getBootstrapVo()
     {
-        $vo = new BootstrapConfigVo();
+        $vo   = new BootstrapConfigVo();
         $data = $this->getBootstrap();
-        if (is_array($data)) {
-            $vo->setData($data);
+        if ( is_array( $data ) ) {
+            $vo->setData( $data );
         }
 
         return $vo;
@@ -98,9 +98,9 @@ class ConfigVo extends BaseVo
      *
      * @return $this
      */
-    public function setBootstrapVo(BootstrapConfigVo $vo)
+    public function setBootstrapVo( BootstrapConfigVo $vo )
     {
-        $this->setDataKey($this::KEY_BOOTSTRAP, $vo->getData());
+        $this->setDataKey( $this::KEY_BOOTSTRAP, $vo->getData() );
 
         return $this;
     }
@@ -113,7 +113,7 @@ class ConfigVo extends BaseVo
      */
     public function getHostname()
     {
-        return (string)$this->getDataKey($this::KEY_HOSTNAME);
+        return (string)$this->getDataKey( $this::KEY_HOSTNAME );
     }
 
 
@@ -123,9 +123,9 @@ class ConfigVo extends BaseVo
      */
     public function getCouchbase()
     {
-        $key = $this::KEY_COUCHBASE;
-        $value = $this->getDataKey($key);
-        if (is_array($value)) {
+        $key   = $this::KEY_COUCHBASE;
+        $value = $this->getDataKey( $key );
+        if ( is_array( $value ) ) {
 
             return (array)$value;
         }
@@ -138,10 +138,10 @@ class ConfigVo extends BaseVo
      */
     public function getCouchbaseVo()
     {
-        $vo = new CouchbaseConfigVo();
+        $vo   = new CouchbaseConfigVo();
         $data = $this->getCouchbase();
-        if (is_array($data)) {
-            $vo->setData($data);
+        if ( is_array( $data ) ) {
+            $vo->setData( $data );
         }
 
         return $vo;

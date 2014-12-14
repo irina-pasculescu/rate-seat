@@ -36,10 +36,10 @@ class Exception extends \Exception
     protected $debug = array();
 
     /**
-     * @param string $message
+     * @param string     $message
      * @param null|array $data
      * @param null|array $debug
-     * @param int $code
+     * @param int        $code
      * @param \Exception $previous
      */
     public function __construct(
@@ -48,23 +48,25 @@ class Exception extends \Exception
         $debug = null,
         $code = 0,
         \Exception $previous = null
-    ) {
+    )
+    {
         parent::__construct(
             $message,
             $code,
             $previous
         );
 
-        $this->setData($data);
-        $this->setDebug($debug);
+        $this->setData( $data );
+        $this->setDebug( $debug );
     }
 
 
     /**
      * @param $message
+     *
      * @return $this
      */
-    public function setMessage($message)
+    public function setMessage( $message )
     {
         $this->message = (string)$message;
 
@@ -76,9 +78,9 @@ class Exception extends \Exception
      *
      * @return $this
      */
-    public function setData($data)
+    public function setData( $data )
     {
-        if (!is_array($data)) {
+        if ( !is_array( $data ) ) {
             $data = array();
         }
         $this->data = $data;
@@ -91,7 +93,7 @@ class Exception extends \Exception
      */
     public function getData()
     {
-        if (!is_array($this->data)) {
+        if ( !is_array( $this->data ) ) {
             $this->data = array();
         }
 
@@ -106,8 +108,8 @@ class Exception extends \Exception
         $data = $this->getData();
 
         return (
-            is_array($data)
-            && (count(array_keys($data)) > 0)
+            is_array( $data )
+            && ( count( array_keys( $data ) ) > 0 )
         );
     }
 
@@ -116,10 +118,10 @@ class Exception extends \Exception
      *
      * @return $this
      */
-    public function mixinData($mixin)
+    public function mixinData( $mixin )
     {
-        $data = $this->getData();
-        $data = ArrayAssocUtil::mixinOverride($data, $mixin, null);
+        $data       = $this->getData();
+        $data       = ArrayAssocUtil::mixinOverride( $data, $mixin, null );
         $this->data = $data;
 
         return $this;
@@ -131,9 +133,9 @@ class Exception extends \Exception
      *
      * @return $this
      */
-    public function setDebug($debug)
+    public function setDebug( $debug )
     {
-        if (!is_array($debug)) {
+        if ( !is_array( $debug ) ) {
             $debug = array();
         }
         $this->debug = $debug;
@@ -146,7 +148,7 @@ class Exception extends \Exception
      */
     public function getDebug()
     {
-        if (!is_array($this->debug)) {
+        if ( !is_array( $this->debug ) ) {
             $this->debug = array();
         }
 
@@ -161,8 +163,8 @@ class Exception extends \Exception
         $debug = $this->getDebug();
 
         return (
-            is_array($debug)
-            && (count(array_keys($debug)) > 0)
+            is_array( $debug )
+            && ( count( array_keys( $debug ) ) > 0 )
         );
     }
 
@@ -171,10 +173,10 @@ class Exception extends \Exception
      *
      * @return $this
      */
-    public function mixinDebug($mixin)
+    public function mixinDebug( $mixin )
     {
-        $debug = $this->getDebug();
-        $debug = ArrayAssocUtil::mixinOverride($debug, $mixin, null);
+        $debug       = $this->getDebug();
+        $debug       = ArrayAssocUtil::mixinOverride( $debug, $mixin, null );
         $this->debug = $debug;
 
         return $this;
@@ -185,13 +187,13 @@ class Exception extends \Exception
      *
      * @return mixed|null
      */
-    public function getDebugKey($key)
+    public function getDebugKey( $key )
     {
         $result = null;
-        $debug = $this->getDebug();
+        $debug  = $this->getDebug();
 
-        if (array_keys($debug, $key, true)) {
-            return $debug[$key];
+        if ( array_keys( $debug, $key, true ) ) {
+            return $debug[ $key ];
         }
 
         return $result;
@@ -199,15 +201,15 @@ class Exception extends \Exception
 
     /**
      * @param string $key
-     * @param mixed $value
+     * @param mixed  $value
      *
      * @return $this
      */
-    public function setDebugKey($key, $value)
+    public function setDebugKey( $key, $value )
     {
-        $debug = $this->getDebug();
-        $debug[$key] = $value;
-        $this->setDebug($debug);
+        $debug         = $this->getDebug();
+        $debug[ $key ] = $value;
+        $this->setDebug( $debug );
 
         return $this;
     }

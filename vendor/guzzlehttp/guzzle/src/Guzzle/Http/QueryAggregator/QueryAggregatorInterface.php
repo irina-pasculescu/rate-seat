@@ -18,5 +18,5 @@ interface QueryAggregatorInterface
      *
      * @return array Returns an array of the combined values
      */
-    public function aggregate($key, $value, QueryString $query);
+    public function aggregate( $key, $value, QueryString $query );
 }

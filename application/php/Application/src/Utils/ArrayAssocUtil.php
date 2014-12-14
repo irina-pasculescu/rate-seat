@@ -22,19 +22,19 @@ class ArrayAssocUtil
      *
      * @return array
      */
-    public static function ensureArray($array, $defaultKeyValueMap)
+    public static function ensureArray( $array, $defaultKeyValueMap )
     {
-        if (!is_array($array)) {
+        if ( !is_array( $array ) ) {
             $array = array();
         }
 
-        if (!is_array($defaultKeyValueMap)) {
+        if ( !is_array( $defaultKeyValueMap ) ) {
             $defaultKeyValueMap = array();
         }
 
-        foreach ($defaultKeyValueMap as $key => $value) {
-            if (!array_key_exists($key, $array)) {
-                $array[$key] = $value;
+        foreach ( $defaultKeyValueMap as $key => $value ) {
+            if ( !array_key_exists( $key, $array ) ) {
+                $array[ $key ] = $value;
             }
         }
 
@@ -53,25 +53,26 @@ class ArrayAssocUtil
         $sourceArray,
         $targetArray,
         $preserveKeysList
-    ) {
+    )
+    {
 
-        if (!is_array($sourceArray)) {
+        if ( !is_array( $sourceArray ) ) {
             $sourceArray = array();
         }
 
         $result = (array)$sourceArray;
 
-        if (!is_array($targetArray)) {
+        if ( !is_array( $targetArray ) ) {
             $targetArray = array();
         }
-        if (!is_array($preserveKeysList)) {
+        if ( !is_array( $preserveKeysList ) ) {
             $preserveKeysList = array();
         }
 
-        foreach ($targetArray as $key => $value) {
+        foreach ( $targetArray as $key => $value ) {
 
-            if (!in_array($key, $preserveKeysList, true)) {
-                $result[$key] = $value;
+            if ( !in_array( $key, $preserveKeysList, true ) ) {
+                $result[ $key ] = $value;
             }
         }
 
@@ -89,27 +90,28 @@ class ArrayAssocUtil
         $sourceArray,
         $targetArrayList,
         $preserveKeysList
-    ) {
+    )
+    {
 
-        if (!is_array($sourceArray)) {
+        if ( !is_array( $sourceArray ) ) {
             $sourceArray = array();
         }
 
         $result = (array)$sourceArray;
 
-        if (!is_array($preserveKeysList)) {
+        if ( !is_array( $preserveKeysList ) ) {
             $preserveKeysList = array();
         }
 
-        foreach ($targetArrayList as $targetArray) {
-            if (!is_array($targetArray)) {
+        foreach ( $targetArrayList as $targetArray ) {
+            if ( !is_array( $targetArray ) ) {
 
                 continue;
             }
-            foreach ($targetArray as $key => $value) {
+            foreach ( $targetArray as $key => $value ) {
 
-                if (!in_array($key, $preserveKeysList, true)) {
-                    $result[$key] = $value;
+                if ( !in_array( $key, $preserveKeysList, true ) ) {
+                    $result[ $key ] = $value;
                 }
             }
 
@@ -123,22 +125,22 @@ class ArrayAssocUtil
      *
      * @return bool
      */
-    public static function isAssocArray($value)
+    public static function isAssocArray( $value )
     {
         $result = false;
 
-        if (!is_array($value)) {
+        if ( !is_array( $value ) ) {
 
             return $result;
         }
 
-        if (count(array_keys($value)) < 1) {
+        if ( count( array_keys( $value ) ) < 1 ) {
             // empty array
             return true;
         }
 
-        $isAssocArray = (array_keys($value)
-            !== range(0, count($value) - 1)
+        $isAssocArray = ( array_keys( $value )
+                          !== range( 0, count( $value ) - 1 )
         );
 
         return $isAssocArray;
@@ -153,20 +155,20 @@ class ArrayAssocUtil
      *
      * @return array
      */
-    public static function keepKeys($array, $keysList)
+    public static function keepKeys( $array, $keysList )
     {
-        if (!is_array($array)) {
+        if ( !is_array( $array ) ) {
             $array = array();
         }
 
-        if (!is_array($keysList)) {
+        if ( !is_array( $keysList ) ) {
             $keysList = array();
         }
 
         $result = array();
-        foreach ($array as $key => $value) {
-            if (in_array($key, $keysList, true)) {
-                $result[$key] = $value;
+        foreach ( $array as $key => $value ) {
+            if ( in_array( $key, $keysList, true ) ) {
+                $result[ $key ] = $value;
             }
         }
 
@@ -181,20 +183,20 @@ class ArrayAssocUtil
      *
      * @return array
      */
-    public static function removeKeys($array, $keysList)
+    public static function removeKeys( $array, $keysList )
     {
-        if (!is_array($array)) {
+        if ( !is_array( $array ) ) {
             $array = array();
         }
 
-        if (!is_array($keysList)) {
+        if ( !is_array( $keysList ) ) {
             $keysList = array();
         }
 
         $result = array();
-        foreach ($array as $key => $value) {
-            if (!in_array($key, $keysList, true)) {
-                $result[$key] = $value;
+        foreach ( $array as $key => $value ) {
+            if ( !in_array( $key, $keysList, true ) ) {
+                $result[ $key ] = $value;
             }
         }
 
@@ -207,22 +209,22 @@ class ArrayAssocUtil
      *
      * @return array
      */
-    public static function extractKeys($array, $keysList)
+    public static function extractKeys( $array, $keysList )
     {
         $result = array();
-        if (!is_array($array)) {
+        if ( !is_array( $array ) ) {
             $array = array();
         }
-        if (!is_array($keysList)) {
+        if ( !is_array( $keysList ) ) {
             $keysList = array();
         }
-        foreach ($keysList as $key) {
+        foreach ( $keysList as $key ) {
             $value = null;
-            if (array_key_exists($key, $array)) {
-                $value = $array[$key];
+            if ( array_key_exists( $key, $array ) ) {
+                $value = $array[ $key ];
             }
 
-            $result[$key] = $value;
+            $result[ $key ] = $value;
         }
 
         return $result;
@@ -233,39 +235,39 @@ class ArrayAssocUtil
      *
      * @return bool
      */
-    public static function isAssocArrayNotEmpty($value)
+    public static function isAssocArrayNotEmpty( $value )
     {
         $result = false;
 
-        if (!is_array($value)) {
+        if ( !is_array( $value ) ) {
 
             return $result;
         }
 
-        if (count($value) < 1) {
+        if ( count( $value ) < 1 ) {
 
             return $result;
         }
 
-        return self::isAssocArray($value);
+        return self::isAssocArray( $value );
     }
 
     /**
      * @param array|null|mixed $array
-     * @param string $key
+     * @param string           $key
      *
      * @return bool
      */
-    public static function hasKey($array, $key)
+    public static function hasKey( $array, $key )
     {
         $result = false;
 
-        if (!is_array($array)) {
+        if ( !is_array( $array ) ) {
 
             return $result;
         }
 
-        return array_key_exists($key, $array);
+        return array_key_exists( $key, $array );
     }
 
     /**
@@ -273,10 +275,10 @@ class ArrayAssocUtil
      *
      * @return array
      */
-    public static function objectToArrayRecursive($obj)
+    public static function objectToArrayRecursive( $obj )
     {
-        $result = self::makeObjectToArrayRecursive($obj);
-        if (!is_array($result)) {
+        $result = self::makeObjectToArrayRecursive( $obj );
+        if ( !is_array( $result ) ) {
             $result = array();
         }
 
@@ -288,19 +290,20 @@ class ArrayAssocUtil
      *
      * @return array|mixed
      */
-    private static function makeObjectToArrayRecursive($obj)
+    private static function makeObjectToArrayRecursive( $obj )
     {
-        if (is_object($obj)) {
-            $objVars = (array)get_object_vars($obj);
-            $obj = $objVars;
+        if ( is_object( $obj ) ) {
+            $objVars = (array)get_object_vars( $obj );
+            $obj     = $objVars;
         }
 
-        if (is_array($obj)) {
+        if ( is_array( $obj ) ) {
             $new = array();
-            foreach ($obj as $key => $val) {
-                $new[$key] = self::objectToArrayRecursive($val);
+            foreach ( $obj as $key => $val ) {
+                $new[ $key ] = self::objectToArrayRecursive( $val );
             }
-        } else {
+        }
+        else {
             $new = $obj;
         }
 
@@ -309,20 +312,20 @@ class ArrayAssocUtil
 
     /**
      * @param array|null $array
-     * @param string $name
+     * @param string     $name
      *
      * @return null|mixed
      */
-    public static function getProperty($array, $name)
+    public static function getProperty( $array, $name )
     {
-        if (!is_array($array)) {
+        if ( !is_array( $array ) ) {
 
             return null;
         }
 
-        if (array_key_exists($name, $array)) {
+        if ( array_key_exists( $name, $array ) ) {
 
-            return $array[$name];
+            return $array[ $name ];
         }
 
         return null;
@@ -330,18 +333,18 @@ class ArrayAssocUtil
 
     /**
      * @param array|mixed $array
-     * @param string $name
-     * @param mixed $value
+     * @param string      $name
+     * @param mixed       $value
      *
      * @return array
      */
-    public static function setProperty($array, $name, $value)
+    public static function setProperty( $array, $name, $value )
     {
-        if (!is_array($array)) {
+        if ( !is_array( $array ) ) {
             $array = array();
         }
 
-        $array[$name] = $value;
+        $array[ $name ] = $value;
 
         return $array;
     }
@@ -354,20 +357,20 @@ class ArrayAssocUtil
      *
      * @return array
      */
-    public static function keepAndEnsureKeys($array, $keysList, $defaultValue)
+    public static function keepAndEnsureKeys( $array, $keysList, $defaultValue )
     {
-        if (!is_array($keysList)) {
+        if ( !is_array( $keysList ) ) {
             $keysList = array();
         }
 
         $defaultMap = array();
-        foreach ($keysList as $key) {
-            $defaultMap[$key] = $defaultValue;
+        foreach ( $keysList as $key ) {
+            $defaultMap[ $key ] = $defaultValue;
         }
 
-        $array = self::ensureArray($array, $defaultMap);
+        $array = self::ensureArray( $array, $defaultMap );
 
-        return self::keepKeys($array, $keysList);
+        return self::keepKeys( $array, $keysList );
     }
 
 }

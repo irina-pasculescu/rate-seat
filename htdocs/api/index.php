@@ -8,12 +8,11 @@
 
 require_once __DIR__ . "/../../vendor/autoload.php";
 
+use Application\Api\RateSeat\V1\Ios\Server\RpcFactory;
 use Application\Bootstrap;
 
 $bootstrap = Bootstrap::getInstance();
 $bootstrap->init( $bootstrap::MODE_HTTP );
-
-use Application\Api\RateSeat\V1\Ios\Server\RpcFactory;
 
 
 RpcFactory::getInstance()

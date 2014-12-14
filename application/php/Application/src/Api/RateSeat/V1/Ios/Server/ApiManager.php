@@ -36,11 +36,11 @@ class ApiManager extends BaseApiManager
      */
     public function getSettingsVo()
     {
-        if (!$this->settingsVo) {
+        if ( !$this->settingsVo ) {
             $this->settingsVo = $this->getRpcFactory()
-                ->createApiManagerSettingsVo();
-            $settingsMvo = $this->getModel()->getApplicationSettingsMvo();
-            $settingsData = $settingsMvo->getDataKey($this->getFeatureName());
+                                     ->createApiManagerSettingsVo();
+            $settingsMvo      = $this->getModel()->getApplicationSettingsMvo();
+            $settingsData     = $settingsMvo->getDataKey( $this->getFeatureName() );
             $this->settingsVo->setData(
                 $settingsData
             );
@@ -66,28 +66,37 @@ class ApiManager extends BaseApiManager
     {
         $router = $this->getRpcFactory()->getRouter();
 
-        $rpc = $router->getRpc();
+        $rpc        = $router->getRpc();
         $rpcContext = new RpcContext();
-        $rpc->setRpcContext($rpcContext);
+        $rpc->setRpcContext( $rpcContext );
 
         return $this;
     }
 
     // ================== overrides ================
+    /**
+     * @return array
+     */
+    protected function getRoutes()
+    {
 
+        $routesFinal = (array)$this->routes;
+
+        return $routesFinal;
+    }
 
     /**
      * @var array
      */
     protected $routes
         = array(
-             // Application\Api\RateSeat\V1\Ios\Service\Lufthansa
+            // Application\Api\RateSeat\V1\Ios\Service\Lufthansa
             // RateSeat.Ios.Lufthansa.*
             'RateSeat.Ios.Lufthansa.FlightStatus.get' => array(
                 'target' =>
                     '\\Application\Api\RateSeat\V1\Ios\Service\\Lufthansa\\FlightStatus::get'
             ),
-            'RateSeat.Ios.Lufthansa.OffersSeats.get' => array(
+            'RateSeat.Ios.Lufthansa.OffersSeats.get'  => array(
                 'target' =>
                     '\\Application\Api\RateSeat\V1\Ios\Service\\Lufthansa\\OffersSeats::get'
             ),

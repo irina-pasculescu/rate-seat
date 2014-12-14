@@ -17,15 +17,15 @@ class UfloatTypeNotEmpty extends UintType
 
     /**
      * @param int|float|string $rawValue
-     * @param string $errorMessage
+     * @param string           $errorMessage
      *
      * @throws \InvalidArgumentException
      */
-    public function __construct($rawValue, $errorMessage = '')
+    public function __construct( $rawValue, $errorMessage = '' )
     {
-        $value = $this::cast($rawValue, null);
-        $isValid = $this::isValid($value);
-        if (!$isValid) {
+        $value   = $this::cast( $rawValue, null );
+        $isValid = $this::isValid( $value );
+        if ( !$isValid ) {
 
             throw new \InvalidArgumentException(
                 $this->createUnableToCastExceptionMessage(
@@ -38,9 +38,10 @@ class UfloatTypeNotEmpty extends UintType
         }
 
         $this->value = $value;
-        if ($rawValue instanceof BaseType) {
+        if ( $rawValue instanceof BaseType ) {
             $this->rawValue = $rawValue->getValue();
-        } else {
+        }
+        else {
             $this->rawValue = $rawValue;
         }
     }
@@ -59,9 +60,9 @@ class UfloatTypeNotEmpty extends UintType
      *
      * @return bool
      */
-    public static function isValid($rawValue)
+    public static function isValid( $rawValue )
     {
-        $value = self::cast($rawValue, null);
+        $value   = self::cast( $rawValue, null );
         $isValid = $value !== null;
 
         return $isValid;
@@ -69,21 +70,21 @@ class UfloatTypeNotEmpty extends UintType
 
     /**
      * @param int|float|string $value
-     * @param mixed $defaultValue
+     * @param mixed            $defaultValue
      *
      * @return float|mixed
      */
-    public static function cast($value, $defaultValue)
+    public static function cast( $value, $defaultValue )
     {
-        if ($value instanceof BaseType) {
+        if ( $value instanceof BaseType ) {
             $value = $value->getValue();
         }
 
         // cast as int
-        $value = UfloatType::cast($value, null);
-        $isValid = is_float($value) && $value > 0;
+        $value   = UfloatType::cast( $value, null );
+        $isValid = is_float( $value ) && $value > 0;
 
-        if ($isValid) {
+        if ( $isValid ) {
 
             return (float)$value;
         }

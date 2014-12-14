@@ -1,4 +1,4 @@
-import sys, os
+
 from sphinx.highlighting import lexers
 from pygments.lexers.web import PhpLexer
 
@@ -34,7 +34,7 @@ html_static_path = ['_static']
 
 # Custom sidebar templates, maps document names to template names.
 html_sidebars = {
-    '**':       ['localtoc.html', 'leftbar.html', 'searchbox.html']
+    '**': ['localtoc.html', 'leftbar.html', 'searchbox.html']
 }
 
 # Output file base name for HTML help builder.
@@ -45,6 +45,7 @@ htmlhelp_basename = 'Guzzledoc'
 sys.path.insert(0, '/Users/dowling/projects/guzzle_sphinx_theme')
 
 import guzzle_sphinx_theme
+
 pygments_style = 'guzzle_sphinx_theme.GuzzleStyle'
 html_translator_class = 'guzzle_sphinx_theme.HTMLTranslator'
 html_theme_path = guzzle_sphinx_theme.html_theme_path()
@@ -67,8 +68,8 @@ latex_elements = {}
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'Guzzle.tex', u'Guzzle Documentation',
-   u'Michael Dowling', 'manual'),
+    ('index', 'Guzzle.tex', u'Guzzle Documentation',
+     u'Michael Dowling', 'manual'),
 ]
 
 # -- Options for manual page output --------------------------------------------
@@ -81,7 +82,7 @@ man_pages = [
 ]
 
 # If true, show URL addresses after external links.
-#man_show_urls = False
+# man_show_urls = False
 
 # -- Options for Texinfo output ------------------------------------------------
 
@@ -89,7 +90,7 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'Guzzle', u'Guzzle Documentation',
-   u'Michael Dowling', 'Guzzle', 'One line description of project.',
-   'Miscellaneous'),
+    ('index', 'Guzzle', u'Guzzle Documentation',
+     u'Michael Dowling', 'Guzzle', 'One line description of project.',
+     'Miscellaneous'),
 ]

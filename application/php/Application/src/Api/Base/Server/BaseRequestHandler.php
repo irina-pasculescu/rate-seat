@@ -14,7 +14,6 @@ use Application\Api\RateSeat\V1\Shared\RateSeatApiClientFacade;
 use Application\Api\RateSeat\V1\Shared\RateSeatApiSettingsManager;
 use Application\Context;
 use Application\Definition\UintTypeNotEmpty;
-use Application\Utils\ClassUtil;
 
 
 /**
@@ -39,10 +38,10 @@ abstract class BaseRequestHandler
     /**
      *
      */
-    public function __construct(RpcContext $rpcContext)
+    public function __construct( RpcContext $rpcContext )
     {
-        $this->rpcContext = $rpcContext;
-        $this->requestMicroTimestamp = microtime(true);
+        $this->rpcContext            = $rpcContext;
+        $this->requestMicroTimestamp = microtime( true );
 
     }
 
@@ -72,10 +71,10 @@ abstract class BaseRequestHandler
      */
     protected function getRequestDateTime()
     {
-        if (!$this->requestDateTime) {
+        if ( !$this->requestDateTime ) {
             $this->requestDateTime = new \DateTime();
-            $timestamp = (int)floor($this->getRequestMicroTimestamp());
-            $this->requestDateTime->setTimestamp($timestamp);
+            $timestamp             = (int)floor( $this->getRequestMicroTimestamp() );
+            $this->requestDateTime->setTimestamp( $timestamp );
         }
 
         return $this->requestDateTime;
@@ -97,11 +96,11 @@ abstract class BaseRequestHandler
      * @return array
      * @throws \Exception
      */
-    public function handleRequest($request)
+    public function handleRequest( $request )
     {
         try {
 
-            $this->getRequestVo()->setData($request);
+            $this->getRequestVo()->setData( $request );
 
             $this->validateRequest();
 
@@ -111,9 +110,11 @@ abstract class BaseRequestHandler
 
             return $this->exportResponse();
 
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
 
-            var_dump($e->getMessage());die();
+            var_dump( $e->getMessage() );
+            die();
 
             throw $e;
         }
@@ -182,7 +183,7 @@ abstract class BaseRequestHandler
      *
      * @return $this
      */
-    protected function onException(\Exception $exception)
+    protected function onException( \Exception $exception )
     {
         return $this;
     }
@@ -210,7 +211,7 @@ abstract class BaseRequestHandler
     protected function getModel()
     {
         return $this->getApplicationContext()
-            ->getModel();
+                    ->getModel();
     }
 
     /**
@@ -223,7 +224,7 @@ abstract class BaseRequestHandler
      */
     protected function getRateSeatApiClientFacade()
     {
-        if (!$this->rateSeatApiClientFacade) {
+        if ( !$this->rateSeatApiClientFacade ) {
             $settingsManager = RateSeatApiSettingsManager::getInstance();
 
             $this->rateSeatApiClientFacade = new RateSeatApiClientFacade(

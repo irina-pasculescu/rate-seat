@@ -14,7 +14,7 @@ interface BatchInterface
      *
      * @return self
      */
-    public function add($item);
+    public function add( $item );
 
     /**
      * Flush the batch and transfer the items

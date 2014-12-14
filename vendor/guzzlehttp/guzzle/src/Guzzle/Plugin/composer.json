@@ -20,7 +20,9 @@
         "guzzle/log": "self.version"
     },
     "autoload": {
-        "psr-0": { "Guzzle\\Plugin": "" }
+        "psr-0": {
+            "Guzzle\\Plugin": ""
+        }
     },
     "target-dir": "Guzzle/Plugin",
     "replace": {

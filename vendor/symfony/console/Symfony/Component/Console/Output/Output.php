@@ -11,8 +11,8 @@
 
 namespace Symfony\Component\Console\Output;
 
-use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 use Symfony\Component\Console\Formatter\OutputFormatter;
+use Symfony\Component\Console\Formatter\OutputFormatterInterface;
 
 /**
  * Base class for output classes.
@@ -43,17 +43,17 @@ abstract class Output implements OutputInterface
      *
      * @api
      */
-    public function __construct($verbosity = self::VERBOSITY_NORMAL, $decorated = false, OutputFormatterInterface $formatter = null)
+    public function __construct( $verbosity = self::VERBOSITY_NORMAL, $decorated = false, OutputFormatterInterface $formatter = null )
     {
         $this->verbosity = null === $verbosity ? self::VERBOSITY_NORMAL : $verbosity;
-        $this->formatter = $formatter ?: new OutputFormatter();
-        $this->formatter->setDecorated($decorated);
+        $this->formatter = $formatter ? : new OutputFormatter();
+        $this->formatter->setDecorated( $decorated );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function setFormatter(OutputFormatterInterface $formatter)
+    public function setFormatter( OutputFormatterInterface $formatter )
     {
         $this->formatter = $formatter;
     }
@@ -69,9 +69,9 @@ abstract class Output implements OutputInterface
     /**
      * {@inheritdoc}
      */
-    public function setDecorated($decorated)
+    public function setDecorated( $decorated )
     {
-        $this->formatter->setDecorated($decorated);
+        $this->formatter->setDecorated( $decorated );
     }
 
     /**
@@ -85,9 +85,9 @@ abstract class Output implements OutputInterface
     /**
      * {@inheritdoc}
      */
-    public function setVerbosity($level)
+    public function setVerbosity( $level )
     {
-        $this->verbosity = (int) $level;
+        $this->verbosity = (int)$level;
     }
 
     /**
@@ -121,37 +121,37 @@ abstract class Output implements OutputInterface
     /**
      * {@inheritdoc}
      */
-    public function writeln($messages, $type = self::OUTPUT_NORMAL)
+    public function writeln( $messages, $type = self::OUTPUT_NORMAL )
     {
-        $this->write($messages, true, $type);
+        $this->write( $messages, true, $type );
     }
 
     /**
      * {@inheritdoc}
      */
-    public function write($messages, $newline = false, $type = self::OUTPUT_NORMAL)
+    public function write( $messages, $newline = false, $type = self::OUTPUT_NORMAL )
     {
-        if (self::VERBOSITY_QUIET === $this->verbosity) {
+        if ( self::VERBOSITY_QUIET === $this->verbosity ) {
             return;
         }
 
-        $messages = (array) $messages;
+        $messages = (array)$messages;
 
-        foreach ($messages as $message) {
+        foreach ( $messages as $message ) {
             switch ($type) {
                 case OutputInterface::OUTPUT_NORMAL:
-                    $message = $this->formatter->format($message);
+                    $message = $this->formatter->format( $message );
                     break;
                 case OutputInterface::OUTPUT_RAW:
                     break;
                 case OutputInterface::OUTPUT_PLAIN:
-                    $message = strip_tags($this->formatter->format($message));
+                    $message = strip_tags( $this->formatter->format( $message ) );
                     break;
                 default:
-                    throw new \InvalidArgumentException(sprintf('Unknown output type given (%s)', $type));
+                    throw new \InvalidArgumentException( sprintf( 'Unknown output type given (%s)', $type ) );
             }
 
-            $this->doWrite($message, $newline);
+            $this->doWrite( $message, $newline );
         }
     }
 
@@ -161,5 +161,5 @@ abstract class Output implements OutputInterface
      * @param string $message A message to write to the output
      * @param bool   $newline Whether to add a newline or not
      */
-    abstract protected function doWrite($message, $newline);
+    abstract protected function doWrite( $message, $newline );
 }

@@ -9,8 +9,8 @@
 namespace Application\Lib\RateSeat\RestApiClient;
 
 use Application\Definition\UintTypeNotEmpty;
-use Application\Lib\RateSeat\RestApiClient\RequestBuilder\RateSeatRequestBuilder;
 use Application\Lib\RateSeat\RateSeatRestApiClientGuzzleStatus;
+use Application\Lib\RateSeat\RestApiClient\RequestBuilder\RateSeatRequestBuilder;
 use Guzzle\Http\Client as GuzzleHttpClient;
 
 /**
@@ -21,14 +21,14 @@ class RateSeatRestApiClient
 {
 
     const HTTP_METHOD_POST = 'POST';
-    const HTTP_METHOD_GET = 'GET';
+    const HTTP_METHOD_GET  = 'GET';
 
     /**
      * @param RateSeatRestApiClientConfigVo $clientConfigVo
      */
-    public function __construct(RateSeatRestApiClientConfigVo $clientConfigVo)
+    public function __construct( RateSeatRestApiClientConfigVo $clientConfigVo )
     {
-        $this->setClientConfigVo($clientConfigVo);
+        $this->setClientConfigVo( $clientConfigVo );
     }
 
     /**
@@ -41,7 +41,7 @@ class RateSeatRestApiClient
      */
     public function getGuzzleClient()
     {
-        if (!$this->guzzleClient) {
+        if ( !$this->guzzleClient ) {
             $this->guzzleClient = new GuzzleHttpClient();
         }
 
@@ -59,7 +59,7 @@ class RateSeatRestApiClient
      *
      * @return $this
      */
-    public function setClientConfigVo(RateSeatRestApiClientConfigVo $value)
+    public function setClientConfigVo( RateSeatRestApiClientConfigVo $value )
     {
         $this->clientConfigVo = $value;
 
@@ -80,47 +80,48 @@ class RateSeatRestApiClient
         $requestUri,
         $requestData,
         UintTypeNotEmpty $nonceTimestamp
-    ) {
+    )
+    {
         $configVo = $this->getClientConfigVo();
-        $apiHost = $configVo->getApiHost();
+        $apiHost  = $configVo->getApiHost();
 
         $base_URI = $configVo->getApiBaseUri();
 
         $request_method = $httpMethod;
-        $canonical_URI = $requestUri;
+        $canonical_URI  = $requestUri;
 
-        $headers = array();
-        $headers[] = 'Accept: application/json';
+        $headers    = array();
+        $headers[ ] = 'Accept: application/json';
 
         $postFields = $requestData;
 
         $curlData = array(
-            'url' => $base_URI . $canonical_URI,
-            'customRequest' => $request_method,
-            'postFields' => $postFields,
+            'url'            => $base_URI . $canonical_URI,
+            'customRequest'  => $request_method,
+            'postFields'     => $postFields,
             'returnTransfer' => true,
-            'headers' => $headers,
+            'headers'        => $headers,
         );
 
-        ksort($curlData);
-        echo PHP_EOL . PHP_EOL . json_encode($curlData) . PHP_EOL . PHP_EOL;
+        ksort( $curlData );
+        echo PHP_EOL . PHP_EOL . json_encode( $curlData ) . PHP_EOL . PHP_EOL;
 
 
-        $ch = curl_init($curlData['url']);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, $curlData['returnTransfer']);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $curlData['headers']);
+        $ch = curl_init( $curlData[ 'url' ] );
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, $curlData[ 'returnTransfer' ] );
+        curl_setopt( $ch, CURLOPT_HTTPHEADER, $curlData[ 'headers' ] );
 
-        $startTs = microtime(true);
-        $resultText = curl_exec($ch);
-        $stopTs = microtime(true);
+        $startTs    = microtime( true );
+        $resultText = curl_exec( $ch );
+        $stopTs     = microtime( true );
 
-        $resultData = json_decode($resultText, true);
+        $resultData = json_decode( $resultText, true );
 
         var_dump(
             array(
 
                 'curlResponse' => $resultData,
-                'duration' => $stopTs - $startTs,
+                'duration'     => $stopTs - $startTs,
             )
         );
 
@@ -129,11 +130,12 @@ class RateSeatRestApiClient
 
 
     /**
-     * @param $httpMethod
-     * @param $requestUri
-     * @param $requestData
-     * @param UintTypeNotEmpty $nonceTimestamp
+     * @param                     $httpMethod
+     * @param                     $requestUri
+     * @param                     $requestData
+     * @param UintTypeNotEmpty    $nonceTimestamp
      * @param HttpClientOptionsVo $httpClientOptionsVo
+     *
      * @return RateSeatRestApiClientGuzzleStatus
      */
     public function makeRequestGuzzle(
@@ -143,13 +145,14 @@ class RateSeatRestApiClient
         $requestData,
         UintTypeNotEmpty $nonceTimestamp,
         HttpClientOptionsVo $httpClientOptionsVo
-    ) {
+    )
+    {
 
         $requestBuilder = new RateSeatRequestBuilder(
             $this->getClientConfigVo()
         );
 
-        $rateSeatRequest = $requestBuilder->createRequest(
+        $rateSeatRequest       = $requestBuilder->createRequest(
             $httpMethod,
             $requestUri,
             $requestData
@@ -162,24 +165,24 @@ class RateSeatRestApiClient
 
         $curlData = array(
             'returnTransfer' => true,
-            'url' => (string)$rateSeatRequestSigned->getRequestUrlInfo(),
-            'headers' => $rateSeatRequestSigned->getRequestHeaders(),
+            'url'            => (string)$rateSeatRequestSigned->getRequestUrlInfo(),
+            'headers'        => $rateSeatRequestSigned->getRequestHeaders(),
         );
 
         $guzzleClient = $this->getGuzzleClient();
 
         $guzzleRequestHeadersDict = array();
-        $curlRequestHeadersList = $curlData['headers'];
-        foreach ($curlRequestHeadersList as $requestHeader) {
-            $parts = (array)explode(':', (string)$requestHeader);
-            $headerName = trim((string)array_shift($parts));
-            if ($headerName === '') {
+        $curlRequestHeadersList   = $curlData[ 'headers' ];
+        foreach ( $curlRequestHeadersList as $requestHeader ) {
+            $parts      = (array)explode( ':', (string)$requestHeader );
+            $headerName = trim( (string)array_shift( $parts ) );
+            if ( $headerName === '' ) {
 
                 continue;
             }
 
-            $headerValue = (string)implode(':', (array)$parts);
-            $guzzleRequestHeadersDict[$headerName] = $headerValue;
+            $headerValue                             = (string)implode( ':', (array)$parts );
+            $guzzleRequestHeadersDict[ $headerName ] = $headerValue;
         }
 
         $guzzleRequest = $guzzleClient->get(
@@ -188,7 +191,7 @@ class RateSeatRestApiClient
             array(),
             $httpClientOptionsVo->getData()
         );
-        $clientStatus = new RateSeatRestApiClientGuzzleStatus(
+        $clientStatus  = new RateSeatRestApiClientGuzzleStatus(
             $guzzleRequest
         );
 
@@ -196,10 +199,11 @@ class RateSeatRestApiClient
             $clientStatus->startProfiling();
             $guzzleRequest->send();
             $clientStatus->stopProfiling();
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             $clientStatus->stopProfiling();
             // do not delegate
-            $clientStatus->setException($e);
+            $clientStatus->setException( $e );
         }
 
 
@@ -210,11 +214,12 @@ class RateSeatRestApiClient
 
 
     /**
-     * @param $httpMethod
-     * @param $requestUri
-     * @param $requestData
-     * @param UintTypeNotEmpty $nonceTimestamp
+     * @param                     $httpMethod
+     * @param                     $requestUri
+     * @param                     $requestData
+     * @param UintTypeNotEmpty    $nonceTimestamp
      * @param HttpClientOptionsVo $httpClientOptionsVo
+     *
      * @return \Guzzle\Http\Message\Response
      */
     public function makeRequestGuzzleDebug(
@@ -224,12 +229,13 @@ class RateSeatRestApiClient
         $requestData,
         UintTypeNotEmpty $nonceTimestamp,
         HttpClientOptionsVo $httpClientOptionsVo
-    ) {
+    )
+    {
 
-        $requestBuilder = new RateSeatRequestBuilder(
+        $requestBuilder        = new RateSeatRequestBuilder(
             $this->getClientConfigVo()
         );
-        $rateSeatRequest = $requestBuilder->createRequest(
+        $rateSeatRequest       = $requestBuilder->createRequest(
             $httpMethod,
             $requestUri,
             $requestData
@@ -243,34 +249,34 @@ class RateSeatRestApiClient
 
         $curlData = array(
             'returnTransfer' => true,
-            'url' => (string)$rateSeatRequestSigned->getRequestUrlInfo(),
-            'headers' => $rateSeatRequestSigned->getRequestHeaders(),
+            'url'            => (string)$rateSeatRequestSigned->getRequestUrlInfo(),
+            'headers'        => $rateSeatRequestSigned->getRequestHeaders(),
         );
 
 
-        ksort($curlData);
-        echo PHP_EOL . PHP_EOL . json_encode($curlData) . PHP_EOL . PHP_EOL;
+        ksort( $curlData );
+        echo PHP_EOL . PHP_EOL . json_encode( $curlData ) . PHP_EOL . PHP_EOL;
 
 
         $guzzleClient = $this->getGuzzleClient();
 
         $guzzleRequestHeadersDict = array();
-        $curlRequestHeadersList = $curlData['headers'];
-        foreach ($curlRequestHeadersList as $requestHeader) {
-            $parts = (array)explode(':', (string)$requestHeader);
-            $headerName = trim((string)array_shift($parts));
-            if ($headerName === '') {
+        $curlRequestHeadersList   = $curlData[ 'headers' ];
+        foreach ( $curlRequestHeadersList as $requestHeader ) {
+            $parts      = (array)explode( ':', (string)$requestHeader );
+            $headerName = trim( (string)array_shift( $parts ) );
+            if ( $headerName === '' ) {
 
                 continue;
             }
 
-            $headerValue = (string)implode(':', (array)$parts);
-            $guzzleRequestHeadersDict[$headerName] = $headerValue;
+            $headerValue                             = (string)implode( ':', (array)$parts );
+            $guzzleRequestHeadersDict[ $headerName ] = $headerValue;
         }
 
 
         $guzzleRequest = $guzzleClient->get(
-            $curlData['url'],
+            $curlData[ 'url' ],
             $guzzleRequestHeadersDict,
             array(),
             $httpClientOptionsVo->getData()
@@ -278,11 +284,11 @@ class RateSeatRestApiClient
 
         echo PHP_EOL . PHP_EOL . (string)$guzzleRequest . PHP_EOL . PHP_EOL;
 
-        $guzzleResponse = $guzzleRequest->send();
+        $guzzleResponse   = $guzzleRequest->send();
         $responseBodyText = (string)$guzzleResponse
-            ->getBody(true);
-        $responseBodyData = json_decode($responseBodyText, true);
-        $httpStatusCode = $guzzleResponse->getStatusCode();
+            ->getBody( true );
+        $responseBodyData = json_decode( $responseBodyText, true );
+        $httpStatusCode   = $guzzleResponse->getStatusCode();
 
         /*
         $debug = array(

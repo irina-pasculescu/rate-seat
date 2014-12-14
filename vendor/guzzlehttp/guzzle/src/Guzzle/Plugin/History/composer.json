@@ -16,7 +16,9 @@
         "guzzle/http": "self.version"
     },
     "autoload": {
-        "psr-0": { "Guzzle\\Plugin\\History": "" }
+        "psr-0": {
+            "Guzzle\\Plugin\\History": ""
+        }
     },
     "target-dir": "Guzzle/Plugin/History",
     "extra": {

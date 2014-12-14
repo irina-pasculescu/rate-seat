@@ -11,14 +11,14 @@ use Guzzle\Common\Version;
  */
 class Zf1LogAdapter extends AbstractLogAdapter
 {
-    public function __construct(\Zend_Log $logObject)
+    public function __construct( \Zend_Log $logObject )
     {
         $this->log = $logObject;
-        Version::warn(__CLASS__ . ' is deprecated');
+        Version::warn( __CLASS__ . ' is deprecated' );
     }
 
-    public function log($message, $priority = LOG_INFO, $extras = array())
+    public function log( $message, $priority = LOG_INFO, $extras = array() )
     {
-        $this->log->log($message, $priority, $extras);
+        $this->log->log( $message, $priority, $extras );
     }
 }
