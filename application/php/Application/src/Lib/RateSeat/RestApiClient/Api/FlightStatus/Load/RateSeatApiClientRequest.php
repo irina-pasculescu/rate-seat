@@ -21,7 +21,7 @@ class RateSeatApiClientRequest extends BaseRateSeatApiClientRequest
 
     const HTTP_METHOD = 'GET';
 
-    const RESOURCE_URI_TEMPLATE = '/v1/operations/flightstatus/{{flightNumber}}/{{date}}?api_key={{apiToken}}';
+    const RESOURCE_URI_TEMPLATE = '/v1/offers/seatmaps/{{flightNumber}}/{{origin}}/{{destination}}/{{date}}/{{cabinClass}}?api_key={{apiToken}}';
 
 
     /*
@@ -62,9 +62,12 @@ class RateSeatApiClientRequest extends BaseRateSeatApiClientRequest
         $templateParsed = StringTemplateParserUtil::replaceMustaches(
             $template,
             array(
-                'apiToken' => $this->getApiToken(),
+                'apiToken'     => $this->getApiToken(),
                 'flightNumber' => $this->getFlightNumber(),
-                'date' => $this->getDate(),
+                'date'         => $this->getDate(),
+                'destination'  => $this->getDestination(),
+                'origin'       => $this->getOrigin(),
+                'cabinClass'   => $this->getCabinClass(),
             )
         );
 
@@ -96,6 +99,19 @@ class RateSeatApiClientRequest extends BaseRateSeatApiClientRequest
     /**
      * @var string
      */
+    private $date;
+
+    /**
+     * @return string
+     */
+    private function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @var string
+     */
     private $apiToken;
 
     /**
@@ -119,13 +135,34 @@ class RateSeatApiClientRequest extends BaseRateSeatApiClientRequest
         return $this->flightNumber;
     }
 
+    private $destination;
 
     /**
      * @return string
      */
-    private function getDate()
+    private function getDestination()
     {
-        return $this->date;
+        return $this->destination;
+    }
+
+    private $origin;
+
+    /**
+     * @return string
+     */
+    private function getOrigin()
+    {
+        return $this->origin;
+    }
+
+    private $cabinClass;
+
+    /**
+     * @return string
+     */
+    private function getCabinClass()
+    {
+        return $this->cabinClass;
     }
 
 
@@ -133,19 +170,25 @@ class RateSeatApiClientRequest extends BaseRateSeatApiClientRequest
      * @param $apiToken
      * @param $flightNumber
      * @param $date
-     * @param $curlData
+     * @param $destination
+     * @param $origin
+     * @param $cabinClass
      */
     public function __construct(
         $apiToken,
         $flightNumber,
         $date,
-        $curlData
+        $destination,
+        $origin,
+        $cabinClass
     )
     {
-        $this->apiToken = $apiToken;
+        $this->apiToken     = $apiToken;
         $this->flightNumber = $flightNumber;
-        $this->date = $date;
-        $this->setCurlData($curlData);
+        $this->date         = $date;
+        $this->destination  = $destination;
+        $this->origin       = $origin;
+        $this->cabinClass   = $cabinClass;
 
         parent::__construct();
     }

@@ -19,6 +19,9 @@ abstract class BaseGetFlightStatusRequestVo extends BaseRequestVo
 
     const KEY_FLIGHT_NUMBER = 'flightNumber';
     const KEY_DATE          = 'date';
+    const KEY_ORIGIN        = 'origin';
+    const KEY_DESTINATION   = 'destination';
+    const KEY_CABIN_CLASS   = 'cabinClass';
 
 
 
@@ -95,5 +98,6 @@ abstract class BaseGetFlightStatusRequestVo extends BaseRequestVo
 
         return $this;
     }
+
 
 }

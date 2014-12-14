@@ -59,14 +59,13 @@ class FlightStatusLoadRequestHandler extends BaseRequestHandler
         $requestVo    = $this->getRequestVo();
         $flightNumber = $requestVo->getFlightNUmber();
         $date         = $requestVo->getDate();
-        $curlData     = array( 'api_token' => $settings->getApiToken() );
 
 
         $rateSeatApiRequest = new RateSeatApiClientRequest(
             $settings->getApiToken(),
             $flightNumber,
             $date,
-            $curlData
+            array()
         );
 
         // execute rateSeat api request

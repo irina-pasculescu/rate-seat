@@ -8,19 +8,15 @@
 
 namespace Application\Api\RateSeat\V1\Ios\RequestHandler\Lufthansa\OffersSeatMaps\Load;
 
-
-use Application\Api\RateSeat\V1\Base\BaseWhowApiRequestHandler;
-use Application\Definition\RateSeatApi\WhowModel\Session\SessionTokenType;
-use
-    Application\Lib\RateSeatApi\RestApiClient\Api\GameSessions\Load\WhowApiClientRequest;
+use Application\Api\Base\Server\BaseRequestHandler;
+use Application\Lib\RateSeat\RestApiClient\Api\FlightStatus\Load\RateSeatApiClientRequest;
 
 /**
  * Class PlayerGameSessionLoadRequestHandler
  * @package Application\Api\RateSeat\V1\Game\RequestHandler\Player\GameSession\Load
  */
-class OffersSeatMapsLoadRequestHandler extends BaseWhowApiRequestHandler
+class OffersSeatMapsLoadRequestHandler extends BaseRequestHandler
 {
-
 
     // ============= implement abstracts ==============
 
@@ -29,7 +25,7 @@ class OffersSeatMapsLoadRequestHandler extends BaseWhowApiRequestHandler
      */
     protected function getRequestVo()
     {
-        if (!$this->requestVo) {
+        if ( !$this->requestVo ) {
             $this->requestVo = new RequestVo();
         }
 
@@ -41,7 +37,7 @@ class OffersSeatMapsLoadRequestHandler extends BaseWhowApiRequestHandler
      */
     protected function getResponseVo()
     {
-        if (!$this->responseVo) {
+        if ( !$this->responseVo ) {
             $this->responseVo = new ResponseVo();
         }
 
@@ -55,45 +51,68 @@ class OffersSeatMapsLoadRequestHandler extends BaseWhowApiRequestHandler
      */
     protected function execute()
     {
-        $requestVo = $this->getRequestVo();
-        $sessionTokenValue = $requestVo->getSessionToken();
-        $sessionToken = new SessionTokenType(
-            $sessionTokenValue,
-            'Invalid request.apiToken: ' . json_encode(
-                $sessionTokenValue
-            ) . ' !'
+        // make request to Lufthansa
+        // create rateSeat api request
+        $settings = $this->getRateSeatMvoSettings();
+
+        $requestVo    = $this->getRequestVo();
+        $flightNumber = $requestVo->getFlightNUmber();
+        $date         = $requestVo->getDate();
+        $origin       = $requestVo->getOrigin();
+        $destination  = $requestVo->getDestination();
+        $cabinClass   = $requestVo->getCabinClass();
+
+
+        $rateSeatApiRequest = new RateSeatApiClientRequest(
+            $settings->getApiToken(),
+            $flightNumber,
+            $date,
+            $destination,
+            $origin,
+            $cabinClass
         );
 
-        // create whow api request
-        $whowApiRequest = new WhowApiClientRequest(
-            $sessionToken
-        );
-        // execute whow api request
-        $whowApiClientFacade = $this->getWhowApiClientFacade();
-        $clientStatus = $whowApiClientFacade->makeRequest(
-            $whowApiClientFacade->getRestApiClientConfigVo(),
-            $whowApiClientFacade->getHttpClientOptionsVo(),
-            $whowApiRequest,
+        // execute rateSeat api request
+        $rateSeatApiClientFacade = $this->getRateSeatApiClientFacade();
+
+        $clientStatus = $rateSeatApiClientFacade->makeRequest(
+            $rateSeatApiClientFacade->getRestApiClientConfigVo(),
+            $rateSeatApiClientFacade->getHttpClientOptionsVo(),
+            $rateSeatApiRequest,
             $this->getRequestTimestamp()
         );
-        // handle whow api response
-        if ($clientStatus->hasException()) {
-            // delegate?
-            throw $clientStatus->getException();
+
+        // handle rateSeat api response
+        if ( $clientStatus->hasException() ) {
+            var_dump( $clientStatus->getException() );
+            exit;
         }
 
-        $whowResponse = array(
-            'body' => $clientStatus->getResponseBodyData(),
-            'status' => $clientStatus->getResponseHttpStatusCode(),
+        $rateSeatResponse = array(
+            'body'     => $clientStatus->getResponseBodyData(),
+            'status'   => $clientStatus->getResponseHttpStatusCode(),
             'duration' => $clientStatus->getDuration(),
         );
 
         $responseVo = $this->getResponseVo();
-        $responseVo->setDataKey('_whow', $whowResponse);
+        $responseVo->setData( $rateSeatResponse );
 
 
         return $this;
     }
 
+
+    private $settingsVo;
+
+    private function getRateSeatMvoSettings()
+    {
+        if ( !$this->settingsVo ) {
+            $appSettings      = $this->getModel()->getApplicationSettingsMvo();
+            $this->settingsVo = $appSettings->getRateSeatApiClientSettingsVo();
+        }
+
+        return $this->settingsVo;
+
+    }
 
 }

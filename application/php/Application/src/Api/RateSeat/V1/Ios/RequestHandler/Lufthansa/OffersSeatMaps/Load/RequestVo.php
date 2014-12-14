@@ -10,28 +10,28 @@ namespace Application\Api\RateSeat\V1\Ios\RequestHandler\Lufthansa\OffersSeatMap
 
 
 use Application\Api\Base\Server\BaseRequestException as RequestException;
-use Application\Api\Base\Server\BaseRequestVo;
-use Application\Definition\RateSeatApi\WhowModel\Session\SessionTokenType;
+use \Application\Api\RateSeat\V1\Ios\RequestHandler\Lufthansa\FlightStatus\Base\Request\BaseGetFlightStatusRequestVo;
 use Application\Utils\ClassUtil;
 
 
-class RequestVo extends BaseRequestVo
+class RequestVo extends BaseGetFlightStatusRequestVo
 {
-    const KEY_SESSION_TOKEN = 'sessionToken';
-
 
     /*
 
-    /*
-
-    'GameSessions::get' => array(
-             'method' => 'POST',
-             'URI' => '/game_sessions/action/get/{{sessionToken}}',
-             'payload' => array(),
+    'FlightStatus::get' => array(
+             'method' => 'GET',
+             'URI' => '/v1/operations/flightstatus/LH400/2014-12-15?api_key=fk9qgddrt9uf4k7ug6w97xym',
+             'data' => array(
+                 'flightNumber' => LH400,
+                 'date' => '2014-12-15',
+                 'origin' => 'FRA',
+                 'destination' => 'JFK',
+                 'cabinClass' => 'Y',
+             ),
          ),
 
-
-
+    Response: obj with flights details
 
      */
 
@@ -44,47 +44,139 @@ class RequestVo extends BaseRequestVo
      */
     public function validate()
     {
-        $this->validateSessionToken();
+        $this->validateFlightNumber();
+        $this->validateDate();
+        $this->validateOrigin();
+        $this->validateDestination();
+        $this->validateCabinClass();
 
         return $this;
     }
 
-
-
-    // ======== getters ========
+    // ======== overrides ========
 
     /**
      * @return string
      */
-    public function getSessionToken()
+    public function getFlightNUmber()
     {
-        $key = $this::KEY_SESSION_TOKEN;
-        $value = $this->getDataKey($key);
-
-        return (string)SessionTokenType::cast($value, '');
+        // make it public
+        return parent::getFlightNumber();
     }
 
-    // ============= validators ==========
+
+    /**
+     * @return string
+     */
+    public function getDate()
+    {
+        // make it public
+        return parent::getDate();
+    }
+
+    // ======== custom additions ========
+
+    /**
+     * @return string
+     */
+    public function getOrigin()
+    {
+        return $this->getDataKey( 'origin' );
+    }
+
+    /**
+     * @return string
+     */
+    public function getDestination()
+    {
+        return $this->getDataKey( 'destination' );
+    }
+
+    /**
+     * @return string
+     */
+    public function getCabinClass()
+    {
+        return $this->getDataKey( 'cabinClass' );
+    }
+
 
     /**
      * @return $this
      * @throws RequestException
      */
-    private function validateSessionToken()
+    protected function validateOrigin()
     {
-        $method = ClassUtil::getQualifiedMethodName($this, __METHOD__, true);
+        $method = ClassUtil::getQualifiedMethodName( $this, __METHOD__, true );
 
-        $key = $this::KEY_SESSION_TOKEN;
-        $value = $this->getSessionToken();
-        if (empty($value)) {
+        $key   = $this::KEY_ORIGIN;
+        $value = $this->getDate();
+        if ( empty( $value ) ) {
+
 
             throw new RequestException(
                 'Invalid request.' . $key . ' !'
+                . ' Must be string - not empty !'
                 . ' (' . $method . ')'
             );
+
+
         }
 
         return $this;
     }
+
+
+    /**
+     * @return $this
+     * @throws RequestException
+     */
+    protected function validateDestination()
+    {
+        $method = ClassUtil::getQualifiedMethodName( $this, __METHOD__, true );
+
+        $key   = $this::KEY_DESTINATION;
+        $value = $this->getDate();
+        if ( empty( $value ) ) {
+
+
+            throw new RequestException(
+                'Invalid request.' . $key . ' !'
+                . ' Must be string - not empty !'
+                . ' (' . $method . ')'
+            );
+
+
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * @return $this
+     * @throws RequestException
+     */
+    protected function validateCabinClass()
+    {
+        $method = ClassUtil::getQualifiedMethodName( $this, __METHOD__, true );
+
+        $key   = $this::KEY_CABIN_CLASS;
+        $value = $this->getDate();
+        if ( empty( $value ) ) {
+
+
+            throw new RequestException(
+                'Invalid request.' . $key . ' !'
+                . ' Must be string - not empty !'
+                . ' (' . $method . ')'
+            );
+
+
+        }
+
+        return $this;
+    }
+
 
 } 

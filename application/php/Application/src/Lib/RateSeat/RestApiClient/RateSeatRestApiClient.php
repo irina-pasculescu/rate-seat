@@ -116,7 +116,6 @@ class RateSeatRestApiClient
 
         $resultData = json_decode($resultText, true);
 
-
         var_dump(
             array(
 
