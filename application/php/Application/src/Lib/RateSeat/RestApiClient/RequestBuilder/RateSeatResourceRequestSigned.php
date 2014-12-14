@@ -254,12 +254,12 @@ class RateSeatResourceRequestSigned
         $this->requestCanonicalUriPath = $canonicalUri;
 
 
-        $payloadData = $request->getCurlData();
-        $payloadText = '';
-        if ( is_array( $payloadData ) ) {
-            $payloadText = json_encode( $payloadData );
+        $curlData = $request->getCurlData();
+        $curlDataText = '';
+        if ( is_array( $curlData ) ) {
+            $curlDataText = json_encode( $curlData );
         }
-        $this->requestPostFieldsText = $payloadText;
+        $this->requestPostFieldsText = $curlDataText;
 
 
         $requestHeadersSigned       = array();
@@ -287,8 +287,8 @@ class RateSeatResourceRequestSigned
      */
     private function createRequestHeaderContentLength()
     {
-        $payloadText                      = $this->getRequestPostFieldsText();
-        $this->requestHeaderContentLength = 'Content-Length: ' . strlen( $payloadText );
+        $curlDataText                      = $this->getRequestPostFieldsText();
+        $this->requestHeaderContentLength = 'Content-Length: ' . strlen( $curlDataText );
 
         return $this;
     }
