@@ -81,24 +81,15 @@ class ApiManager extends BaseApiManager
      */
     protected $routes
         = array(
-
+             // Application\Api\RateSeat\V1\Ios\Service\Lufthansa
             // RateSeat.Ios.Lufthansa.*
-            'RateSeat.Ios.Lufthansa.Flight.getPreferences' => array(
+            'RateSeat.Ios.Lufthansa.FlightStatus.get' => array(
                 'target' =>
-                    '\\Application\Api\RateSeat\V1\Ios\Service\\Lufthansa\\Flight::getStatus'
+                    '\\Application\Api\RateSeat\V1\Ios\Service\\Lufthansa\\FlightStatus::get'
             ),
-
-            'RateSeat.Ios.Lufthansa.Flight.getRecommendedSeat' => array(
+            'RateSeat.Ios.Lufthansa.OffersSeats.get' => array(
                 'target' =>
-                    '\\Application\Api\RateSeat\V1\Ios\Service\\Lufthansa\\Flight::getStatus'
-            ),
-            'RateSeat.Ios.Lufthansa.Flight.setPreferences' => array(
-                'target' =>
-                    '\\Application\Api\RateSeat\V1\Ios\Service\\Lufthansa\\Flight::getStatus'
-            ),
-            'RateSeat.Ios.Lufthansa.Flight.getStatus' => array(
-                'target' =>
-                    '\\Application\Api\RateSeat\V1\Ios\Service\\Lufthansa\\Flight::getStatus'
+                    '\\Application\Api\RateSeat\V1\Ios\Service\\Lufthansa\\OffersSeats::get'
             ),
 
         );

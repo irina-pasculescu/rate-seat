@@ -64,8 +64,7 @@ class FlightStatusLoadRequestHandler extends BaseRequestHandler
         $rateSeatApiRequest = new RateSeatApiClientRequest(
             $settings->getApiToken(),
             $flightNumber,
-            $date,
-            array()
+            $date
         );
 
         // execute rateSeat api request

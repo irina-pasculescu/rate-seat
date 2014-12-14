@@ -19,7 +19,7 @@ class ApiManagerSettingsVo extends BaseApiManagerSettingsVo
 {
 
     const FEATURE_NAME
-        = ApplicationSettingsMvo::DATA_KEY_CASINO_API_EXAMPLE_V1_API_MANAGER;
+        = ApplicationSettingsMvo::KEY_RATE_SEAT_API_CLIENT;
 
     /**
      * @return $this

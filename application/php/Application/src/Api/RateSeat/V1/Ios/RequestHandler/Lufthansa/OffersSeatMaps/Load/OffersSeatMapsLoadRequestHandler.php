@@ -9,7 +9,7 @@
 namespace Application\Api\RateSeat\V1\Ios\RequestHandler\Lufthansa\OffersSeatMaps\Load;
 
 use Application\Api\Base\Server\BaseRequestHandler;
-use Application\Lib\RateSeat\RestApiClient\Api\FlightStatus\Load\RateSeatApiClientRequest;
+use Application\Lib\RateSeat\RestApiClient\Api\OffersSeats\Load\RateSeatApiClientRequest;
 
 /**
  * Class PlayerGameSessionLoadRequestHandler

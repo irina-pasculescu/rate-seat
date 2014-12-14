@@ -9,7 +9,7 @@
 namespace Application\Lib\RateSeat\RestApiClient\Api\FlightStatus\Load;
 
 use Application\Lib\RateSeat\RestApiClient\Api\Base\Request\BaseRateSeatApiClientRequest;
-use Application\Lib\RateSeatApi\RestApiClient\Api\GameSessions\Load\RateSeatApiClientRequestVo;
+use Application\Lib\RateSeatApi\RestApiClient\Api\FlightStatus\Load\RateSeatApiClientRequestVo;
 use Application\Utils\StringTemplateParserUtil;
 
 /**
@@ -21,16 +21,8 @@ class RateSeatApiClientRequest extends BaseRateSeatApiClientRequest
 
     const HTTP_METHOD = 'GET';
 
-    const RESOURCE_URI_TEMPLATE = '/v1/offers/seatmaps/{{flightNumber}}/{{origin}}/{{destination}}/{{date}}/{{cabinClass}}?api_key={{apiToken}}';
+    const RESOURCE_URI_TEMPLATE = '/v1/operations/flightstatus/{{flightNumber}}/{{date}}?api_key={{apiToken}}';
 
-
-    /*
-
-    'method' => 'GET',
-			'URI' => '/v1/offers/seatmaps/LH400/FRA/JFK/2014-12-15/Y?api_key=fk9qgddrt9uf4k7ug6w97xym',
-			'data' => array(),
-
-    */
 
 
     // =========== implement abstracts =============
@@ -64,10 +56,7 @@ class RateSeatApiClientRequest extends BaseRateSeatApiClientRequest
             array(
                 'apiToken'     => $this->getApiToken(),
                 'flightNumber' => $this->getFlightNumber(),
-                'date'         => $this->getDate(),
-                'destination'  => $this->getDestination(),
-                'origin'       => $this->getOrigin(),
-                'cabinClass'   => $this->getCabinClass(),
+                'date'         => $this->getDate()
             )
         );
 
@@ -137,58 +126,21 @@ class RateSeatApiClientRequest extends BaseRateSeatApiClientRequest
 
     private $destination;
 
-    /**
-     * @return string
-     */
-    private function getDestination()
-    {
-        return $this->destination;
-    }
-
-    private $origin;
-
-    /**
-     * @return string
-     */
-    private function getOrigin()
-    {
-        return $this->origin;
-    }
-
-    private $cabinClass;
-
-    /**
-     * @return string
-     */
-    private function getCabinClass()
-    {
-        return $this->cabinClass;
-    }
-
 
     /**
      * @param $apiToken
      * @param $flightNumber
      * @param $date
-     * @param $destination
-     * @param $origin
-     * @param $cabinClass
      */
     public function __construct(
         $apiToken,
         $flightNumber,
-        $date,
-        $destination,
-        $origin,
-        $cabinClass
+        $date
     )
     {
         $this->apiToken     = $apiToken;
         $this->flightNumber = $flightNumber;
         $this->date         = $date;
-        $this->destination  = $destination;
-        $this->origin       = $origin;
-        $this->cabinClass   = $cabinClass;
 
         parent::__construct();
     }

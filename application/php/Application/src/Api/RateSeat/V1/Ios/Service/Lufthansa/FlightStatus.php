@@ -6,7 +6,7 @@
  * Time: 9:57 AM
  */
 
-namespace Application\Api\RateSeat\V1\Game\Service\Player;
+namespace Application\Api\RateSeat\V1\Ios\Service\Lufthansa;
 
 use Application\Api\RateSeat\V1\Ios\RequestHandler\Lufthansa\FlightStatus\Load\FlightStatusLoadRequestHandler;
 use Application\Api\RateSeat\V1\Ios\Server\RpcService;

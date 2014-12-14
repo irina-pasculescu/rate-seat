@@ -6,11 +6,10 @@
  * Time: 11:08 AM
  */
 
-namespace Application\Lib\RateSeatApi\RestApiClient\Api\GameSessions\Load;
+namespace Application\Lib\RateSeatApi\RestApiClient\Api\FlightStatus\Load;
 
 
-use
-    Application\Lib\RateSeatApi\RestApiClient\Api\Base\Request\BaseRateSeatApiClientRequestVo;
+use Application\Lib\RateSeat\RestApiClient\Api\Base\Request\BaseRateSeatApiClientRequestVo;
 
 /**
  * Class RateSeatApiClientRequestPayloadVo
