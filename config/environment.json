@@ -1,6 +1,6 @@
 {
     "base_dir": "/data/rate-seat",
-    "hostname": "reat-seat.me",
+    "hostname": "rate-seat.me",
     "bootstrap": {
         "displayExceptionsEnabled": true,
         "displayErrorsEnabled": true,
