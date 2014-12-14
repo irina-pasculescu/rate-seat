@@ -15,25 +15,6 @@ class FlightStatus extends RpcService
 {
 
 
-    // Player.Session.load
-
-    /*
-
-        The call get is used to request data for the current game session,
-        including game and user data.
-        Please note that game settings can be changed by subsequent requests
-        and events like leveling up for example.
-
-        Payload:
-            {} - No payload needed so please provide an empty JSON array here.
-
-        Response
-
-            - user: User {"_id":"53fc9eb31b4d5eef118b4569 ","username":"john_doe”, ....}
-            - game: {"settings":{"bets":[50, 100, 250]}}
-
-    */
-
     /**
      * @param array $request
      * @return array
