@@ -17,7 +17,7 @@ use Application\BaseVo;
 abstract class ApiManagerSettingsVo extends BaseVo
 {
 
-    const FEATURE_NAME = 'Casino.Api.Base.ApiManager';
+    const FEATURE_NAME = 'RateSeat.Api.Base.ApiManager';
 
     const DATA_KEY_ENABLED          = 'enabled';
     const DATA_KEY_IS_DEBUG_ENABLED = 'isDebugEnabled';
